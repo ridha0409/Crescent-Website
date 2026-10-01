@@ -1,0 +1,222 @@
+import { useState } from 'react'
+import { UserRound, ChevronDown } from 'lucide-react'
+import useReveal from '../hooks/useReveal.js'
+import AboutLayout from '../components/AboutLayout.jsx'
+import photoThowseaf from '../assets/faculty/dr-s-thowseaf.jpg'
+import photoSharonPriya from '../assets/faculty/dr-s-sharon-priya.jpg'
+import photoSabinBegum from '../assets/faculty/dr-r-sabin-begum.jpg'
+
+// Photos still served from the institute's own site. Run download-photos.ps1
+// to pull them into src/assets/execution/, then swap these for local imports.
+const SITE = '/'
+
+// Director — the only entry on this page that carries a message.
+const director = {
+  name: 'Dr. Jaya',
+  designation: 'Professor & Director',
+  photo: `${SITE}img/mca/people/jaya.jpg`,
+  message: [],
+}
+
+const groups = [
+  {
+    heading: 'CDOE Team',
+    people: [
+      {
+        name: 'Dr. W. Aisha Banu',
+        designation: 'Professor & HOD, CSE',
+        photo: `${SITE}img/execution/DR.AISHABANU.jpg`,
+      },
+      // Ordered by office: Deputy Director first, then the Assistant Directors.
+      {
+        name: 'Dr. S. Sharon Priya',
+        designation: 'Deputy Director, CDOE',
+        photo: photoSharonPriya,
+      },
+      {
+        name: 'Dr. R. Sabin Begum',
+        designation: 'Assistant Director, CDOE',
+        photo: photoSabinBegum,
+      },
+      {
+        name: 'Dr. S. Thowseaf',
+        designation: 'Assistant Professor / CDOE, Assistant Director',
+        photo: photoThowseaf,
+      },
+    ],
+  },
+  {
+    heading: 'Planning & Monitoring Committee',
+    people: [
+      {
+        name: 'Dr. Latha Tamilselvan',
+        designation: 'Professor & Director, MIS',
+        photo: `${SITE}img/execution/DR.LATHATAMILSELVAN.jpg`,
+      },
+      {
+        name: 'Dr. C. Tharini',
+        designation: 'Professor & Dean, SECS',
+        photo: `${SITE}img/execution/Dr.C.Tharini.jpg`,
+      },
+      {
+        name: 'Dr. Sharmila Sankar',
+        designation: 'Professor & Dean, SCIMS',
+        photo: `${SITE}img/execution/DR.SHARMILASANKAR.jpg`,
+      },
+      {
+        name: 'Dr. Aisha Banu',
+        designation: 'Professor & HOD, CSE',
+        photo: `${SITE}img/execution/DR.AISHABANU.jpg`,
+      },
+    ],
+  },
+  {
+    heading: 'Former Director',
+    people: [
+      {
+        name: 'Dr. V. Rhymend Uthariaraj',
+        designation: 'Former Director, CDOE',
+        photo: `${SITE}img/execution/director.jpg`,
+      },
+    ],
+  },
+]
+
+function Photo({ photo, name, className }) {
+  // Remote photos can fail — fall back to the icon rather than a broken image.
+  const [failed, setFailed] = useState(false)
+
+  if (!photo || failed) {
+    return (
+      <div className={`${className} bg-navy-50 flex items-center justify-center`}>
+        <UserRound size={34} className="text-navy-200" />
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={photo}
+      alt={name}
+      loading="lazy"
+      onError={() => setFailed(true)}
+      className={`${className} object-cover object-top`}
+    />
+  )
+}
+
+function PersonCard({ person }) {
+  return (
+    <div className="glass-strong rounded-[22px] p-5 h-full flex flex-col items-center text-center transition-transform duration-350 hover:-translate-y-1">
+      <Photo
+        photo={person.photo}
+        name={person.name}
+        className="w-24 h-24 rounded-full overflow-hidden mb-4 shrink-0"
+      />
+      <h3 className="font-semibold text-navy-900 text-sm">{person.name}</h3>
+      <p className="text-xs text-red-700 font-medium mt-1 leading-snug">
+        {person.designation}
+      </p>
+    </div>
+  )
+}
+
+function DirectorBlock({ person }) {
+  const [open, setOpen] = useState(false)
+  const hasMessage = person.message.length > 0
+  const clampable = person.message.join(' ').length > 320
+
+  return (
+    <article className="director-card rounded-[26px] p-5 sm:p-7 mb-8">
+      <div className="grid gap-6 sm:gap-8 sm:grid-cols-[200px_1fr] items-start">
+        <Photo
+          photo={person.photo}
+          name={person.name}
+          className="w-full aspect-[4/5] rounded-[18px] overflow-hidden ring-1 ring-white/25"
+        />
+
+        <div className="min-w-0">
+          <span className="director-badge">Director</span>
+          <p className="text-[11px] font-semibold text-gold-light uppercase tracking-[0.15em] mt-3">
+            {person.designation}
+          </p>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mt-2 leading-tight">
+            {person.name}
+          </h2>
+          <span className="block w-12 h-[3px] bg-gold rounded-full mt-4" />
+
+          {hasMessage ? (
+            <>
+              {open ? (
+                <div className="mt-5 space-y-3.5">
+                  {person.message.map((p, i) => (
+                    <p key={i} className="text-sm text-white/80 leading-[1.8] max-w-[68ch]">
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <p
+                  className="mt-5 text-sm text-white/80 leading-[1.8] max-w-[68ch] overflow-hidden
+                             [display:-webkit-box] [-webkit-line-clamp:4] [-webkit-box-orient:vertical]"
+                >
+                  {person.message.join(' ')}
+                </p>
+              )}
+
+              {clampable && (
+                <button
+                  type="button"
+                  onClick={() => setOpen((v) => !v)}
+                  aria-expanded={open}
+                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white
+                             hover:text-gold-light transition-colors duration-350"
+                >
+                  {open ? 'Show Less' : 'Read More'}
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-350 ${open ? 'rotate-180' : ''}`}
+                  />
+                </button>
+              )}
+            </>
+          ) : (
+            <p className="mt-5 text-sm text-white/75 leading-relaxed max-w-[68ch]">
+              The Centre for Distance and Online Education aims to deliver quality education
+              through online and distance modes, with programmes designed around the needs
+              and learning styles of a diverse student body.
+            </p>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export default function ExecutionTeam() {
+  const { ref, className } = useReveal()
+
+  return (
+    <AboutLayout
+      title="Execution Team"
+      lede="The Centre for Distance and Online Education is committed to providing quality education through online and distance mode — steered by the Director's office, the CDOE team and the Planning & Monitoring Committee."
+      contentRef={ref}
+      contentClassName={className}
+    >
+      <DirectorBlock person={director} />
+
+      <div className="space-y-8">
+        {groups.map((group) => (
+          <section key={group.heading}>
+            <h2 className="text-sm font-bold text-navy-800 mb-4">{group.heading}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              {group.people.map((person) => (
+                <PersonCard key={`${group.heading}-${person.name}`} person={person} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </AboutLayout>
+  )
+}

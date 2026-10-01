@@ -1,0 +1,599 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ==========================================================================
+     CRESCENT BRAND TOKENS
+     Values marked EXACT are sampled pixel-for-pixel from the official
+     bsauniv.ac.in screenshot. Keep these as the single source of truth.
+     ========================================================================== */
+  --brand-navy: #1C315E;        /* EXACT — primary navy (bands, cards)      */
+  --brand-navy-logo: #18305E;   /* EXACT — logo navy                        */
+  --brand-navy-panel: #454E70;  /* EXACT — secondary navy panel             */
+  --brand-navy-deep: #0E1C37;   /* derived — deepest shade                  */
+  --brand-steel: #3E4C57;       /* EXACT — header / mega-nav bar            */
+  --brand-crimson: #A02022;     /* EXACT — MADURAI CAMPUS button red        */
+  --brand-crimson-tab-from: #9F020F; /* EXACT — side-tab gradient start     */
+  --brand-crimson-tab-to: #D80B1C;   /* EXACT — side-tab gradient end       */
+  --brand-mist: #F5F5F5;        /* EXACT — page background                  */
+  --brand-line: #C6C6C6;        /* EXACT — hairline / inactive dot          */
+  --brand-gold: #F5A623;         /* EXACT — brand gold (Tailwind `gold`)     */
+  --brand-ink: #000000;         /* EXACT — active carousel dot              */
+
+  /* RGB channel triplets, for rgba() composition */
+  --brand-navy-rgb: 28, 49, 94;
+  --brand-navy-logo-rgb: 24, 48, 94;
+  --brand-navy-panel-rgb: 69, 78, 112;
+  --brand-navy-deep-rgb: 14, 28, 55;
+  --brand-steel-rgb: 62, 76, 87;
+  --brand-crimson-rgb: 160, 32, 34;
+
+  /* Glass system — now tinted with the exact brand navy */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-navy-bg: rgba(var(--brand-navy-rgb), 0.55);
+  --glass-navy-bg-strong: rgba(var(--brand-navy-deep-rgb), 0.72);
+  --glass-navy-border: rgba(255, 255, 255, 0.14);
+  --glass-blur: 24px;
+  --glass-blur-lg: 36px;
+  --mx: 50%;
+  --my: 50%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--brand-mist); /* EXACT #F5F5F5 */
+  color: #1F2A3D; /* derived from --brand-navy for body copy */
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   JUSTIFIED BODY COPY
+   --------------------------------------------------------------------------
+   Running prose across the site is justified so paragraphs sit as clean blocks
+   against the glass panels rather than trailing a ragged right edge.
+
+   Three things keep this safe to apply this broadly:
+
+   1. Justification only affects lines that WRAP — the last line of any block is
+      always left-aligned. A one-line label, a badge or a button caption is
+      therefore untouched, which is why this can sit on `p` and `li` at all.
+   2. Anything a component has deliberately aligned is excluded: a card with
+      `text-center`, a right-aligned figure, a table cell. The `:not()` clauses
+      below skip those elements and everything inside them.
+   3. The whole selector is wrapped in `:where()`, so it carries ZERO
+      specificity. Any Tailwind alignment utility — `text-center`, `text-left`,
+      `text-right`, `text-justify` — beats it without needing `!important`.
+
+   `hyphens: auto` matters here: without it, justifying a narrow column (a
+   sidebar, a phone screen) opens rivers of white space between words.
+   Add `.no-justify` to opt a block out by hand.
+
+   Bold and semibold paragraphs are skipped too. This codebase writes card
+   titles, person names and section labels as `<p class="font-semibold …">`
+   rather than as headings, and justifying a two-word title stretches it across
+   the card — "Learn        Anytime," with a hole in the middle. Weight is the
+   reliable signal for "this is a title, not a sentence".
+   ========================================================================== */
+@layer base {
+  :where(p, li, dd, blockquote, figcaption):not(
+      :where(.text-center, .text-right, .text-left, .text-justify, .no-justify) *
+    ):not(
+      :where(
+        .text-center,
+        .text-right,
+        .text-left,
+        .no-justify,
+        [class*='font-bold'],
+        [class*='font-semibold'],
+        [class*='font-extrabold'],
+        [class*='font-black'],
+        [class*='uppercase'],
+        [class*='tabular-nums'],
+        [class*='truncate']
+      )
+    ) {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  /* A phone column is too narrow to justify: even with hyphenation it opens
+     rivers of white space between words. Below the `sm` breakpoint every
+     paragraph goes back to ragged-right. The alignment is `inherit` rather
+     than `left`, so a paragraph inside a centred block stays centred. */
+  @media (max-width: 639px) {
+    :where(p, li, dd, blockquote, figcaption) {
+      text-align: inherit;
+      hyphens: manual;
+      -webkit-hyphens: manual;
+    }
+  }
+
+  /* Headings and form controls are never hyphenated — a broken word in a
+     title or on a button label reads as a typo. Their alignment is left
+     exactly as the browser and the component set it. */
+  :where(h1, h2, h3, h4, h5, h6, label, button, input, select, textarea, th) {
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+}
+
+/* Hand-written escape hatch for a block that must stay ragged-right. */
+.no-justify {
+  text-align: left;
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+.container-xl {
+  /* Widens a little past 1536px so a large monitor is not mostly margin. */
+  @apply max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* ============================================================
+   RESPONSIVE FOUNDATIONS
+   Rules that keep every page usable from a 320px phone through
+   to a 4K desktop, and in landscape on a short phone.
+   ============================================================ */
+
+/*
+ * Nothing may push the page sideways.
+ *
+ * This MUST be `clip`, never `hidden`. `overflow-x: hidden` on html or body
+ * turns that element into a scroll container, which silently kills
+ * `position: sticky` everywhere inside it — the navbar stops sticking to the
+ * top of the screen the moment you scroll, and so do the page sidebars.
+ * `overflow: clip` trims the same overflow without creating a scroll
+ * container, so sticky keeps working.
+ */
+body {
+  overflow-x: clip;
+}
+
+/* Media and embeds shrink with their column instead of forcing it wider. */
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+/*
+ * FLOATING RAILS — the Events / Enquire pills, the side tabs and the chat
+ * bubble. They sit above the page, so on phones they must not cover the
+ * footer, and they must get out of the way when the mobile menu is open.
+ */
+body.nav-open .floating-rail {
+  display: none;
+}
+
+/* Footer clearance for those pills is set on the component itself
+   (`pb-28 sm:pb-5` in Footer.jsx) — a utility class there outranks any
+   element rule written here. */
+
+/*
+ * iOS zooms the whole page in when a focused field is smaller than 16px, and
+ * never zooms back out — the form ends up half off-screen. Fields are bumped
+ * to 16px on phones only. `!important` is needed because the size otherwise
+ * comes from a Tailwind utility class, which outranks an element selector.
+ */
+@media (max-width: 639px) {
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Honour the phone's home-indicator inset. */
+.safe-bottom {
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+}
+
+/*
+ * SECTION RAIL — the About / Programmes / Students sidebars.
+ * A stacked list on desktop; on phones and small tablets the same links
+ * become a single swipeable row of chips, so the page content starts near
+ * the top of the screen instead of a screenful below it.
+ */
+.rail-nav {
+  @apply flex gap-2 overflow-x-auto -mx-1 px-1 pb-0.5
+         lg:mx-0 lg:px-0 lg:pb-0 lg:flex-col lg:gap-1 lg:overflow-visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.rail-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.rail-nav > * {
+  @apply shrink-0 whitespace-nowrap lg:w-full;
+}
+
+/* Below lg the row scrolls, so its right edge fades out — a standing cue
+   that there are more links past the one on screen. */
+@media (max-width: 1023px) {
+  .rail-nav {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+  }
+}
+
+/* Hides scrollbar visually while keeping the element fully scrollable */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* ============================================================
+   LIQUID GLASS DESIGN SYSTEM
+   Placed in the Tailwind "components" layer so that any utility
+   class (e.g. bg-white/90, text-navy-800) applied alongside these
+   still wins in the cascade — keeps them easy to tweak per-use.
+   ============================================================ */
+@layer components {
+  /* Light frosted glass surface — used on white/light sections */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px -8px rgba(var(--brand-navy-rgb), 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-strong {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px -12px rgba(var(--brand-navy-rgb), 0.28), inset 0 1px 0 0 rgba(255, 255, 255, 0.55);
+  }
+
+  /* Reading glass — the same frosted panel, but opaque enough to carry a
+     screenful of small text over a busy hero. Used by the Apply Guide flyout,
+     where plain .glass-strong let the page bleed through the steps. */
+  .glass-reading {
+    background: rgba(255, 255, 255, 0.975);
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px -12px rgba(var(--brand-navy-rgb), 0.28), inset 0 1px 0 0 rgba(255, 255, 255, 0.55);
+  }
+
+  /* Frosted navy glass — used on dark sections (TopBar, Hero, Footer) */
+  .glass-dark {
+    background: var(--glass-navy-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    border: 1px solid var(--glass-navy-border);
+    box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-dark-strong {
+    background: var(--glass-navy-bg-strong);
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%);
+    border: 1px solid var(--glass-navy-border);
+    box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Glass card — rounded, translucent, lifts + glows on hover */
+  .glass-card {
+    @apply glass rounded-[26px] transition-all duration-350 ease-out;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 24px 60px -12px rgba(var(--brand-navy-rgb), 0.32), 0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+      0 0 32px -4px rgba(var(--brand-crimson-rgb), 0.25);
+  }
+
+  .glass-card-dark {
+    @apply glass-dark rounded-[26px] transition-all duration-350 ease-out;
+  }
+  .glass-card-dark:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.45), 0 0 32px -4px rgba(var(--brand-crimson-rgb), 0.3);
+  }
+
+  /* Glass buttons — transparent, shine sweep, elevate on hover */
+  .glass-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+      transition-all duration-350 ease-out;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 18px -4px rgba(var(--brand-navy-rgb), 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  }
+  .glass-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px -6px rgba(var(--brand-navy-rgb), 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .glass-btn-solid {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+      text-white transition-all duration-350 ease-out;
+    background: linear-gradient(135deg, rgba(var(--brand-navy-rgb), 0.94), rgba(var(--brand-navy-logo-rgb), 0.94));
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 24px -6px rgba(var(--brand-navy-rgb), 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  }
+  .glass-btn-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px -6px rgba(var(--brand-navy-rgb), 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+  }
+
+  /*
+   * Gold / amber button — the same yellow as the announcement marquee
+   * (Tailwind amber-300, #fcd34d). Used for the primary Apply Now call to
+   * action and the sticky Courses side tab so the two brightest hooks on the
+   * page share one colour. Text stays navy: white on amber fails contrast.
+   */
+  .glass-btn-gold {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+      transition-all duration-350 ease-out;
+    color: #0b2e6b;
+    background: linear-gradient(135deg, #fcd34d 0%, #f5a623 100%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 24px -6px rgba(245, 166, 35, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  }
+  .glass-btn-gold:hover {
+    color: #05142f;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ffe083 0%, #f7b23f 100%);
+    box-shadow: 0 14px 32px -6px rgba(245, 166, 35, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  }
+
+  /* Shine sweep — a diagonal light band drifting across glass buttons */
+  .btn-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 80%
+    );
+    transform: translateX(-150%) skewX(-20deg);
+    animation: shine 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Click ripple */
+  .ripple-effect {
+    position: absolute;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(0);
+    animation: ripple 700ms ease-out forwards;
+    pointer-events: none;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mouse-follow glow — radial light that tracks the cursor inside a container */
+  .mouse-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      600px circle at var(--mx) var(--my),
+      rgba(var(--brand-crimson-rgb), 0.16),
+      transparent 60%
+    );
+    transition: opacity 0.3s ease;
+  }
+
+  /* Decorative blurred blobs used behind the whole page */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+
+  /* Subtle noise texture overlay for the glass-compatible background */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-slow,
+  .animate-shine,
+  .btn-shine::before {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+@layer components {
+  /* ==========================================================================
+     BRAND SURFACES — exact colours from the official site screenshot
+     ========================================================================== */
+
+  /* Top header / mega-nav bar */
+  .bg-brand-steel {
+    background-color: var(--brand-steel);
+  }
+
+  /* Primary navy band (e.g. the "Schools" section) */
+  .bg-brand-navy {
+    background-color: var(--brand-navy);
+  }
+
+  /* Secondary lighter navy panel (right-hand split panel, VIEW ALL button) */
+  .bg-brand-navy-panel {
+    background-color: var(--brand-navy-panel);
+  }
+
+  /* Solid crimson CTA — the "MADURAI CAMPUS" button */
+  .btn-crimson {
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-white
+      transition-all duration-350 ease-out;
+    background-color: var(--brand-crimson);
+  }
+  .btn-crimson:hover {
+    background-color: #861B1D;
+    box-shadow: 0 10px 28px -8px rgba(var(--brand-crimson-rgb), 0.55);
+  }
+
+  /* Vertical side tab — the exact "Enquire Now" / "Chat with a Student" red */
+  .tab-crimson {
+    background-image: linear-gradient(
+      180deg,
+      var(--brand-crimson-tab-from) 0%,
+      var(--brand-crimson-tab-to) 100%
+    );
+    color: #fff;
+  }
+
+  /* Outline button on a navy band — white 1px border, transparent fill */
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-white
+      transition-all duration-350 ease-out;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+  }
+  .btn-outline-white:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Carousel dots */
+  .dot {
+    @apply inline-block w-2.5 h-2.5 rounded-full transition-colors duration-350;
+    background-color: var(--brand-line); /* EXACT #C6C6C6 */
+  }
+  .dot-active {
+    background-color: var(--brand-ink); /* EXACT #000000 */
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Navbar hover underline — a 2.5px bar in the brand gold              */
+/*  (#F5A623) that sweeps in from the left on hover / open / active.    */
+/*  The label still turns navy: gold-on-white text would not carry      */
+/*  enough contrast to read.                                            */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .nav-link {
+    position: relative;
+    transition: color 0.35s cubic-bezier(0.58, 0.3, 0.005, 1);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2.5px;
+    width: 0;
+    border-radius: 9999px;
+    background-color: var(--brand-gold); /* EXACT #F5A623 */
+    transition: width 0.35s cubic-bezier(0.58, 0.3, 0.005, 1);
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible,
+  .nav-link.is-open {
+    color: var(--brand-navy);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after,
+  .nav-link.is-open::after {
+    width: 100%;
+  }
+
+  /* Same sweep inside the dropdown panels, inset to the item padding */
+  .nav-drop-link {
+    position: relative;
+    transition: color 0.35s cubic-bezier(0.58, 0.3, 0.005, 1);
+  }
+  .nav-drop-link::after {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    bottom: 0.25rem;
+    height: 2.5px;
+    width: 0;
+    border-radius: 9999px;
+    background-color: var(--brand-gold); /* EXACT #F5A623 */
+    transition: width 0.35s cubic-bezier(0.58, 0.3, 0.005, 1);
+  }
+  .nav-drop-link:hover,
+  .nav-drop-link:focus-visible {
+    color: var(--brand-navy);
+  }
+  .nav-drop-link:hover::after,
+  .nav-drop-link:focus-visible::after {
+    width: calc(100% - 2rem);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Execution Team — the Director's block carries the brand navy so the */
+/*  office reads as distinct from the rest of the team cards.           */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .director-card {
+    background-image: linear-gradient(
+      135deg,
+      var(--brand-navy) 0%,
+      var(--brand-navy-logo) 55%,
+      var(--brand-navy-deep) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 24px 60px -14px rgba(var(--brand-navy-rgb), 0.55),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  /* Small "Director" pill above the name */
+  .director-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1
+      text-[10px] font-semibold uppercase tracking-[0.18em];
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #ffc861; /* gold.light */
+  }
+}
