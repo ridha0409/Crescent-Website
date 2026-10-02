@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb547"/><stop offset="0.5" stop-color="#ff8f4f"/><stop offset="1" stop-color="#ff6f61"/></linearGradient>
+    
+    <style>
+      .tw { animation: tw 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .bob { animation: bob 5s ease-in-out infinite; }
+      @keyframes tw { 0%,100% { opacity: .3; transform: scale(.6) } 50% { opacity: 1; transform: scale(1) } }
+      @keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+      @media (prefers-reduced-motion: reduce) { .tw,.bob { animation: none } }
+    </style>
+  </defs>
+  <rect width="900" height="400" fill="url(#bg)"/>
+  
+  <circle cx="60" cy="40" r="2.5" fill="#fff"/><circle cx="840" cy="50" r="2.5" fill="#fff"/><circle cx="700" cy="26" r="2" fill="#fff"/><circle cx="250" cy="46" r="2" fill="#fff"/><circle cx="140" cy="120" r="2" fill="#fff"/><circle cx="780" cy="150" r="2" fill="#fff"/>
+  <g transform="translate(330 36)"><path class="tw" style="animation-delay:0s" d="M0 -9 L2.5200000000000005 -2.5200000000000005 L9 0 L2.5200000000000005 2.5200000000000005 L0 9 L-2.5200000000000005 2.5200000000000005 L-9 0 L-2.5200000000000005 -2.5200000000000005Z" fill="#fff"/></g><g transform="translate(590 30)"><path class="tw" style="animation-delay:-1s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g><g transform="translate(860 120)"><path class="tw" style="animation-delay:-2s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g><g transform="translate(40 170)"><path class="tw" style="animation-delay:-1.4s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g>
+  <ellipse cx="450" cy="470" rx="640" ry="140" fill="#fff6ea"/>
+  <g transform="translate(160 362) scale(0.78)">
+    <g>
+    <rect x="-105" y="-120" width="26" height="120" fill="#fff4e3"/>
+    <rect x="-111" y="-74.4" width="38" height="8" rx="3" fill="#f2d9b3"/>
+    <rect x="-109" y="-126" width="34" height="8" rx="3" fill="#f2d9b3"/>
+    <path d="M-97 -32 V-49 A5 5 0 0 1 -87 -49 V-32Z" fill="#c2410c"/>
+    <path d="M-107 -126 C-107 -148 -95 -154.8 -92 -166 C-89 -154.8 -77 -148 -77 -126Z" fill="#10b981"/>
+    <line x1="-92" y1="-166" x2="-92" y2="-180" stroke="#10b981" stroke-width="3"/>
+  </g><g>
+    <rect x="79" y="-120" width="26" height="120" fill="#fff4e3"/>
+    <rect x="73" y="-74.4" width="38" height="8" rx="3" fill="#f2d9b3"/>
+    <rect x="75" y="-126" width="34" height="8" rx="3" fill="#f2d9b3"/>
+    <path d="M87 -32 V-49 A5 5 0 0 1 97 -49 V-32Z" fill="#c2410c"/>
+    <path d="M77 -126 C77 -148 89 -154.8 92 -166 C95 -154.8 107 -148 107 -126Z" fill="#10b981"/>
+    <line x1="92" y1="-166" x2="92" y2="-180" stroke="#10b981" stroke-width="3"/>
+  </g>
+    <rect x="-70" y="-78" width="140" height="78" fill="#fff4e3"/>
+    <rect x="-76" y="-84" width="152" height="10" rx="3" fill="#f2d9b3"/>
+    <path d="M-56 -84 C-56 -139 -11.200000000000001 -156 0 -184 C11.200000000000001 -156 56 -139 56 -84Z" fill="#10b981"/>
+    <line x1="0" y1="-184" x2="0" y2="-202" stroke="#10b981" stroke-width="3"/>
+    <circle cx="0" cy="-208" r="7" fill="#10b981"/><circle cx="3" cy="-210" r="6" fill="#fff4e3"/>
+    <path d="M-17 0 V-41 A17 17 0 0 1 17 -41 V0Z" fill="#c2410c"/>
+    <path d="M-51 -26 V-51 A9 9 0 0 1 -33 -51 V-26Z" fill="#c2410c"/>
+    <path d="M33 -26 V-51 A9 9 0 0 1 51 -51 V-26Z" fill="#c2410c"/>
+  </g>
+  <g transform="translate(740 362) scale(0.62)">
+    <rect x="-46" y="-232" width="92" height="50" fill="#fff"/>
+      <rect x="-34" y="-224" width="8" height="34" fill="#f2d9b3"/><rect x="-14" y="-224" width="8" height="34" fill="#f2d9b3"/><rect x="6" y="-224" width="8" height="34" fill="#f2d9b3"/><rect x="26" y="-224" width="8" height="34" fill="#f2d9b3"/>
+      <path d="M-56 -232 A56 52 0 0 1 56 -232Z" fill="#0e7490"/>
+      <line x1="0" y1="-284" x2="0" y2="-318" stroke="#f2d9b3" stroke-width="3"/>
+      <path d="M0 -318 q12 -5 24 0 q12 5 24 0 v16 q-12 5 -24 0 q-12 -5 -24 0Z" fill="#10b981"/>
+    <rect x="-132" y="-12" width="264" height="12" fill="#f2d9b3"/>
+    <rect x="-122" y="-24" width="244" height="12" fill="#fff"/>
+    <rect x="-112" y="-36" width="224" height="12" fill="#f2d9b3"/>
+    <rect x="-96" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="-100" y="-142" width="26" height="6" fill="#f2d9b3"/><rect x="-59" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="-63" y="-142" width="26" height="6" fill="#f2d9b3"/><rect x="-22" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="-26" y="-142" width="26" height="6" fill="#f2d9b3"/><rect x="15" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="11" y="-142" width="26" height="6" fill="#f2d9b3"/><rect x="52" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="48" y="-142" width="26" height="6" fill="#f2d9b3"/><rect x="89" y="-138" width="18" height="102" fill="#ffe8cc"/><rect x="85" y="-142" width="26" height="6" fill="#f2d9b3"/>
+    <rect x="-116" y="-160" width="232" height="18" fill="#fff"/>
+    <path d="M-124 -160 L0 -212 L124 -160Z" fill="#0e7490"/>
+    <path d="M-92 -166 L0 -202 L92 -166Z" fill="#fff" fill-opacity="0.35"/>
+  </g>
+  <g>
+    <path d="M450 302 Q404.1 282 355 294 L355 342 Q404.1 330 450 350 Q495.9 330 545 342 L545 294 Q495.9 282 450 302Z" fill="#5b2a86"/>
+    <path d="M450 292 Q407.5 270 365 284 L365 330 Q407.5 316 450 338Z" fill="#ffffff"/><path d="M450 292 Q492.5 270 535 284 L535 330 Q492.5 316 450 338Z" fill="#fff7ea"/>
+    <path d="M436.4 298.3636363636364 Q407.5 286.3636363636364 378.6 292.3636363636364" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M463.6 298.3636363636364 Q492.5 286.3636363636364 521.4 292.3636363636364" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M436.4 306.72727272727275 Q407.5 294.72727272727275 378.6 300.72727272727275" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M463.6 306.72727272727275 Q492.5 294.72727272727275 521.4 300.72727272727275" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M436.4 315.09090909090907 Q407.5 303.09090909090907 378.6 309.09090909090907" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M463.6 315.09090909090907 Q492.5 303.09090909090907 521.4 309.09090909090907" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M436.4 323.45454545454544 Q407.5 311.45454545454544 378.6 317.45454545454544" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/><path d="M463.6 323.45454545454544 Q492.5 311.45454545454544 521.4 317.45454545454544" fill="none" stroke="#f3c9a3" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g stroke="#7c4a1e" stroke-width="12" stroke-linecap="round">
+    <line x1="395.6" y1="396" x2="487.4" y2="334"/>
+    <line x1="504.4" y1="396" x2="412.6" y2="334"/>
+  </g><ellipse cx="450" cy="400" rx="71.39999999999999" ry="8" fill="#000" fill-opacity="0.12"/>
+  <circle cx="450" cy="128" r="108" fill="#ffffff33"/><text x="450" y="89.57" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="3" fill="#7c2d12">UNDERGRADUATE</text><text x="450" y="154.45" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="64" fill="#fff">UG</text><text x="450" y="187.53" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="29" fill="#fff">Programmes</text>
+  <g class="bob"><g transform="translate(570 54) scale(0.6)">
+    <path d="M-36 6 Q-36 34 0 36 Q36 34 36 6 L36 -2 L-36 -2Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#fff" fill-opacity="0.12"/>
+    <circle cx="0" cy="0" r="5" fill="#ffd166"/>
+    <path d="M0 0 L52 10 L52 44" stroke="#ffd166" stroke-width="3.5" fill="none"/>
+    <path d="M46 40 h12 l3 16 h-18Z" fill="#ffd166"/>
+  </g></g>
+  <rect x="65.60000000000001" y="368" width="188.79999999999998" height="28" rx="14" fill="#ffffff"/><text x="160" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#c2410c">BA Islamic Studies</text>
+  <rect x="390" y="368" width="120" height="28" rx="14" fill="#ffffff"/><text x="450" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#c2410c">BA English</text>
+  <rect x="654.2" y="368" width="171.6" height="28" rx="14" fill="#ffffff"/><text x="740" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#c2410c">BA Public Policy</text>
+
+</svg>

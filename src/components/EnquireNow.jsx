@@ -3,10 +3,12 @@ import { createPortal } from 'react-dom'
 import { X, Send, Loader2 } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
 
-// TODO: this is not a valid Formspree endpoint — a real one looks like
-// 'https://formspree.io/f/abcdwxyz'. Until it is replaced, every enquiry fails
-// and the applicant is shown the admission helplines instead (see handleSubmit).
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/250282601094@crescent,education'
+// Enquiries are emailed to CDOE support through FormSubmit (formsubmit.co), the
+// same service the complaint form uses. FormSubmit needs a one-time activation:
+// the first submission sends an "Activate Form" link to ENQUIRY_INBOX, and
+// nothing is delivered until someone on that inbox clicks it.
+const ENQUIRY_INBOX = 'cdoesupport@crescent.education'
+const ENQUIRY_ENDPOINT = `https://formsubmit.co/ajax/${ENQUIRY_INBOX}`
 
 export default function EnquireNow() {
   const [open, setOpen] = useState(false)
@@ -25,22 +27,28 @@ export default function EnquireNow() {
     setError('')
 
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(ENQUIRY_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          name: form.name,
-          phone: form.phone,
-          email: form.email,
-          message: form.message,
+          _subject: `New enquiry from ${form.name.trim() || 'the website'}`,
+          _replyto: form.email,
+          _template: 'table',
+          _captcha: 'false',
+          Name: form.name,
+          Phone: form.phone,
+          Email: form.email,
+          Message: form.message,
         }),
       })
+      const result = await res.json().catch(() => ({}))
 
-      if (!res.ok) {
-        throw new Error('Failed to send enquiry')
+      // FormSubmit reports success as the string "true".
+      if (!res.ok || String(result.success) !== 'true') {
+        throw new Error(result.message || 'Failed to send enquiry')
       }
 
       setSubmitted(true)

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6d28d9"/><stop offset="0.5" stop-color="#9333ea"/><stop offset="1" stop-color="#db2777"/></linearGradient>
+    
+    <style>
+      .tw { animation: tw 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .bob { animation: bob 5s ease-in-out infinite; }
+      @keyframes tw { 0%,100% { opacity: .3; transform: scale(.6) } 50% { opacity: 1; transform: scale(1) } }
+      @keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+      @media (prefers-reduced-motion: reduce) { .tw,.bob { animation: none } }
+    </style>
+  </defs>
+  <rect width="900" height="400" fill="url(#bg)"/>
+  
+  <circle cx="60" cy="40" r="2.5" fill="#fff"/><circle cx="840" cy="50" r="2.5" fill="#fff"/><circle cx="700" cy="26" r="2" fill="#fff"/><circle cx="250" cy="46" r="2" fill="#fff"/><circle cx="140" cy="120" r="2" fill="#fff"/><circle cx="780" cy="150" r="2" fill="#fff"/>
+  <g transform="translate(330 36)"><path class="tw" style="animation-delay:0s" d="M0 -9 L2.5200000000000005 -2.5200000000000005 L9 0 L2.5200000000000005 2.5200000000000005 L0 9 L-2.5200000000000005 2.5200000000000005 L-9 0 L-2.5200000000000005 -2.5200000000000005Z" fill="#fff"/></g><g transform="translate(590 30)"><path class="tw" style="animation-delay:-1s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g><g transform="translate(860 120)"><path class="tw" style="animation-delay:-2s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g><g transform="translate(40 170)"><path class="tw" style="animation-delay:-1.4s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fff"/></g>
+  <ellipse cx="450" cy="470" rx="640" ry="140" fill="#f6eefe"/>
+  <g>
+    <rect x="70" y="322" width="24" height="40" rx="4" fill="#38bdf8"/><rect x="100" y="296" width="24" height="66" rx="4" fill="#4ade80"/><rect x="130" y="270" width="24" height="92" rx="4" fill="#facc15"/><rect x="160" y="238" width="24" height="124" rx="4" fill="#fb7185"/>
+    <polyline points="66,300 106,272 134,250 170,212" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M178 202 l-22 4 l14 16Z" fill="#fff"/>
+    <g transform="translate(218 362)">
+      <path d="M-16 -58 v-10 a6 6 0 0 1 6 -6 h20 a6 6 0 0 1 6 6 v10" fill="none" stroke="#7c2d12" stroke-width="6"/>
+      <rect x="-40" y="-60" width="80" height="60" rx="9" fill="#b45309"/>
+      <rect x="-40" y="-38" width="80" height="8" fill="#7c2d12"/>
+      <rect x="-8" y="-42" width="16" height="16" rx="3" fill="#facc15"/>
+    </g>
+  </g>
+  <g>
+    <rect x="358" y="234" width="184" height="116" rx="10" fill="#1e1b4b"/>
+    <rect x="368" y="244" width="164" height="96" rx="4" fill="#312e81"/>
+    <rect x="380" y="256" width="44" height="6" rx="3" fill="#f472b6"/>
+    <rect x="430" y="256" width="62" height="6" rx="3" fill="#60a5fa"/>
+    <rect x="392" y="268" width="70" height="6" rx="3" fill="#4ade80"/>
+    <rect x="392" y="280" width="36" height="6" rx="3" fill="#facc15"/>
+    <text x="484" y="322" text-anchor="middle" font-family="Consolas,'Courier New',monospace" font-weight="700" font-size="34" fill="#facc15">&lt;/&gt;</text>
+    <rect x="380" y="308" width="50" height="6" rx="3" fill="#a5b4fc"/>
+    <path d="M338 350 H562 L550 362 H350Z" fill="#c7d2fe"/>
+    <rect x="428" y="350" width="44" height="5" rx="2" fill="#818cf8"/>
+  </g>
+  <g transform="translate(740 362) scale(0.78)">
+    <g>
+    <rect x="-105" y="-120" width="26" height="120" fill="#fff"/>
+    <rect x="-111" y="-74.4" width="38" height="8" rx="3" fill="#e9d5ff"/>
+    <rect x="-109" y="-126" width="34" height="8" rx="3" fill="#e9d5ff"/>
+    <path d="M-97 -32 V-49 A5 5 0 0 1 -87 -49 V-32Z" fill="#6d28d9"/>
+    <path d="M-107 -126 C-107 -148 -95 -154.8 -92 -166 C-89 -154.8 -77 -148 -77 -126Z" fill="#f4c04e"/>
+    <line x1="-92" y1="-166" x2="-92" y2="-180" stroke="#f4c04e" stroke-width="3"/>
+  </g><g>
+    <rect x="79" y="-120" width="26" height="120" fill="#fff"/>
+    <rect x="73" y="-74.4" width="38" height="8" rx="3" fill="#e9d5ff"/>
+    <rect x="75" y="-126" width="34" height="8" rx="3" fill="#e9d5ff"/>
+    <path d="M87 -32 V-49 A5 5 0 0 1 97 -49 V-32Z" fill="#6d28d9"/>
+    <path d="M77 -126 C77 -148 89 -154.8 92 -166 C95 -154.8 107 -148 107 -126Z" fill="#f4c04e"/>
+    <line x1="92" y1="-166" x2="92" y2="-180" stroke="#f4c04e" stroke-width="3"/>
+  </g>
+    <rect x="-70" y="-78" width="140" height="78" fill="#fff"/>
+    <rect x="-76" y="-84" width="152" height="10" rx="3" fill="#e9d5ff"/>
+    <path d="M-56 -84 C-56 -139 -11.200000000000001 -156 0 -184 C11.200000000000001 -156 56 -139 56 -84Z" fill="#f4c04e"/>
+    <line x1="0" y1="-184" x2="0" y2="-202" stroke="#f4c04e" stroke-width="3"/>
+    <circle cx="0" cy="-208" r="7" fill="#f4c04e"/><circle cx="3" cy="-210" r="6" fill="#fff"/>
+    <path d="M-17 0 V-41 A17 17 0 0 1 17 -41 V0Z" fill="#6d28d9"/>
+    <path d="M-51 -26 V-51 A9 9 0 0 1 -33 -51 V-26Z" fill="#6d28d9"/>
+    <path d="M33 -26 V-51 A9 9 0 0 1 51 -51 V-26Z" fill="#6d28d9"/>
+  </g>
+  <circle cx="450" cy="120" r="106" fill="#ffffff2e"/><text x="450" y="81.57" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="3" fill="#fde68a">POSTGRADUATE</text><text x="450" y="146.45" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="64" fill="#fff">PG</text><text x="450" y="179.53" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="29" fill="#fff">Programmes</text>
+  <g class="bob"><g transform="translate(570 48) scale(0.6)">
+    <path d="M-36 6 Q-36 34 0 36 Q36 34 36 6 L36 -2 L-36 -2Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#fff" fill-opacity="0.12"/>
+    <circle cx="0" cy="0" r="5" fill="#fde68a"/>
+    <path d="M0 0 L52 10 L52 44" stroke="#fde68a" stroke-width="3.5" fill="none"/>
+    <path d="M46 40 h12 l3 16 h-18Z" fill="#fde68a"/>
+  </g></g>
+  <rect x="130.1" y="368" width="59.8" height="28" rx="14" fill="#ffffff"/><text x="160" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#7e22ce">MBA</text>
+  <rect x="420.1" y="368" width="59.8" height="28" rx="14" fill="#ffffff"/><text x="450" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#7e22ce">MCA</text>
+  <rect x="645.6" y="368" width="188.79999999999998" height="28" rx="14" fill="#ffffff"/><text x="740" y="387" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="13.5" fill="#7e22ce">MA Islamic Studies</text>
+
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 434" width="760" height="434">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="0.5" stop-color="#059669"/><stop offset="1" stop-color="#047857"/></linearGradient>
+    
+  <pattern id="circuit" width="80" height="80" patternUnits="userSpaceOnUse">
+    <path d="M0 20 H30 L40 30 H80 M20 80 V60 L30 50 V0" fill="none" stroke="#fff" stroke-opacity="0.12" stroke-width="2"/>
+    <circle cx="30" cy="20" r="3" fill="#fff" fill-opacity="0.18"/><circle cx="30" cy="50" r="3" fill="#fff" fill-opacity="0.18"/>
+  </pattern>
+  <style>.spin { animation: spin 12s linear infinite; } @keyframes spin { to { transform: rotate(360deg) } } @media (prefers-reduced-motion: reduce) { .spin { animation: none } }</style>
+
+    <style>
+      .tw { animation: tw 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .bob { animation: bob 5s ease-in-out infinite; }
+      @keyframes tw { 0%,100% { opacity: .3; transform: scale(.6) } 50% { opacity: 1; transform: scale(1) } }
+      @keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+      @media (prefers-reduced-motion: reduce) { .tw,.bob { animation: none } }
+    </style>
+  </defs>
+  <rect width="760" height="434" fill="url(#bg)"/>
+  
+  <rect width="760" height="434" fill="url(#circuit)"/>
+  <circle cx="60" cy="40" r="2" fill="#fff"/><circle cx="700" cy="50" r="2.5" fill="#fff"/><circle cx="600" cy="26" r="1.8" fill="#fff"/><circle cx="250" cy="46" r="2" fill="#fff"/>
+  <g transform="translate(300 36)"><path class="tw" style="animation-delay:0s" d="M0 -8 L2.24 -2.24 L8 0 L2.24 2.24 L0 8 L-2.24 2.24 L-8 0 L-2.24 -2.24Z" fill="#fde047"/></g><g transform="translate(470 26)"><path class="tw" style="animation-delay:-1s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#fff"/></g><g transform="translate(730 190)"><path class="tw" style="animation-delay:-2s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#fde047"/></g>
+  <ellipse cx="380" cy="500" rx="560" ry="130" fill="#ecfdf5"/>
+  <g class="bob"><g transform="translate(110 110) scale(1)"><path d="M-50 20 a26 26 0 0 1 4 -52 a34 34 0 0 1 64 -8 a26 26 0 0 1 34 30 a20 20 0 0 1 -6 30Z" fill="#ffffff"/>
+    <path d="M0 4 v-26 m-10 10 l10 -10 l10 10" stroke="#059669" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+  <g transform="translate(640 92)"><g class="spin"><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(0)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(45)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(90)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(135)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(180)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(225)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(270)"/><rect x="-4.68" y="-33.28" width="9.36" height="13" rx="3" fill="#fde047" transform="rotate(315)"/><circle r="26" fill="#fde047"/><circle r="10.92" fill="#065f46"/></g></g><g transform="translate(690 140)"><g class="spin"><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(0)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(45)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(90)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(135)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(180)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(225)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(270)"/><rect x="-2.88" y="-20.48" width="5.76" height="8" rx="3" fill="#a7f3d0" transform="rotate(315)"/><circle r="16" fill="#a7f3d0"/><circle r="6.72" fill="#065f46"/></g></g>
+  <rect x="48" y="246" width="96" height="158" rx="8" fill="#334155"/><rect x="56" y="254" width="80" height="28" rx="4" fill="#1e293b"/><circle cx="70" cy="268" r="4" fill="#facc15"/><rect x="84" y="265" width="40" height="5" rx="2" fill="#475569"/><rect x="56" y="290" width="80" height="28" rx="4" fill="#1e293b"/><circle cx="70" cy="304" r="4" fill="#4ade80"/><rect x="84" y="301" width="40" height="5" rx="2" fill="#475569"/><rect x="56" y="326" width="80" height="28" rx="4" fill="#1e293b"/><circle cx="70" cy="340" r="4" fill="#facc15"/><rect x="84" y="337" width="40" height="5" rx="2" fill="#475569"/><rect x="56" y="362" width="80" height="28" rx="4" fill="#1e293b"/><circle cx="70" cy="376" r="4" fill="#4ade80"/><rect x="84" y="373" width="40" height="5" rx="2" fill="#475569"/>
+  <path d="M162 314 v26 a34 11 0 0 0 68 0 v-26Z" fill="#0ea5e9"/><ellipse cx="196" cy="314" rx="34" ry="11" fill="#7dd3fc"/><path d="M162 344 v26 a34 11 0 0 0 68 0 v-26Z" fill="#0ea5e9"/><ellipse cx="196" cy="344" rx="34" ry="11" fill="#7dd3fc"/><path d="M162 374 v26 a34 11 0 0 0 68 0 v-26Z" fill="#0ea5e9"/><ellipse cx="196" cy="374" rx="34" ry="11" fill="#7dd3fc"/>
+  <rect x="654" y="308" width="52" height="96" rx="10" fill="#1e1b4b"/><rect x="660" y="318" width="40" height="70" rx="4" fill="#a7f3d0"/>
+    <rect x="666" y="326" width="12" height="12" rx="3" fill="#10b981"/><rect x="682" y="326" width="12" height="12" rx="3" fill="#f59e0b"/>
+    <rect x="666" y="344" width="12" height="12" rx="3" fill="#6366f1"/><rect x="682" y="344" width="12" height="12" rx="3" fill="#ec4899"/>
+    <circle cx="680" cy="396" r="3.5" fill="#64748b"/>
+  <g>
+    <rect x="288" y="276" width="184" height="116" rx="10" fill="#1e1b4b"/>
+    <rect x="298" y="286" width="164" height="96" rx="4" fill="#312e81"/>
+    <rect x="310" y="298" width="44" height="6" rx="3" fill="#f472b6"/>
+    <rect x="360" y="298" width="62" height="6" rx="3" fill="#60a5fa"/>
+    <rect x="322" y="310" width="70" height="6" rx="3" fill="#4ade80"/>
+    <rect x="322" y="322" width="36" height="6" rx="3" fill="#facc15"/>
+    <text x="414" y="364" text-anchor="middle" font-family="Consolas,'Courier New',monospace" font-weight="700" font-size="34" fill="#facc15">&lt;/&gt;</text>
+    <rect x="310" y="350" width="50" height="6" rx="3" fill="#a5b4fc"/>
+    <path d="M268 392 H492 L480 404 H280Z" fill="#c7d2fe"/>
+    <rect x="358" y="392" width="44" height="5" rx="2" fill="#818cf8"/>
+  </g>
+  <circle cx="380" cy="134" r="112" fill="#16a37a"/><text x="380" y="90.22" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="22" letter-spacing="6" fill="#fde047">MCA</text><text x="380" y="136.7" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="44" fill="#fff">Computer</text><text x="380" y="172.38" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="34" fill="#fff">Applications</text><text x="380" y="199.78" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="600" font-size="12.5" letter-spacing="2.5" fill="#d1fae5">MASTER OF COMPUTER</text>
+  <g class="bob"><text x="560" y="300" font-family="Consolas,'Courier New',monospace" font-weight="700" font-size="22" fill="#fff" fill-opacity="0.85">{ }</text></g>
+  <g class="bob" style="animation-delay:-2s"><text x="250" y="290" font-family="Consolas,'Courier New',monospace" font-weight="700" font-size="18" fill="#fde047">01</text></g>
+  <g fill="#065f46"><circle cx="-10" cy="444" r="70"/><circle cx="55" cy="454" r="60"/><circle cx="770" cy="444" r="70"/><circle cx="705" cy="454" r="60"/></g>
+
+</svg>

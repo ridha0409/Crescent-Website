@@ -1,6 +1,6 @@
 import { Landmark } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-import programmeImage from '../assets/site/ma-islamic.jpg'
+import programmeImage from '../assets/site/ma-islamic-studies.svg'
 
 const maIslamicStudies = {
   icon: Landmark,

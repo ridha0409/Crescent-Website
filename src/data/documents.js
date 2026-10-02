@@ -184,6 +184,21 @@ export const documentRegistry = {
     file: 'OL B.A. Islamic Studies Website Brochure09012026.pdf',
     title: 'BA Islamic Studies — Programme Brochure',
   },
+  // The Institute has not published brochures for these three yet. These are
+  // built in the same layout as the official ones above, from the programme
+  // details on this site — replace each file once an official one exists.
+  'brochure-ba-english': {
+    file: 'OL B.A. English Website Brochure.pdf',
+    title: 'BA English — Programme Brochure',
+  },
+  'brochure-ba-public-policy': {
+    file: 'OL B.A. Public Policy Website Brochure.pdf',
+    title: 'BA Public Policy — Programme Brochure',
+  },
+  'brochure-ma-islamic-studies': {
+    file: 'OL M.A. Islamic Studies Website Brochure.pdf',
+    title: 'MA Islamic Studies — Programme Brochure',
+  },
 
   /* ---------------- Project ---------------- */
   'mba-project-guidelines': {

@@ -1,6 +1,6 @@
 import { BookOpenText } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-import programmeImage from '../assets/site/islamic-studies.jpg'
+import programmeImage from '../assets/site/ba-islamic-studies.svg'
 
 const baIslamicStudies = {
   icon: BookOpenText,

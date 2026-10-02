@@ -12,10 +12,9 @@ import { campus, admissionContacts, admissionEmails } from '../data/contact.js'
  * go, and how to reach someone. Everything dropped from here is one click away
  * in the navigation.
  *
- * The brand block carries the Institute's own logo — the same file the navbar
- * uses. The lockup is navy and crimson artwork, which would disappear against
- * this crimson footer, so `brightness-0 invert` renders it as a clean white
- * mark instead of shipping a second colourway of the same file.
+ * The brand block carries the Institute's own logo in its true colours — the
+ * same file the navbar uses — on a white background so it stays clear against
+ * this crimson footer.
  */
 
 const quickLinks = [
@@ -58,11 +57,11 @@ export default function Footer() {
       <div className="container-xl grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {/* Who and where */}
         <div>
-          <Link to="/" className="inline-block">
+          <Link to="/" className="inline-block rounded-xl bg-white px-3 py-2">
             <img
               src={crescentLogo}
               alt="B.S. Abdur Rahman Crescent Institute of Science &amp; Technology"
-              className="h-11 w-auto object-contain brightness-0 invert"
+              className="h-11 w-auto object-contain"
             />
           </Link>
 

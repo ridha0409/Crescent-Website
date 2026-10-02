@@ -1,6 +1,6 @@
 import { GraduationCap } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-import programmeImage from '../assets/site/mba.jpg'
+import programmeImage from '../assets/site/mba.svg'
 
 const mba = {
   icon: GraduationCap,

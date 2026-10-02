@@ -37,15 +37,18 @@ export default function ProgrammeDetail({ programme }) {
 
         <div className="flex-1 min-w-0">
           {/* Banner */}
-          <div className="relative rounded-[26px] overflow-hidden mb-8 h-56 sm:h-72 glass-strong p-1.5">
-            <div className="relative w-full h-full rounded-[20px] overflow-hidden">
-              <img src={image} alt={title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-navy-900/50" />
-              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
-                <div className="w-12 h-12 rounded-full glass-strong flex items-center justify-center text-navy-800 mb-3">
+          {/* The illustration already carries the course name, so it is shown
+              whole beside the title rather than cropped behind a dark overlay. */}
+          <div className="programme-card rounded-[26px] overflow-hidden mb-8 glass-strong p-1.5">
+            <div className="grid sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center rounded-[20px] overflow-hidden bg-white/60">
+              <div className="programme-card-media aspect-[760/434]">
+                <img src={image} alt={title} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-6 sm:p-8">
+                <div className="w-12 h-12 rounded-full bg-navy-800 flex items-center justify-center text-white mb-3 shadow-card">
                   <Icon size={22} />
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white">{title}</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-navy-800 leading-tight">{title}</h1>
                 <p className="text-gold font-semibold mt-1">{tagline}</p>
               </div>
             </div>

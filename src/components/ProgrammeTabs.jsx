@@ -10,7 +10,7 @@ import {
   FileText,
   Globe,
 } from 'lucide-react'
-import { documentUrl } from '../data/documents.js'
+import { documentUrl, getDocument } from '../data/documents.js'
 
 /**
  * ProgrammeTabs — the five-panel card on a programme page.
@@ -26,13 +26,13 @@ import { documentUrl } from '../data/documents.js'
  */
 
 /*
- * The tab strip is deliberately neutral: soft grey while idle, brand navy once
+ * The tab strip is deliberately neutral: soft grey while idle, dark grey once
  * selected. It used to give each tab its own colour (blue / green / amber /
  * violet / rose), which fought with the page rather than framing it.
  */
 const TAB_IDLE =
   'bg-slate-100/70 text-slate-600 border-slate-200 hover:bg-slate-200/70 hover:text-navy-800'
-const TAB_ACTIVE = 'bg-navy-800 text-white border-navy-800 shadow-card'
+const TAB_ACTIVE = 'bg-slate-700 text-white border-slate-700 shadow-card'
 
 const TABS = [
   { id: 'people', label: 'People', icon: Users },
@@ -142,8 +142,10 @@ function PersonCard({ name, role, photo }) {
  * opened in the site's own viewer. `href` is the escape hatch for the Syllabus,
  * which the Institute publishes as a page on its own site.
  */
-function DocumentPanel({ title, description, doc, href, cta }) {
+function DocumentPanel({ title, description, doc, href, cta, download = false }) {
   const localUrl = doc ? documentUrl(doc) : null
+  // Brochures save straight to the visitor's device under their real name.
+  const downloadName = download && doc ? getDocument(doc)?.file : undefined
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -160,13 +162,21 @@ function DocumentPanel({ title, description, doc, href, cta }) {
           ) : (
             <>
               <FileText size={13} className="shrink-0" />
-              PDF · opens in a new tab, served from this site
+              {downloadName ? 'PDF · downloads to your device' : 'PDF · opens in a new tab, served from this site'}
             </>
           )}
         </p>
       </div>
 
-      {localUrl ? (
+      {localUrl && downloadName ? (
+        <a
+          href={localUrl}
+          download={downloadName}
+          className="btn-shine glass-btn-solid px-5 py-2.5 text-sm shrink-0"
+        >
+          {cta} <FileDown size={14} />
+        </a>
+      ) : localUrl ? (
         <a
           href={localUrl}
           target="_blank"
@@ -375,6 +385,7 @@ export default function ProgrammeTabs({ details, programmeName }) {
               description="The printable brochure covering the programme at a glance — structure, fees, eligibility and how to apply."
               doc={documents?.brochure}
               cta="Download brochure"
+              download
             />
           </div>
         )}

@@ -1,6 +1,6 @@
 import { Users } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-import programmeImage from '../assets/site/mca.jpg'
+import programmeImage from '../assets/site/mca.svg'
 
 const mca = {
   icon: Users,

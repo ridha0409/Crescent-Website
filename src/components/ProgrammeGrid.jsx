@@ -13,12 +13,11 @@ export default function ProgrammeGrid({ items }) {
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {items.map((p) => (
-        <div key={p.short} className="glass-card overflow-hidden flex flex-col">
-          <div className="relative h-40">
+      {items.map((p, i) => (
+        <div key={p.short} className="programme-card glass-card overflow-hidden flex flex-col" style={{ '--i': i }}>
+          <div className="programme-card-media aspect-[760/434]">
             <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-navy-900/40" />
-            <div className="absolute top-4 left-4 w-11 h-11 rounded-full glass-strong flex items-center justify-center text-navy-800">
+            <div className="programme-card-badge">
               <p.icon size={20} />
             </div>
           </div>

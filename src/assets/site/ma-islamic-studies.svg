@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 434" width="760" height="434">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d4e89"/><stop offset="0.5" stop-color="#163d70"/><stop offset="1" stop-color="#102a5c"/></linearGradient>
+    
+  <pattern id="geo" width="56" height="56" patternUnits="userSpaceOnUse">
+    <g fill="none" stroke="#f4c04e" stroke-opacity="0.1" stroke-width="1.5" transform="translate(28 28)">
+      <rect x="-14" y="-14" width="28" height="28"/><rect x="-14" y="-14" width="28" height="28" transform="rotate(45)"/>
+    </g>
+  </pattern>
+  <mask id="moon"><rect width="760" height="434" fill="#fff"/><circle cx="702" cy="52" r="30" fill="#000"/></mask>
+
+    <style>
+      .tw { animation: tw 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .bob { animation: bob 5s ease-in-out infinite; }
+      @keyframes tw { 0%,100% { opacity: .3; transform: scale(.6) } 50% { opacity: 1; transform: scale(1) } }
+      @keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+      @media (prefers-reduced-motion: reduce) { .tw,.bob { animation: none } }
+    </style>
+  </defs>
+  <rect width="760" height="434" fill="url(#bg)"/>
+  
+  <rect width="760" height="434" fill="url(#geo)"/>
+  <circle cx="300" cy="30" r="2" fill="#fff"/><circle cx="470" cy="40" r="2" fill="#fff"/><circle cx="700" cy="200" r="1.8" fill="#fff"/><circle cx="60" cy="200" r="2" fill="#fff"/>
+  <g transform="translate(250 120)"><path class="tw" style="animation-delay:0s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#f4c04e"/></g><g transform="translate(520 120)"><path class="tw" style="animation-delay:-1s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#fff"/></g><g transform="translate(40 60)"><path class="tw" style="animation-delay:-2s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#f4c04e"/></g>
+  <g class="bob" style="animation-delay:-1s"><circle cx="686" cy="64" r="34" fill="#f4c04e" mask="url(#moon)"/></g>
+  <g class="bob" style="animation-delay:0s">
+    <line x1="130" y1="0" x2="130" y2="40" stroke="#f4c04e" stroke-width="1.6"/>
+    <path d="M121 50 L130 40 L139 50Z" fill="#f4c04e"/>
+    <path d="M114 52 h32 l-6 42 h-20Z" fill="#2dd4bf"/>
+    <rect x="123" y="58" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="112" y="48" width="36" height="6" rx="2" fill="#f4c04e"/>
+    <rect x="118" y="92" width="24" height="6" rx="2" fill="#f4c04e"/>
+    <path d="M127 98 h6 l-3 10Z" fill="#f4c04e"/>
+  </g>
+  <g class="bob" style="animation-delay:-1.4s">
+    <line x1="196" y1="0" x2="196" y2="76" stroke="#f4c04e" stroke-width="1.6"/>
+    <path d="M187 86 L196 76 L205 86Z" fill="#f4c04e"/>
+    <path d="M180 88 h32 l-6 42 h-20Z" fill="#f97316"/>
+    <rect x="189" y="94" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="178" y="84" width="36" height="6" rx="2" fill="#f4c04e"/>
+    <rect x="184" y="128" width="24" height="6" rx="2" fill="#f4c04e"/>
+    <path d="M193 134 h6 l-3 10Z" fill="#f4c04e"/>
+  </g>
+  <g class="bob" style="animation-delay:-2.4s">
+    <line x1="570" y1="0" x2="570" y2="70" stroke="#f4c04e" stroke-width="1.6"/>
+    <path d="M561 80 L570 70 L579 80Z" fill="#f4c04e"/>
+    <path d="M554 82 h32 l-6 42 h-20Z" fill="#2dd4bf"/>
+    <rect x="563" y="88" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="552" y="78" width="36" height="6" rx="2" fill="#f4c04e"/>
+    <rect x="558" y="122" width="24" height="6" rx="2" fill="#f4c04e"/>
+    <path d="M567 128 h6 l-3 10Z" fill="#f4c04e"/>
+  </g>
+  <ellipse cx="380" cy="500" rx="560" ry="130" fill="#f5ead6"/>
+  <g>
+    <rect x="41" y="210" width="26" height="190" fill="#f5ead6"/>
+    <rect x="35" y="282.2" width="38" height="8" rx="3" fill="#e3cfa8"/>
+    <rect x="37" y="204" width="34" height="8" rx="3" fill="#e3cfa8"/>
+    <path d="M49 336.5 V319.5 A5 5 0 0 1 59 319.5 V336.5Z" fill="#1d4e89"/>
+    <path d="M39 204 C39 182 51 175.2 54 164 C57 175.2 69 182 69 204Z" fill="#f4c04e"/>
+    <line x1="54" y1="164" x2="54" y2="150" stroke="#f4c04e" stroke-width="3"/>
+  </g><g>
+    <rect x="693" y="210" width="26" height="190" fill="#f5ead6"/>
+    <rect x="687" y="282.2" width="38" height="8" rx="3" fill="#e3cfa8"/>
+    <rect x="689" y="204" width="34" height="8" rx="3" fill="#e3cfa8"/>
+    <path d="M701 336.5 V319.5 A5 5 0 0 1 711 319.5 V336.5Z" fill="#1d4e89"/>
+    <path d="M691 204 C691 182 703 175.2 706 164 C709 175.2 721 182 721 204Z" fill="#f4c04e"/>
+    <line x1="706" y1="164" x2="706" y2="150" stroke="#f4c04e" stroke-width="3"/>
+  </g>
+  <g><rect x="110" y="300" width="120" height="100" fill="#f5ead6"/><path d="M118 300 C118 247.2 159.6 230.88 170 204 C180.4 230.88 222 247.2 222 300Z" fill="#2dd4bf"/><path d="M155 400 V345 A15 15 0 0 1 185 345 V400Z" fill="#1d4e89"/></g>
+  <g><rect x="530" y="300" width="120" height="100" fill="#f5ead6"/><path d="M538 300 C538 247.2 579.6 230.88 590 204 C600.4 230.88 642 247.2 642 300Z" fill="#2dd4bf"/><path d="M575 400 V345 A15 15 0 0 1 605 345 V400Z" fill="#1d4e89"/></g>
+  <path d="M262 300 V140 Q262 70 380 26 Q498 70 498 140 V300Z" fill="#2a5fa3" stroke="#f4c04e" stroke-width="5"/>
+  <path d="M282 300 V146 Q282 86 380 48 Q478 86 478 146 V300Z" fill="none" stroke="#f4c04e" stroke-opacity="0.5" stroke-width="2"/>
+  <text x="380" y="114" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="24" letter-spacing="6" fill="#f4c04e">MA</text>
+  <text x="380" y="168" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="50" fill="#fff">Islamic</text>
+  <text x="380" y="220" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="50" fill="#fff">Studies</text>
+  <text x="380" y="254" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="600" font-size="12.5" letter-spacing="2.5" fill="#cfe0ff">POSTGRADUATE</text>
+  <rect x="300" y="384" width="160" height="22" rx="4" fill="#0f766e"/><rect x="306" y="388" width="148" height="4" fill="#f5ead6"/>
+  <rect x="312" y="362" width="136" height="22" rx="4" fill="#b45309"/><rect x="318" y="366" width="124" height="4" fill="#f5ead6"/>
+  <rect x="304" y="340" width="152" height="22" rx="4" fill="#1d4e89"/><rect x="310" y="344" width="140" height="4" fill="#f5ead6"/>
+  <g transform="translate(380 322) scale(0.82)">
+    <path d="M-36 6 Q-36 34 0 36 Q36 34 36 6 L36 -2 L-36 -2Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#1e293b"/>
+    <path d="M-70 0 L0 -28 L70 0 L0 28Z" fill="#fff" fill-opacity="0.12"/>
+    <circle cx="0" cy="0" r="5" fill="#f4c04e"/>
+    <path d="M0 0 L52 10 L52 44" stroke="#f4c04e" stroke-width="3.5" fill="none"/>
+    <path d="M46 40 h12 l3 16 h-18Z" fill="#f4c04e"/>
+  </g>
+  <g fill="#0f3a52"><circle cx="-10" cy="444" r="70"/><circle cx="55" cy="454" r="60"/><circle cx="770" cy="444" r="70"/><circle cx="705" cy="454" r="60"/></g>
+
+</svg>

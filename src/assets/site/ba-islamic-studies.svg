@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 434" width="760" height="434">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f766e"/><stop offset="0.5" stop-color="#0d5f57"/><stop offset="1" stop-color="#0b4a44"/></linearGradient>
+    
+    <style>
+      .tw { animation: tw 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .bob { animation: bob 5s ease-in-out infinite; }
+      @keyframes tw { 0%,100% { opacity: .3; transform: scale(.6) } 50% { opacity: 1; transform: scale(1) } }
+      @keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+      @media (prefers-reduced-motion: reduce) { .tw,.bob { animation: none } }
+    </style>
+  </defs>
+  <rect width="760" height="434" fill="url(#bg)"/>
+  
+  <circle cx="300" cy="30" r="2" fill="#fff"/><circle cx="470" cy="40" r="2" fill="#fff"/><circle cx="700" cy="210" r="1.8" fill="#fff"/><circle cx="60" cy="210" r="2" fill="#fff"/><circle cx="380" cy="290" r="1.6" fill="#fff"/>
+  <g transform="translate(250 110)"><path class="tw" style="animation-delay:0s" d="M0 -7 L1.9600000000000002 -1.9600000000000002 L7 0 L1.9600000000000002 1.9600000000000002 L0 7 L-1.9600000000000002 1.9600000000000002 L-7 0 L-1.9600000000000002 -1.9600000000000002Z" fill="#f2b632"/></g><g transform="translate(520 110)"><path class="tw" style="animation-delay:-1s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#fff"/></g><g transform="translate(40 60)"><path class="tw" style="animation-delay:-2s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#f2b632"/></g><g transform="translate(720 40)"><path class="tw" style="animation-delay:-0.6s" d="M0 -6 L1.6800000000000002 -1.6800000000000002 L6 0 L1.6800000000000002 1.6800000000000002 L0 6 L-1.6800000000000002 1.6800000000000002 L-6 0 L-1.6800000000000002 -1.6800000000000002Z" fill="#fff"/></g>
+  <g class="bob" style="animation-delay:0s">
+    <line x1="60" y1="0" x2="60" y2="30" stroke="#f2b632" stroke-width="1.6"/>
+    <path d="M51 40 L60 30 L69 40Z" fill="#f2b632"/>
+    <path d="M44 42 h32 l-6 42 h-20Z" fill="#f97316"/>
+    <rect x="53" y="48" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="42" y="38" width="36" height="6" rx="2" fill="#f2b632"/>
+    <rect x="48" y="82" width="24" height="6" rx="2" fill="#f2b632"/>
+    <path d="M57 88 h6 l-3 10Z" fill="#f2b632"/>
+  </g>
+  <g class="bob" style="animation-delay:-1.2s">
+    <line x1="130" y1="0" x2="130" y2="60" stroke="#f2b632" stroke-width="1.6"/>
+    <path d="M121 70 L130 60 L139 70Z" fill="#f2b632"/>
+    <path d="M114 72 h32 l-6 42 h-20Z" fill="#f2b632"/>
+    <rect x="123" y="78" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="112" y="68" width="36" height="6" rx="2" fill="#f2b632"/>
+    <rect x="118" y="112" width="24" height="6" rx="2" fill="#f2b632"/>
+    <path d="M127 118 h6 l-3 10Z" fill="#f2b632"/>
+  </g>
+  <g class="bob" style="animation-delay:-2.2s">
+    <line x1="630" y1="0" x2="630" y2="60" stroke="#f2b632" stroke-width="1.6"/>
+    <path d="M621 70 L630 60 L639 70Z" fill="#f2b632"/>
+    <path d="M614 72 h32 l-6 42 h-20Z" fill="#f2b632"/>
+    <rect x="623" y="78" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="612" y="68" width="36" height="6" rx="2" fill="#f2b632"/>
+    <rect x="618" y="112" width="24" height="6" rx="2" fill="#f2b632"/>
+    <path d="M627 118 h6 l-3 10Z" fill="#f2b632"/>
+  </g>
+  <g class="bob" style="animation-delay:-0.6s">
+    <line x1="700" y1="0" x2="700" y2="30" stroke="#f2b632" stroke-width="1.6"/>
+    <path d="M691 40 L700 30 L709 40Z" fill="#f2b632"/>
+    <path d="M684 42 h32 l-6 42 h-20Z" fill="#f97316"/>
+    <rect x="693" y="48" width="14" height="26" rx="7" fill="#fff7d6"/>
+    <rect x="682" y="38" width="36" height="6" rx="2" fill="#f2b632"/>
+    <rect x="688" y="82" width="24" height="6" rx="2" fill="#f2b632"/>
+    <path d="M697 88 h6 l-3 10Z" fill="#f2b632"/>
+  </g>
+  <ellipse cx="380" cy="500" rx="560" ry="130" fill="#fdf6e9"/>
+  <g transform="translate(120 404) scale(0.95)">
+    <g>
+    <rect x="-105" y="-120" width="26" height="120" fill="#fdf6e9"/>
+    <rect x="-111" y="-74.4" width="38" height="8" rx="3" fill="#efdcb8"/>
+    <rect x="-109" y="-126" width="34" height="8" rx="3" fill="#efdcb8"/>
+    <path d="M-97 -32 V-49 A5 5 0 0 1 -87 -49 V-32Z" fill="#0f5c4d"/>
+    <path d="M-107 -126 C-107 -148 -95 -154.8 -92 -166 C-89 -154.8 -77 -148 -77 -126Z" fill="#f2b632"/>
+    <line x1="-92" y1="-166" x2="-92" y2="-180" stroke="#f2b632" stroke-width="3"/>
+  </g><g>
+    <rect x="79" y="-120" width="26" height="120" fill="#fdf6e9"/>
+    <rect x="73" y="-74.4" width="38" height="8" rx="3" fill="#efdcb8"/>
+    <rect x="75" y="-126" width="34" height="8" rx="3" fill="#efdcb8"/>
+    <path d="M87 -32 V-49 A5 5 0 0 1 97 -49 V-32Z" fill="#0f5c4d"/>
+    <path d="M77 -126 C77 -148 89 -154.8 92 -166 C95 -154.8 107 -148 107 -126Z" fill="#f2b632"/>
+    <line x1="92" y1="-166" x2="92" y2="-180" stroke="#f2b632" stroke-width="3"/>
+  </g>
+    <rect x="-70" y="-78" width="140" height="78" fill="#fdf6e9"/>
+    <rect x="-76" y="-84" width="152" height="10" rx="3" fill="#efdcb8"/>
+    <path d="M-56 -84 C-56 -139 -11.200000000000001 -156 0 -184 C11.200000000000001 -156 56 -139 56 -84Z" fill="#f2b632"/>
+    <line x1="0" y1="-184" x2="0" y2="-202" stroke="#f2b632" stroke-width="3"/>
+    <circle cx="0" cy="-208" r="7" fill="#f2b632"/><circle cx="3" cy="-210" r="6" fill="#fdf6e9"/>
+    <path d="M-17 0 V-41 A17 17 0 0 1 17 -41 V0Z" fill="#0f5c4d"/>
+    <path d="M-51 -26 V-51 A9 9 0 0 1 -33 -51 V-26Z" fill="#0f5c4d"/>
+    <path d="M33 -26 V-51 A9 9 0 0 1 51 -51 V-26Z" fill="#0f5c4d"/>
+  </g>
+  <g transform="translate(640 404) scale(0.95)">
+    <g>
+    <rect x="-105" y="-120" width="26" height="120" fill="#fdf6e9"/>
+    <rect x="-111" y="-74.4" width="38" height="8" rx="3" fill="#efdcb8"/>
+    <rect x="-109" y="-126" width="34" height="8" rx="3" fill="#efdcb8"/>
+    <path d="M-97 -32 V-49 A5 5 0 0 1 -87 -49 V-32Z" fill="#0f5c4d"/>
+    <path d="M-107 -126 C-107 -148 -95 -154.8 -92 -166 C-89 -154.8 -77 -148 -77 -126Z" fill="#f2b632"/>
+    <line x1="-92" y1="-166" x2="-92" y2="-180" stroke="#f2b632" stroke-width="3"/>
+  </g><g>
+    <rect x="79" y="-120" width="26" height="120" fill="#fdf6e9"/>
+    <rect x="73" y="-74.4" width="38" height="8" rx="3" fill="#efdcb8"/>
+    <rect x="75" y="-126" width="34" height="8" rx="3" fill="#efdcb8"/>
+    <path d="M87 -32 V-49 A5 5 0 0 1 97 -49 V-32Z" fill="#0f5c4d"/>
+    <path d="M77 -126 C77 -148 89 -154.8 92 -166 C95 -154.8 107 -148 107 -126Z" fill="#f2b632"/>
+    <line x1="92" y1="-166" x2="92" y2="-180" stroke="#f2b632" stroke-width="3"/>
+  </g>
+    <rect x="-70" y="-78" width="140" height="78" fill="#fdf6e9"/>
+    <rect x="-76" y="-84" width="152" height="10" rx="3" fill="#efdcb8"/>
+    <path d="M-56 -84 C-56 -139 -11.200000000000001 -156 0 -184 C11.200000000000001 -156 56 -139 56 -84Z" fill="#f2b632"/>
+    <line x1="0" y1="-184" x2="0" y2="-202" stroke="#f2b632" stroke-width="3"/>
+    <circle cx="0" cy="-208" r="7" fill="#f2b632"/><circle cx="3" cy="-210" r="6" fill="#fdf6e9"/>
+    <path d="M-17 0 V-41 A17 17 0 0 1 17 -41 V0Z" fill="#0f5c4d"/>
+    <path d="M-51 -26 V-51 A9 9 0 0 1 -33 -51 V-26Z" fill="#0f5c4d"/>
+    <path d="M33 -26 V-51 A9 9 0 0 1 51 -51 V-26Z" fill="#0f5c4d"/>
+  </g>
+  <circle cx="380" cy="140" r="116" fill="#1c7f74"/><text x="380" y="82.96000000000001" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="700" font-size="22" letter-spacing="6" fill="#f2b632">BA</text><text x="380" y="136.8" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="52" fill="#fff">Islamic</text><text x="380" y="189.84" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="52" fill="#fff">Studies</text><text x="380" y="219.04" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-weight="600" font-size="12.5" letter-spacing="2.5" fill="#ccefe8">UNDERGRADUATE</text>
+  <g>
+    <path d="M380 318 Q323.3 298 265 310 L265 372 Q323.3 360 380 380 Q436.7 360 495 372 L495 310 Q436.7 298 380 318Z" fill="#f2b632"/>
+    <path d="M380 308 Q327.5 286 275 300 L275 360 Q327.5 346 380 368Z" fill="#ffffff"/><path d="M380 308 Q432.5 286 485 300 L485 360 Q432.5 346 380 368Z" fill="#fff7ea"/>
+    <path d="M363.2 316.90909090909093 Q327.5 304.90909090909093 291.8 310.90909090909093" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M396.8 316.90909090909093 Q432.5 304.90909090909093 468.2 310.90909090909093" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M363.2 327.8181818181818 Q327.5 315.8181818181818 291.8 321.8181818181818" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M396.8 327.8181818181818 Q432.5 315.8181818181818 468.2 321.8181818181818" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M363.2 338.72727272727275 Q327.5 326.72727272727275 291.8 332.72727272727275" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M396.8 338.72727272727275 Q432.5 326.72727272727275 468.2 332.72727272727275" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M363.2 349.6363636363636 Q327.5 337.6363636363636 291.8 343.6363636363636" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/><path d="M396.8 349.6363636363636 Q432.5 337.6363636363636 468.2 343.6363636363636" fill="none" stroke="#e3c58d" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g stroke="#b7791f" stroke-width="12" stroke-linecap="round">
+    <line x1="312.8" y1="424" x2="426.2" y2="362"/>
+    <line x1="447.2" y1="424" x2="333.8" y2="362"/>
+  </g><ellipse cx="380" cy="428" rx="88.2" ry="8" fill="#000" fill-opacity="0.12"/>
+  <g fill="#0b4a44"><circle cx="-10" cy="444" r="70"/><circle cx="55" cy="454" r="60"/><circle cx="770" cy="444" r="70"/><circle cx="705" cy="454" r="60"/></g>
+
+</svg>

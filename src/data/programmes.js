@@ -1,15 +1,13 @@
 import { GraduationCap, Users, BookOpenText, Scale, Landmark, Languages } from 'lucide-react'
 
-// Programme photographs from the CDOE photo library, web-sized into
-// src/assets/site. See src/assets/site/SOURCES.md.
-import mbaImage from '../assets/site/mba.jpg'
-import mcaImage from '../assets/site/mca.jpg'
-import islamicStudiesImage from '../assets/site/islamic-studies.jpg'
-import publicPolicyImage from '../assets/site/public-policy.jpg'
-import maIslamicImage from '../assets/site/ma-islamic.jpg'
-// BA English has no photograph of its own in the library yet — the generic UG
-// photo stands in. Drop an english.jpg into src/assets/site and swap the import.
-import englishImage from '../assets/site/ug.jpg'
+// Card illustrations: each one shows the course name with objects from that
+// subject. See src/assets/site/SOURCES.md.
+import mbaImage from '../assets/site/mba.svg'
+import mcaImage from '../assets/site/mca.svg'
+import islamicStudiesImage from '../assets/site/ba-islamic-studies.svg'
+import publicPolicyImage from '../assets/site/ba-public-policy.svg'
+import maIslamicImage from '../assets/site/ma-islamic-studies.svg'
+import englishImage from '../assets/site/ba-english.svg'
 
 // Single source of truth for every programme on the site.
 // `level` drives the UG / PG filtered listing pages + the navbar dropdown.

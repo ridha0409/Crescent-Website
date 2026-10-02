@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import { BookOpenText, GraduationCap, ArrowRight, Check } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
 import { ugProgrammes, pgProgrammes } from '../data/programmes.js'
-// CDOE photographs, web-sized into src/assets/site.
-import ugImage from '../assets/site/ug.jpg'
-import pgImage from '../assets/site/pg.jpg'
+// Illustrated thumbnails in the same bright style as the MBA / MCA cards.
+import ugImage from '../assets/site/ug-programmes.svg'
+import pgImage from '../assets/site/pg-programmes.svg'
 
 const levels = [
   {
@@ -30,12 +30,11 @@ const levels = [
 export default function ProgrammeLevelSplit() {
   return (
     <div className="grid lg:grid-cols-2 gap-8">
-      {levels.map(({ key, to, icon: Icon, title, desc, count, image }) => (
-        <div key={key} className="glass-card overflow-hidden flex flex-col">
-          <div className="relative h-48">
+      {levels.map(({ key, to, icon: Icon, title, desc, count, image }, i) => (
+        <div key={key} className="programme-card glass-card overflow-hidden flex flex-col" style={{ '--i': i }}>
+          <div className="programme-card-media aspect-[9/4]">
             <img src={image} alt={title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-navy-900/40" />
-            <div className="absolute top-5 left-5 w-12 h-12 rounded-full glass-strong flex items-center justify-center text-navy-800">
+            <div className="programme-card-badge !top-5 !left-5 !w-12 !h-12">
               <Icon size={22} />
             </div>
           </div>
@@ -43,7 +42,7 @@ export default function ProgrammeLevelSplit() {
           <div className="p-6 sm:p-8 flex flex-col flex-1">
             <h3 className="text-xl font-bold text-navy-800 mb-2">
               {title}
-              <span className="block w-12 h-1 bg-gold mt-3 rounded-full" />
+              <span className="programme-card-bar" />
             </h3>
 
             <p className="text-sm text-slate-600 leading-relaxed mb-5">{desc}</p>

@@ -16,18 +16,38 @@ name. The file name is what the code imports, so nothing else needs touching.
 | `studio.jpg` | Facilities — Studio (cropped to the studio panel) | `facilities/studio.jpeg` |
 | `lms.jpg` | Facilities — LMS | `facilities/lms.jpeg` |
 | `datacenter.jpg` | Facilities — Datacenter | `facilities/Server.jpg` |
-| `mba.jpg` | MBA card + page | `home/MBA_Thumbnail.jpg` |
-| `mca.jpg` | MCA card + page | `home/MCA.jpg` |
-| `islamic-studies.jpg` | BA Islamic Studies card + page | `home/BAIS Thumb.jpg` |
-| `public-policy.jpg` | BA Public Policy card + page | `mba/mba-vision.jpg` |
-| `ma-islamic.jpg` | MA Islamic Studies card + page | `bais/arabvision.jpg` |
-| `ug.jpg` | UG programmes card | `MCA/mca-overview.jpg` |
-| `pg.jpg` | PG programmes card | `mba/mba.jpg` |
+| `mba.jpg` | MBA page | `home/MBA_Thumbnail.jpg` |
+| `mca.jpg` | MCA page | `home/MCA.jpg` |
+| `islamic-studies.jpg` | BA Islamic Studies page | `home/BAIS Thumb.jpg` |
+| `public-policy.jpg` | BA Public Policy page | `mba/mba-vision.jpg` |
+| `ma-islamic.jpg` | MA Islamic Studies page | `bais/arabvision.jpg` |
+| `ug.jpg` | BA English page | `MCA/mca-overview.jpg` |
+| `pg.jpg` | (unused) | `mba/mba.jpg` |
 | `campus-panorama.jpg` | Gallery — "Crescent campus" | `visionary/about-us-1.jpg` |
 | `studio-facility.jpg` | Gallery — "Recording studio" | `home/studiofacility.jpg` |
 | `editor-room.jpg` | Gallery — "Editing suite" | `facilities/Editorroom.jpg` |
 | `computer-lab.jpg` | Gallery — "Computer lab" | `MCA/mca-events.jpg` |
 | `programme-launch.jpg` | Gallery — "Online programme launch" | `home/cdoe.jpg` |
+
+## Illustrated card thumbnails
+
+These are drawn, not photographed: flat SVG scenes in the style of the BA
+Islamic Studies thumbnail — the course name in a title disc, surrounded by
+objects that belong to the subject (bookshelf and quill for English, parliament
+and scales for Public Policy, mihrab and minarets for MA Islamic Studies). The
+UG / PG cards show their courses side by side. Edit the SVG directly to change
+colours or wording.
+
+| File | Used by |
+|---|---|
+| `mba.svg` | MBA card |
+| `mca.svg` | MCA card |
+| `ba-islamic-studies.svg` | BA Islamic Studies card |
+| `ug-programmes.svg` | UG programmes card (Programmes Offered) |
+| `pg-programmes.svg` | PG programmes card (Programmes Offered) |
+| `ba-english.svg` | BA English card |
+| `ba-public-policy.svg` | BA Public Policy card |
+| `ma-islamic-studies.svg` | MA Islamic Studies card |
 
 ## Portraits
 

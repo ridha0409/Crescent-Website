@@ -30,10 +30,8 @@ import { programmes } from '../data/programmes.js'
  *
  * FormSubmit needs a one-time activation: the very first submission sends a
  * confirmation link to COMPLAINT_INBOX, and nothing is delivered until someone
- * on that inbox clicks it. Until then (or if the request fails for any other
- * reason) the form falls back to the learner's own mail client, addressed to
- * the same inbox, so no complaint is ever lost. The success screen also offers
- * the whole text on the clipboard.
+ * on that inbox clicks it. The learner never sees a mail client or a warning —
+ * if the request fails, the form stays filled in with a short "try again" note.
  *
  * WHEN A BACKEND EXISTS: replace the body of `deliver()` with the API call.
  * Everything else — validation, the reference number, the success screen —
@@ -170,6 +168,7 @@ export default function ComplaintForm() {
   const [submitted, setSubmitted] = useState(null)
   const [sending, setSending] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [sendError, setSendError] = useState(false)
   const errorSummaryRef = useRef(null)
 
   const programmeOptions = useMemo(() => programmes.map((p) => p.short), [])
@@ -192,12 +191,11 @@ export default function ComplaintForm() {
   })
 
   /**
-   * Deliver the complaint to COMPLAINT_INBOX. Resolves to 'sent' when it was
-   * emailed directly, or 'mail-client' when it fell back to a mailto: link.
-   * Swap the fetch for the real API when the grievance backend exists — the
-   * rest of the page does not care how it is sent.
+   * Deliver the complaint to COMPLAINT_INBOX. Resolves to true when it was
+   * emailed, false otherwise. Swap the fetch for the real API when the
+   * grievance backend exists — the rest of the page does not care how it is sent.
    */
-  const deliver = async (reference, body) => {
+  const deliver = async (reference) => {
     const subject = `[${reference}] Grievance — ${values.subject.trim()}`
 
     try {
@@ -222,16 +220,10 @@ export default function ComplaintForm() {
       })
       const result = await response.json().catch(() => ({}))
       // FormSubmit reports success as the string "true".
-      if (response.ok && String(result.success) === 'true') return 'sent'
+      return response.ok && String(result.success) === 'true'
     } catch {
-      // Network failure — fall through to the mail client below.
+      return false
     }
-
-    window.location.href =
-      `mailto:${COMPLAINT_INBOX}` +
-      `?subject=${encodeURIComponent(subject)}` +
-      `&body=${encodeURIComponent(body)}`
-    return 'mail-client'
   }
 
   const handleSubmit = async (event) => {
@@ -248,9 +240,14 @@ export default function ComplaintForm() {
     const reference = makeReference()
     const body = composeBody(values, reference)
     setSending(true)
-    const via = await deliver(reference, body)
+    setSendError(false)
+    const sent = await deliver(reference)
     setSending(false)
-    setSubmitted({ reference, body, via, replyTo: values.email.trim() })
+    if (!sent) {
+      setSendError(true)
+      return
+    }
+    setSubmitted({ reference, body, replyTo: values.email.trim() })
   }
 
   const handleCopy = async () => {
@@ -285,28 +282,12 @@ export default function ComplaintForm() {
                 <CheckCircle2 size={26} />
               </div>
 
-              {submitted.via === 'sent' ? (
-                <>
-                  <h2 className="text-xl font-bold text-navy-800 mb-2">
-                    Your complaint has been submitted
-                  </h2>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                    It has been emailed to {COMPLAINT_INBOX}. Replies will come to{' '}
-                    {submitted.replyTo}.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <h2 className="text-xl font-bold text-navy-800 mb-2">
-                    Your complaint is ready to send
-                  </h2>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                    It could not be sent from this page, so your mail application should have
-                    opened with the complaint filled in and addressed to {COMPLAINT_INBOX} —
-                    press send there to submit it.
-                  </p>
-                </>
-              )}
+              <h2 className="text-xl font-bold text-navy-800 mb-2">
+                Your complaint has been submitted
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed mb-5">
+                It has been sent to {COMPLAINT_INBOX}. Replies will come to {submitted.replyTo}.
+              </p>
 
               <div className="glass rounded-2xl p-4 mb-5">
                 <p className="text-xs uppercase tracking-wide text-slate-400 mb-1">
@@ -321,16 +302,7 @@ export default function ComplaintForm() {
               </div>
 
               <p className="text-sm text-slate-600 leading-relaxed mb-3">
-                {submitted.via === 'sent'
-                  ? 'Keep a copy for your records, or email it again to '
-                  : 'If nothing opened, copy the complaint below and email it to '}
-                <a
-                  href={`mailto:${COMPLAINT_INBOX}`}
-                  className="text-crimson-600 font-medium hover:underline break-all"
-                >
-                  {COMPLAINT_INBOX}
-                </a>
-                .
+                A copy for your records:
               </p>
 
               <pre className="glass rounded-2xl p-4 text-xs text-slate-600 whitespace-pre-wrap break-words mb-5 max-h-72 overflow-y-auto">
@@ -498,6 +470,13 @@ export default function ComplaintForm() {
                   Clear form
                 </button>
               </div>
+
+              {sendError && (
+                <p role="status" className="text-sm text-slate-600 mt-4">
+                  We couldn't submit your complaint just now. Please check your connection and
+                  press Submit again — your details are still here.
+                </p>
+              )}
 
               <p className="text-xs text-slate-400 mt-4 leading-relaxed">
                 Your complaint is emailed to {COMPLAINT_INBOX}. Your grievance is redressed as

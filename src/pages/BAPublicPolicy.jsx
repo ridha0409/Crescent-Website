@@ -1,6 +1,6 @@
 import { Scale } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-import programmeImage from '../assets/site/public-policy.jpg'
+import programmeImage from '../assets/site/ba-public-policy.svg'
 
 const baPublicPolicy = {
   icon: Scale,

@@ -1,8 +1,6 @@
 import { Languages } from 'lucide-react'
 import ProgrammeDetail from './ProgrammeDetail.jsx'
-// No English photograph in the CDOE library yet — the generic UG photo stands
-// in, matching the placeholder used in data/programmes.js.
-import programmeImage from '../assets/site/ug.jpg'
+import programmeImage from '../assets/site/ba-english.svg'
 
 const baEnglish = {
   icon: Languages,

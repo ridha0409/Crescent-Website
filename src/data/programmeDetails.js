@@ -39,6 +39,7 @@ const PHOTO = {
   // BA Public Policy
   zafarTabrez: `${import.meta.env.BASE_URL}img/public-policy/dr-zafar-tabrez.jpg`,
   towseefGanai: `${import.meta.env.BASE_URL}img/public-policy/dr-towseef-ahmad-ganai.jpg`,
+  venkataLokesh: `${import.meta.env.BASE_URL}img/public-policy/dr-venkata-lokesh-s.png`,
   // BA English
   vijayakumar: `${import.meta.env.BASE_URL}img/english/dr-s-vijayakumar.png`,
   muththamizhSelvi: `${import.meta.env.BASE_URL}img/english/dr-muththamizh-selvi.jpg`,
@@ -224,7 +225,7 @@ const ugFees = {
   ],
 }
 
-/** The UG regulation, syllabus and brochure the BA programmes share. */
+/** The UG regulation and syllabus the BA programmes share (each has its own brochure). */
 const ugDocuments = {
   regulations: 'regulations-ba-islamic-studies',
   brochure: 'brochure-ba-islamic-studies',
@@ -233,7 +234,7 @@ const ugDocuments = {
 
 programmeDetails['ba-public-policy'] = {
   people: [
-    { name: 'Dr. Venkatesh Lokesh', role: 'Programme Coordinator' },
+    { name: 'Dr. Venkata Lokesh S', role: 'Programme Coordinator', photo: PHOTO.venkataLokesh },
     { name: 'Dr. Zafar Tabrez', role: 'Faculty, Public Policy', photo: PHOTO.zafarTabrez },
     {
       name: 'Dr. Towseef Ahmad Ganai',
@@ -244,7 +245,7 @@ programmeDetails['ba-public-policy'] = {
   eligibility: ugEligibility,
   selection: null,
   fees: ugFees,
-  documents: ugDocuments,
+  documents: { ...ugDocuments, brochure: 'brochure-ba-public-policy' },
   overview:
     'The Bachelor of Arts in Public Policy is a three-year undergraduate programme delivered fully online. It introduces the institutions of Indian governance, the economics behind public decisions and the methods used to analyse a policy — from framing a problem through to evaluating what a programme actually achieved.',
   outcomes: [
@@ -271,7 +272,7 @@ programmeDetails['ba-english'] = {
   eligibility: ugEligibility,
   selection: null,
   fees: ugFees,
-  documents: ugDocuments,
+  documents: { ...ugDocuments, brochure: 'brochure-ba-english' },
   overview:
     'The Bachelor of Arts in English is a three-year undergraduate programme delivered fully online. It covers British, American and Indian writing in English alongside the language, criticism and communication skills the degree is built on, and is taught by the Institute’s own English faculty.',
   outcomes: [
@@ -289,7 +290,7 @@ programmeDetails['ma-islamic-studies'] = {
     'A Bachelor degree of minimum three years duration from a recognized university, in Islamic Studies or an allied discipline, with the minimum marks prescribed by the Institution.',
   selection: null,
   fees: null,
-  documents: {},
+  documents: { brochure: 'brochure-ma-islamic-studies' },
   overview:
     'The Master of Arts in Islamic Studies is a two-year postgraduate programme delivered fully online. It builds on an undergraduate foundation with advanced work in theology, jurisprudence and Islamic intellectual history, together with the research methods and primary-source language skills needed for independent scholarship.',
   outcomes: [

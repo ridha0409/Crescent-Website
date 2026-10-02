@@ -133,8 +133,8 @@ export default function Navbar() {
             <img
               src={crescentLogo}
               alt="B.S. Abdur Rahman Crescent Institute of Science & Technology"
-              width={560}
-              height={155}
+              width={506}
+              height={139}
               decoding="async"
               className="h-11 sm:h-12 lg:h-14 w-auto object-contain object-left select-none"
             />
