@@ -11,7 +11,7 @@ import { studentLinks } from '../data/studentsCorner.js'
 // `href` + `external: true` is a real portal on another host and opens in a
 // new tab. External URLs live in src/data/admission.js, never inline here.
 const links = [
-  { label: 'Home', href: '/' },
+  { label: 'Home', to: '/' },
   {
     label: 'About Us',
     href: '/#about',

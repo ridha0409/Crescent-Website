@@ -6,9 +6,9 @@ import photoThowseaf from '../assets/faculty/dr-s-thowseaf.jpg'
 import photoSharonPriya from '../assets/faculty/dr-s-sharon-priya.jpg'
 import photoSabinBegum from '../assets/faculty/dr-r-sabin-begum.jpg'
 
-// Photos still served from the institute's own site. Run download-photos.ps1
-// to pull them into src/assets/execution/, then swap these for local imports.
-const SITE = '/'
+// Photos served from public/img/. Prefixed with the site's base path so they
+// load under /Crescent-Website/ on GitHub Pages, not from the domain root.
+const SITE = import.meta.env.BASE_URL
 
 // Director — the only entry on this page that carries a message.
 const director = {
