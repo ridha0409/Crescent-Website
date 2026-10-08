@@ -46,6 +46,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Large monitors: scale the whole site (text, spacing, rem widths) with the
+   screen, so a 1920px or 2560px display is not a small block of content
+   floating in empty space. 16px up to 1680px, then grows to a 21px cap. */
+@media (min-width: 1680px) {
+  html {
+    font-size: clamp(16px, 0.95vw, 21px);
+  }
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--brand-mist); /* EXACT #F5F5F5 */
@@ -106,16 +115,21 @@ body {
     -webkit-hyphens: auto;
   }
 
-  /* A phone column is too narrow to justify: even with hyphenation it opens
-     rivers of white space between words. Below the `sm` breakpoint every
-     paragraph goes back to ragged-right. The alignment is `inherit` rather
-     than `left`, so a paragraph inside a centred block stays centred. */
-  @media (max-width: 639px) {
-    :where(p, li, dd, blockquote, figcaption) {
-      text-align: inherit;
-      hyphens: manual;
-      -webkit-hyphens: manual;
-    }
+  /* Justified on every screen size, phones included. Long unbreakable
+     strings — emails, URLs, document names — wrap instead of spilling out of
+     their card and over the content beside it. */
+  :where(p, li, dd, blockquote, figcaption, td, h1, h2, h3, h4, h5, h6) {
+    overflow-wrap: break-word;
+  }
+
+  /* An email address is one long "word" — let it break anywhere on a phone. */
+  :where(a[href^='mailto:']) {
+    overflow-wrap: anywhere;
+  }
+
+  /* Media shrinks with its column instead of forcing the page wider. */
+  :where(img, svg, video, canvas, iframe) {
+    max-width: 100%;
   }
 
   /* Headings and form controls are never hyphenated — a broken word in a
@@ -134,9 +148,13 @@ body {
   -webkit-hyphens: manual;
 }
 
+/* Page width. Fills the screen at every size, up to a cap that keeps lines
+   readable on ultra-wide monitors. From `lg` up the side gutters are wider
+   than the fixed side tabs (Apply Guide on the left, Events / Enquire Now
+   on the right, ~40px each), so the tabs never sit on top of content. */
 .container-xl {
-  /* Widens a little past 1536px so a large monitor is not mostly margin. */
-  @apply max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8;
+  @apply w-full mx-auto px-5 sm:px-8 lg:px-[4.5rem];
+  max-width: 112rem;
 }
 
 /* ============================================================

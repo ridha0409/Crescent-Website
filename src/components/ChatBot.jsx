@@ -1,29 +1,45 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send } from 'lucide-react'
+import { MessageCircle, X, Send, ExternalLink } from 'lucide-react'
 import crescentMark from '../assets/logos/crescent-mark.png'
+import { admissionLinks } from '../data/admission.js'
+
+// Clickable buttons a reply can carry (opened in a new tab).
+const APPLY_LINKS = [
+  { label: 'Apply Online', url: admissionLinks.applyOnline },
+  { label: 'New Registration', url: admissionLinks.newRegistration },
+]
 
 // ---- 1. Knowledge base -----------------------------------------------
 // Edit these to match your real programmes / fees / contact details.
+// Entries are checked top to bottom; the first whose keyword appears wins.
+// An entry may carry `links` — they render as buttons under the reply.
 const KNOWLEDGE_BASE = [
+  {
+    // ('form' is left out on purpose — it would also match "information".)
+    keywords: ['link', 'apply', 'application', 'register', 'registration', 'portal'],
+    reply:
+      'Here is the admission portal. New applicants: create an account with "New Registration" first, then sign in with "Apply Online" to fill the form and pay the ₹1,000 application fee.',
+    links: APPLY_LINKS,
+  },
   {
     keywords: ['mba', 'business administration'],
     reply:
-      'The MBA is a 2-year AICTE/UGC approved programme, ₹75,000/year. Want me to point you to the application page?',
+      'The MBA is a 2-year AICTE/UGC approved programme, ₹40,000 per semester. Want me to point you to the application page?',
   },
   {
     keywords: ['mca', 'computer application'],
     reply:
-      'The MCA is a 2-year AICTE/UGC approved programme, ₹75,000/year. Want me to point you to the application page?',
+      'The MCA is a 2-year AICTE/UGC approved programme, ₹30,000 per semester. Want me to point you to the application page?',
   },
   {
     keywords: ['islamic', 'ba islamic', 'islamic studies'],
     reply:
-      'BA Islamic Studies is a 3-year UGC entitled programme, ₹30,000/year.',
+      'BA Islamic Studies is a 3-year UGC entitled programme, ₹15,000 per year.',
   },
   {
     keywords: ['fee', 'fees', 'cost', 'price'],
     reply:
-      'Fees are ₹75,000/year for MBA & MCA, and ₹30,000/year for BA Islamic Studies.',
+      'Fees are ₹40,000 per semester for MBA, ₹30,000 per semester for MCA, and ₹15,000 per year for BA Islamic Studies.',
   },
   {
     keywords: ['duration', 'how long', 'years'],
@@ -35,9 +51,10 @@ const KNOWLEDGE_BASE = [
       'Yes — dedicated placement support is provided to all enrolled students across every programme.',
   },
   {
-    keywords: ['admission', 'apply', 'enroll', 'enrol', 'join'],
+    keywords: ['admission', 'enroll', 'enrol', 'join'],
     reply:
-      'You can apply online any time using any "Apply Now" button — it opens the Institute admission portal, where you register, fill the form and pay the ₹1,000 application fee. Prefer to talk? Call MBA +91 97909 53750, MCA +91 94444 37309 or BA Islamic Studies +91 86675 30226.',
+      'You can apply online any time through the Institute admission portal: register, fill the form and pay the ₹1,000 application fee. Prefer to talk? Call MBA +91 97909 53750, MCA +91 94444 37309 or BA Islamic Studies +91 86675 30226.',
+    links: APPLY_LINKS,
   },
   {
     keywords: ['contact', 'phone', 'email', 'call', 'reach'],
@@ -68,23 +85,39 @@ function getBotReply(userText) {
   const match = KNOWLEDGE_BASE.find((entry) =>
     entry.keywords.some((k) => text.includes(k))
   )
-  return match ? match.reply : FALLBACK_REPLY
+  return match ? { text: match.reply, links: match.links } : { text: FALLBACK_REPLY }
 }
 
 const QUICK_REPLIES = ['Programme fees', 'Admissions process', 'Placement support']
 
+const GREETING = {
+  from: 'bot',
+  text: "Hi! I'm the Crescent Assistant. Ask me about programmes, fees, admissions, or placements.",
+}
+
+// Once the visitor has sent this many messages, closing the chat clears it,
+// so the next time it opens it starts fresh with the greeting.
+const RESET_AFTER_MESSAGES = 12
+
 // ---- 2. Widget ---------------------------------------------------------
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState([
-    {
-      from: 'bot',
-      text: "Hi! I'm the Crescent Assistant. Ask me about programmes, fees, admissions, or placements.",
-    },
-  ])
+  const [messages, setMessages] = useState([GREETING])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const scrollRef = useRef(null)
+  const replyTimer = useRef(null)
+
+  const closeChat = () => {
+    setOpen(false)
+    const sent = messages.filter((m) => m.from === 'user').length
+    if (sent >= RESET_AFTER_MESSAGES) {
+      clearTimeout(replyTimer.current) // a pending reply must not land in the new chat
+      setMessages([GREETING])
+      setInput('')
+      setTyping(false)
+    }
+  }
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
@@ -99,9 +132,9 @@ export default function ChatBot() {
     setTyping(true)
 
     // Simulated "thinking" delay — swap this block for a real API call (see notes below)
-    setTimeout(() => {
+    replyTimer.current = setTimeout(() => {
       const reply = getBotReply(trimmed)
-      setMessages((prev) => [...prev, { from: 'bot', text: reply }])
+      setMessages((prev) => [...prev, { from: 'bot', ...reply }])
       setTyping(false)
     }, 600)
   }
@@ -135,7 +168,7 @@ export default function ChatBot() {
               </div>
             </div>
             <button
-              onClick={() => setOpen(false)}
+              onClick={closeChat}
               aria-label="Close chat"
               className="text-white/70 hover:text-white transition-colors"
             >
@@ -155,6 +188,21 @@ export default function ChatBot() {
                   }`}
                 >
                   {m.text}
+                  {m.links?.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2.5">
+                      {m.links.map((l) => (
+                        <a
+                          key={l.url + l.label}
+                          href={l.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 rounded-full bg-navy-900 text-white text-xs font-semibold px-3 py-1.5 hover:bg-navy-800 transition-colors"
+                        >
+                          {l.label} <ExternalLink size={12} />
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -207,7 +255,7 @@ export default function ChatBot() {
 
       {/* Launcher button */}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? closeChat() : setOpen(true))}
         aria-label={open ? 'Close chat' : 'Open chat'}
         className="w-14 h-14 rounded-full bg-navy-900 text-white shadow-xl border-2 border-white flex items-center justify-center hover:bg-navy-800 hover:scale-105 transition-all"
       >

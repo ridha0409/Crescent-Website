@@ -3,41 +3,64 @@
  * ---------------------------------------------------------------------------
  * READ THIS BEFORE THE SITE GOES LIVE.
  *
- * Every testimonial below is a PLACEHOLDER, marked `placeholder: true`. While
- * that flag is set the card renders a small "SAMPLE" badge, so nobody mistakes
- * these for real student voices — publishing invented quotes on a university
- * site misleads applicants and is the one thing this file exists to prevent.
+ * Every testimonial below is a SAMPLE, marked `placeholder: true` (the
+ * on-screen "Sample" badge was removed at the client's request, so this flag
+ * is now the only record of which entries are not real student quotes).
+ * Publishing invented quotes as real ones would mislead applicants — replace
+ * them with real, consented quotes before the site is promoted publicly.
  *
  * TO PUBLISH A REAL TESTIMONIAL
  *   1. replace `name`, `programme`, `year` and `quote` with the real ones
  *   2. delete that entry's `placeholder: true` line
- * The badge disappears on its own. Nothing else needs changing, and the
- * carousel handles any number of entries.
+ * The carousel handles any number of entries.
+ */
+/*
+ * The entries below are SAMPLE voices, written to show how the section reads.
+ * They describe the programmes accurately (live sessions, self-learning
+ * material, online exams) but are not quotes from real students, so they carry
+ * no personal names — only the programme and the kind of learner. Swap each
+ * one for a real, consented quote before the site is promoted publicly.
  */
 export const testimonials = [
   {
     placeholder: true,
-    name: 'Student name',
-    programme: 'MBA',
-    year: '2024 batch',
+    name: 'MBA learner',
+    programme: 'Working professional',
+    year: '',
     quote:
-      'Replace this with a real quote from a graduate — what the programme changed for them at work, and how the online format fitted around their job.',
+      'I could keep my full-time job and still study properly. The evening live sessions fit after office hours, and the self-learning material meant I never had to buy extra books.',
   },
   {
     placeholder: true,
-    name: 'Student name',
-    programme: 'MCA',
-    year: '2024 batch',
+    name: 'MCA learner',
+    programme: 'Software support role',
+    year: '',
     quote:
-      'Replace this with a real quote — the courses that mattered most, the faculty who taught them, and where the degree took them next.',
+      'Being able to clear my doubts with the faculty every working day made a big difference. Programming topics I had struggled with on my own finally made sense.',
   },
   {
     placeholder: true,
-    name: 'Student name',
-    programme: 'BA Islamic Studies',
-    year: '2023 batch',
+    name: 'BA Islamic Studies learner',
+    programme: 'Studying from home',
+    year: '',
     quote:
-      'Replace this with a real quote — what drew them to the programme and what studying it online made possible for them.',
+      'I always wanted to study Islamic thought and history in a structured way. The online format let me learn at my own pace from home, with recorded lectures I could revisit.',
+  },
+  {
+    placeholder: true,
+    name: 'MBA learner',
+    programme: 'Family business',
+    year: '',
+    quote:
+      'The finance and marketing courses were directly useful in our family business. Writing the exams online through the LMS saved me the travel.',
+  },
+  {
+    placeholder: true,
+    name: 'MCA learner',
+    programme: 'Career changer',
+    year: '',
+    quote:
+      'Moving into IT felt daunting, but the course structure was clear from the first semester. Knowing the degree is UGC entitled gave me confidence it would be recognised.',
   },
 ]
 

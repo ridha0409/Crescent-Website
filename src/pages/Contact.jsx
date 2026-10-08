@@ -42,7 +42,7 @@ export default function Contact() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         {admissionContacts.map(({ programme, phone, tel }) => (
           <a key={programme} href={`tel:${tel}`} className="glass-card p-5 block">
-            <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">
+            <p className="text-sm font-bold uppercase tracking-wide text-slate-700 mb-2">
               {programme}
             </p>
             <p className="flex items-center gap-2 font-semibold text-navy-800 tabular-nums">

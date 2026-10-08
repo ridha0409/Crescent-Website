@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight, ExternalLink, Menu, X } from 'lucide-react'
 import ApplyNow from './ApplyNow.jsx'
-import crescentLogo from '../assets/logos/crescent-logo.png'
+import crescentLogo from '../assets/logos/crescent-online-logo.png'
 import { admissionLinks } from '../data/admission.js'
 import { studentLinks } from '../data/studentsCorner.js'
 
@@ -122,9 +122,11 @@ export default function Navbar() {
   }, [mobileOpen])
 
   return (
-    <header className="sticky top-3 z-50 px-3 sm:px-5">
-      <div className="container-xl !px-0">
-        <div className="glass-strong rounded-[24px] px-4 sm:px-6 flex items-center gap-4 py-2.5">
+    <header className="sticky top-3 z-50 px-3 sm:px-5 lg:px-0">
+      {/* Below lg the header supplies the gutter; from lg up the navbar lines
+          up with the page content (and clears the side tabs). */}
+      <div className="container-xl max-lg:!px-0">
+        <div className="glass-strong rounded-[24px] px-4 sm:px-6 lg:px-4 xl:px-6 flex items-center gap-4 py-2.5">
           <Link
             to="/"
             className="flex items-center shrink-0"
@@ -132,15 +134,15 @@ export default function Navbar() {
           >
             <img
               src={crescentLogo}
-              alt="B.S. Abdur Rahman Crescent Institute of Science & Technology"
-              width={506}
-              height={139}
+              alt="Crescent Online — Centre for Distance and Online Education"
+              width={1193}
+              height={428}
               decoding="async"
-              className="h-11 sm:h-12 lg:h-14 w-auto object-contain object-left select-none"
+              className="h-12 sm:h-14 lg:h-12 xl:h-16 w-auto object-contain object-left select-none"
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center ml-auto gap-5 xl:gap-7">
+          <nav className="hidden lg:flex items-center ml-auto gap-2.5 xl:gap-7">
             {links.map((link) => (
               <div
                 key={link.label}
@@ -175,7 +177,7 @@ export default function Navbar() {
                     to={link.to}
                     aria-haspopup={link.dropdown ? 'true' : undefined}
                     aria-expanded={link.dropdown ? open === link.label : undefined}
-                    className={`nav-link flex items-center gap-1 text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
+                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
                   >
                     {link.label}
                     {link.dropdown && <ChevronDown size={14} />}
@@ -185,7 +187,7 @@ export default function Navbar() {
                     href={link.href}
                     aria-haspopup={link.dropdown ? 'true' : undefined}
                     aria-expanded={link.dropdown ? open === link.label : undefined}
-                    className={`nav-link flex items-center gap-1 text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
+                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
                   >
                     {link.label}
                     {link.dropdown && <ChevronDown size={14} />}

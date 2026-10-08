@@ -3,12 +3,64 @@ import { createPortal } from 'react-dom'
 import { X, Send, Loader2 } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
 
-// Enquiries are emailed to CDOE support through FormSubmit (formsubmit.co), the
-// same service the complaint form uses. FormSubmit needs a one-time activation:
-// the first submission sends an "Activate Form" link to ENQUIRY_INBOX, and
-// nothing is delivered until someone on that inbox clicks it.
+// Enquiries are handled by the Google Apps Script in apps-script/. For every
+// enquiry it emails CDOE support straight away AND saves a row in a Google
+// Sheet, then sends one end-of-day summary of all the day's enquiries as an
+// Excel file. Its web-app URL is set in .env as VITE_ENQUIRY_SCRIPT_URL — see
+// apps-script/README.md.
+//
+// Until that URL is set, the form falls back to FormSubmit (formsubmit.co),
+// which emails each enquiry but only after a one-time "Activate Form" link,
+// sent to ENQUIRY_INBOX by the first submission, has been clicked.
+const DIGEST_ENDPOINT = import.meta.env.VITE_ENQUIRY_SCRIPT_URL
 const ENQUIRY_INBOX = 'cdoesupport@crescent.education'
-const ENQUIRY_ENDPOINT = `https://formsubmit.co/ajax/${ENQUIRY_INBOX}`
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${ENQUIRY_INBOX}`
+
+async function sendToDigest(form) {
+  // text/plain keeps this a "simple" request, so the browser sends it straight
+  // to Apps Script without a CORS preflight (which Apps Script cannot answer).
+  const res = await fetch(DIGEST_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      Name: form.name,
+      Phone: form.phone,
+      Email: form.email,
+      Message: form.message,
+      Page: window.location.pathname,
+    }),
+  })
+  const result = await res.json().catch(() => ({}))
+  if (!res.ok || result.success !== true) {
+    throw new Error(result.message || 'Failed to save enquiry')
+  }
+}
+
+async function sendByEmail(form) {
+  const res = await fetch(FORMSUBMIT_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      _subject: `New enquiry from ${form.name.trim() || 'the website'}`,
+      _replyto: form.email,
+      _template: 'table',
+      _captcha: 'false',
+      Name: form.name,
+      Phone: form.phone,
+      Email: form.email,
+      Message: form.message,
+    }),
+  })
+  const result = await res.json().catch(() => ({}))
+
+  // FormSubmit reports success as the string "true".
+  if (!res.ok || String(result.success) !== 'true') {
+    throw new Error(result.message || 'Failed to send enquiry')
+  }
+}
 
 export default function EnquireNow() {
   const [open, setOpen] = useState(false)
@@ -27,28 +79,16 @@ export default function EnquireNow() {
     setError('')
 
     try {
-      const res = await fetch(ENQUIRY_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          _subject: `New enquiry from ${form.name.trim() || 'the website'}`,
-          _replyto: form.email,
-          _template: 'table',
-          _captcha: 'false',
-          Name: form.name,
-          Phone: form.phone,
-          Email: form.email,
-          Message: form.message,
-        }),
-      })
-      const result = await res.json().catch(() => ({}))
-
-      // FormSubmit reports success as the string "true".
-      if (!res.ok || String(result.success) !== 'true') {
-        throw new Error(result.message || 'Failed to send enquiry')
+      if (DIGEST_ENDPOINT) {
+        // The script sends the instant email itself. If it cannot be reached,
+        // FormSubmit is tried so the enquiry is not lost.
+        try {
+          await sendToDigest(form)
+        } catch {
+          await sendByEmail(form)
+        }
+      } else {
+        await sendByEmail(form)
       }
 
       setSubmitted(true)

@@ -17,27 +17,30 @@
 export const faqs = [
   {
     id: 'what-is-online-mba-mca',
-    q: 'What is an Online MBA / MCA program?',
+    q: 'What is an Online MBA / MCA / BA Islamic Studies program?',
     a: [
       'An Online MBA is a postgraduate-level business degree that is earned online through a virtual platform. It covers core business competencies such as management, accounting, finance, marketing, operations and strategy.',
       'An Online MCA (Master of Computer Applications) is a postgraduate degree covering various computer application-based concepts such as programming languages, data structures, algorithms, software development and more.',
+      'An Online BA Islamic Studies is an undergraduate degree that offers a structured study of Islamic thought, history, culture and texts, delivered through the same virtual learning platform.',
     ],
   },
   {
     id: 'duration',
-    q: 'How long does it take to complete an Online MBA / MCA program?',
-    a: ['Typically, it takes 2 years to complete an Online MBA / MCA program.'],
+    q: 'How long does it take to complete an Online MBA / MCA / BA Islamic Studies program?',
+    a: [
+      'Typically, it takes 2 years to complete an Online MBA / MCA program, and 3 years to complete the Online BA Islamic Studies program.',
+    ],
   },
   {
     id: 'work-while-studying',
-    q: 'Can I work while pursuing an Online MBA / MCA program?',
+    q: 'Can I work while pursuing an Online MBA / MCA / BA Islamic Studies program?',
     a: [
       'Yes. The programmes are designed to cater to working professionals who want to advance their careers while working.',
     ],
   },
   {
     id: 'registration-process',
-    q: 'What is the registration process for an Online MBA program?',
+    q: 'What is the registration process for an Online MBA / MCA / BA Islamic Studies program?',
     a: [
       'The registration process happens two times a year (Academic Month – June, Calendar Month – January).',
     ],
@@ -52,32 +55,34 @@ export const faqs = [
   },
   {
     id: 'degree-value',
-    q: 'Is an Online MBA / MCA degree considered less valuable than an on-campus MBA / MCA?',
+    q: 'Is an Online MBA / MCA / BA Islamic Studies degree considered less valuable than an on-campus degree?',
     a: [
-      'No. Online MBA / MCA degrees are just as valuable as on-campus MBA / MCA degrees as per UGC declaration.',
+      'No. Online MBA / MCA / BA Islamic Studies degrees are just as valuable as their on-campus equivalents as per UGC declaration.',
     ],
   },
   {
     id: 'cost',
-    q: 'What is the cost of an Online MBA and MCA program?',
+    q: 'What is the cost of an Online MBA, MCA and BA Islamic Studies program?',
     a: [
-      'The cost of the Online MBA program is Rs. 40,000 per semester. The cost of the Online MCA program is Rs. 30,000 per semester.',
+      'The cost of the Online MBA program is Rs. 40,000 per semester. The cost of the Online MCA program is Rs. 30,000 per semester. The cost of the Online BA Islamic Studies program is Rs. 15,000 per year.',
     ],
     // Rendered as a small table under the answer — same figures, easier to scan.
     table: {
-      columns: ['Programme', 'Fee per semester'],
+      columns: ['Programme', 'Fee'],
       rows: [
-        ['Online MBA', 'Rs. 40,000'],
-        ['Online MCA', 'Rs. 30,000'],
+        ['Online MBA', 'Rs. 40,000 per semester'],
+        ['Online MCA', 'Rs. 30,000 per semester'],
+        ['Online BA Islamic Studies', 'Rs. 15,000 per year'],
       ],
     },
   },
   {
     id: 'eligibility',
-    q: 'What are the eligibility requirements for an Online MBA program?',
+    q: 'What are the eligibility requirements for an Online MBA / MCA / BA Islamic Studies program?',
     a: [
       'MBA — Any Bachelor Degree (minimum 3 years duration) with a minimum CGPA of 5.0 / 50% of marks.',
       'MCA — Any undergraduate Degree with Computer Applications, Computer Science or Engineering branch, with a minimum CGPA of 5.0 / 50% of marks.',
+      'BA Islamic Studies — A pass in the Higher Secondary Examination (10+2, Academic stream), or any examination accepted by the Institution as equivalent.',
     ],
   },
   {

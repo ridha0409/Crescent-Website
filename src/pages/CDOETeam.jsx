@@ -63,6 +63,9 @@ function FacultyCard({ member }) {
       <h3 className="font-semibold text-navy-900 text-sm">{member.name}</h3>
       <p className="text-xs text-red-700 font-medium mt-1 leading-snug">{member.designation}</p>
       {member.role && <p className="text-[11px] text-slate-500 mt-0.5">{member.role}</p>}
+      {member.qualification && (
+        <p className="text-xs font-bold text-slate-700 mt-1.5 leading-snug">{member.qualification}</p>
+      )}
 
       {/* Only the faculty with a converted profile document get a Read More
           link — the rest show the card alone rather than a dead route. */}

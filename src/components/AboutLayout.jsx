@@ -33,7 +33,7 @@ export default function AboutLayout({
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         <AboutSidebar />
 
-        <div ref={contentRef} className={`flex-1 min-w-0 ${contentClassName}`}>
+        <div ref={contentRef} className={`w-full lg:w-auto flex-1 min-w-0 ${contentClassName}`}>
           <PageHeader eyebrow={eyebrow} title={title} lede={lede} className="mb-8" />
           {children}
         </div>

@@ -76,6 +76,13 @@ function makeReference() {
   return `CDOE-${stamp}-${suffix}`
 }
 
+// The grievance description must be at least this many words.
+const MIN_WORDS = 10
+
+function wordCount(text) {
+  return text.trim().split(/\s+/).filter(Boolean).length
+}
+
 function validate(values) {
   const errors = {}
 
@@ -96,9 +103,8 @@ function validate(values) {
   if (!values.category) errors.category = 'Please choose the type of grievance.'
   if (!values.subject.trim()) errors.subject = 'Please give your grievance a subject.'
 
-  if (values.message.trim().length < 30) {
-    errors.message =
-      'Please describe your grievance in at least 30 characters so it can be acted on.'
+  if (wordCount(values.message) < MIN_WORDS) {
+    errors.message = `Please describe your grievance in at least ${MIN_WORDS} words so it can be acted on.`
   }
 
   if (!values.consent) {
@@ -417,7 +423,7 @@ export default function ComplaintForm() {
                   label="Describe your grievance"
                   error={errors.message}
                   required
-                  hint={`Include dates, course codes and anyone you have already spoken to. ${values.message.trim().length}/30 characters minimum.`}
+                  hint={`Include dates, course codes and anyone you have already spoken to. ${wordCount(values.message)}/${MIN_WORDS} words minimum.`}
                 >
                   <textarea rows={7} placeholder="Set out what happened, when, and what you would like done about it." {...inputProps('message')} />
                 </Field>

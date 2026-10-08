@@ -127,7 +127,7 @@ export default function HowToApply() {
                 href={`tel:${tel}`}
                 className="glass-card p-5 block hover:text-navy-800"
               >
-                <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">
+                <p className="text-sm font-bold uppercase tracking-wide text-slate-700 mb-2">
                   {programme}
                 </p>
                 <p className="flex items-center gap-2 font-semibold text-navy-800 tabular-nums">

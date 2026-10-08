@@ -23,20 +23,20 @@ export default function ProgrammeGrid({ items }) {
           </div>
 
           <div className="p-6 flex flex-col flex-1">
-            <h3 className="font-semibold text-navy-800 leading-snug">{p.title}</h3>
-            <p className="text-gold font-semibold text-sm mb-3">{p.short}</p>
+            <h3 className="text-lg font-bold text-navy-900 leading-snug">{p.title}</h3>
+            <p className="text-gold font-bold text-base mt-1 mb-4">{p.short}</p>
 
-            <ul className="text-sm text-slate-600 space-y-1.5 mb-5">
+            <ul className="text-[15px] font-semibold text-slate-800 space-y-2 mb-6">
               <li className="flex gap-2">
-                <Check size={15} className="text-gold shrink-0 mt-0.5" />
+                <Check size={17} className="text-gold shrink-0 mt-0.5" />
                 <span>Duration : {p.duration}</span>
               </li>
               <li className="flex gap-2">
-                <Check size={15} className="text-gold shrink-0 mt-0.5" />
+                <Check size={17} className="text-gold shrink-0 mt-0.5" />
                 <span>Approvals : {p.approvals}</span>
               </li>
               <li className="flex gap-2">
-                <Check size={15} className="text-gold shrink-0 mt-0.5" />
+                <Check size={17} className="text-gold shrink-0 mt-0.5" />
                 <span>Fees : {p.fees}</span>
               </li>
             </ul>
@@ -44,7 +44,7 @@ export default function ProgrammeGrid({ items }) {
             <Link
               to={p.path}
               onMouseDown={createRipple}
-              className="btn-shine glass-btn-solid mt-auto py-2.5"
+              className="btn-shine glass-btn-solid mt-auto py-3 text-[15px]"
             >
               View Programme <ArrowRight size={15} />
             </Link>

@@ -284,7 +284,7 @@ export default function FacultyProfile() {
               {member.designation}
               {member.role && <span className="text-slate-400"> · {member.role}</span>}
             </p>
-            <p className="text-[13px] text-slate-400 mt-1.5">{member.qualification}</p>
+            <p className="text-[14px] font-bold text-slate-700 mt-1.5">{member.qualification}</p>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-5">
               {member.email && (
@@ -339,22 +339,25 @@ export default function FacultyProfile() {
         )}
 
         {/* ---------------- tabs ---------------- */}
-        <div className="relative mt-9 border-b border-navy-900/[0.09]">
-          {/* fade hints that the tab row scrolls on narrow screens */}
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white/90 to-transparent sm:hidden"
-          />
-          <div className="flex gap-5 sm:gap-9 overflow-x-auto scrollbar-hide">
+        {/* Same tab strip as the programme pages (ProgrammeTabs): boxed
+            buttons, dark slate when active, scrolls sideways on phones. */}
+        <div className="mt-9 glass rounded-[18px]">
+          <div
+            role="tablist"
+            aria-label={`${member.name} profile`}
+            className="flex gap-2 p-2 overflow-x-auto scrollbar-hide"
+          >
             {available.map(([key, label]) => (
               <button
                 key={key}
                 type="button"
+                role="tab"
+                aria-selected={tab === key}
                 onClick={() => setTab(key)}
-                className={`relative -mb-px shrink-0 pb-3.5 text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap border-b-2 transition-colors duration-350 ${
+                className={`shrink-0 px-4 py-2.5 rounded-xl border text-sm font-medium whitespace-nowrap transition-colors duration-350 ${
                   tab === key
-                    ? 'text-navy-900 border-gold'
-                    : 'text-slate-400 border-transparent hover:text-navy-800'
+                    ? 'bg-slate-700 text-white border-slate-700 shadow-card'
+                    : 'bg-slate-100/70 text-slate-600 border-slate-200 hover:bg-slate-200/70 hover:text-navy-800'
                 }`}
               >
                 {label}

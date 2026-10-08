@@ -12,7 +12,7 @@ const SITE = '/'
 
 // Director — the only entry on this page that carries a message.
 const director = {
-  name: 'Dr. Jaya',
+  name: 'Dr. A. Jaya',
   designation: 'Professor & Director',
   photo: `${SITE}img/mca/people/jaya.jpg`,
   message: [],
@@ -40,7 +40,7 @@ const groups = [
       },
       {
         name: 'Dr. S. Thowseaf',
-        designation: 'Assistant Professor / CDOE, Assistant Director',
+        designation: 'Assistant Professor / Assistant Director, CDOE',
         photo: photoThowseaf,
       },
     ],
@@ -75,7 +75,7 @@ const groups = [
     people: [
       {
         name: 'Dr. V. Rhymend Uthariaraj',
-        designation: 'Former Director, CDOE',
+        designation: 'Former Director, CDOE (2021 – 2023)',
         photo: `${SITE}img/execution/director.jpg`,
       },
     ],
@@ -129,18 +129,21 @@ function DirectorBlock({ person }) {
   return (
     <article className="director-card rounded-[26px] p-5 sm:p-7 mb-8">
       <div className="grid gap-6 sm:gap-8 sm:grid-cols-[200px_1fr] items-start">
-        <Photo
-          photo={person.photo}
-          name={person.name}
-          className="w-full aspect-[4/5] rounded-[18px] overflow-hidden ring-1 ring-white/25"
-        />
+        {/* Designation sits under the photo, not above the name. */}
+        <figure className="w-full max-w-[200px] mx-auto sm:mx-0">
+          <Photo
+            photo={person.photo}
+            name={person.name}
+            className="w-full aspect-[4/5] rounded-[18px] overflow-hidden ring-1 ring-white/25"
+          />
+          <figcaption className="mt-3 text-center text-[11px] font-semibold text-gold-light uppercase tracking-[0.15em] leading-snug">
+            {person.designation}
+          </figcaption>
+        </figure>
 
         <div className="min-w-0">
           <span className="director-badge">Director</span>
-          <p className="text-[11px] font-semibold text-gold-light uppercase tracking-[0.15em] mt-3">
-            {person.designation}
-          </p>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mt-2 leading-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mt-3 leading-tight">
             {person.name}
           </h2>
           <span className="block w-12 h-[3px] bg-gold rounded-full mt-4" />

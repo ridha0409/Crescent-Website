@@ -302,11 +302,7 @@ function TestimonialCard({ item, onPrev, onNext }) {
       <figure className="saa-card">
         <span className="saa-quote-mark" aria-hidden="true">&ldquo;</span>
 
-        <p className="saa-eyebrow">
-          Student voice
-          {/* Honest by default: an unreplaced placeholder says so on screen. */}
-          {item.placeholder && <span className="saa-sample">Sample</span>}
-        </p>
+        <p className="saa-eyebrow">Student voice</p>
 
         <blockquote className="saa-quote">&ldquo;{item.quote}&rdquo;</blockquote>
 

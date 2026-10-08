@@ -93,52 +93,61 @@ function NoticeRow({ entry }) {
 }
 
 /*
- * AUTO-SCROLL
+ * AUTO-SCROLL — a vertical ticker
  * ---------------------------------------------------------------------------
- * The panel body drifts downward on its own so a visitor sees every dated
- * entry without reaching for the scrollbar — the same idea as the announcement
- * marquee, only vertical. It runs on requestAnimationFrame rather than a
- * setInterval so the speed is tied to real time, not to frame rate.
+ * The panel body scrolls upward on its own, continuously, the way the
+ * announcement marquee scrolls sideways. The list is rendered twice, one copy
+ * under the other, and the track is moved with a transform; when the first
+ * copy has scrolled fully out of view the offset wraps back by one copy's
+ * height, so the loop is seamless.
  *
- * It stops the moment the visitor takes over: hover, focus, a wheel, a touch
- * or a key all pause it, and it resumes a few seconds after they stop. At the
- * bottom it eases back to the top and starts again. Anyone who has asked for
- * reduced motion never gets it at all.
+ * Because it does not rely on the list overflowing its box, it moves on every
+ * screen — a tall desktop where all the entries fit would otherwise have
+ * nothing to scroll and stand still.
+ *
+ * The visitor can still take over: hover, focus or a touch pauses it, the
+ * wheel, a finger drag and the arrow keys move it by hand, and it picks itself
+ * back up a moment after they stop. With reduced motion it never drifts on its
+ * own, but the manual controls still work.
  */
-const SCROLL_SPEED = 18 // pixels per second — slow enough to read while it moves
+const SCROLL_SPEED = 22 // pixels per second — slow enough to read while it moves
 const RESUME_DELAY = 2500 // ms of stillness before it picks itself back up
 
-function useAutoScroll(enabled) {
-  const ref = useRef(null)
+function useTicker(enabled) {
+  const viewportRef = useRef(null)
+  const trackRef = useRef(null)
 
   useEffect(() => {
-    const el = ref.current
-    if (!enabled || !el) return
+    const viewport = viewportRef.current
+    const track = trackRef.current
+    if (!enabled || !viewport || !track) return
 
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')
-    if (reduced?.matches) return
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
 
     let frame = 0
     let resumeTimer = 0
-    let paused = false
+    let paused = Boolean(reduced)
     let last = 0
-    // Carried as a float: at 18px/s a frame moves ~0.3px, and rounding every
-    // frame to the integer scrollTop would floor it to zero and never move.
-    let position = el.scrollTop
+    let offset = 0
+    let touchY = null
+
+    // One copy's height — the track holds two identical copies.
+    const loopHeight = () => track.scrollHeight / 2
+
+    const render = () => {
+      const h = loopHeight()
+      if (h > 0) offset = ((offset % h) + h) % h
+      track.style.transform = `translate3d(0, ${-offset}px, 0)`
+    }
 
     const step = (now) => {
       frame = requestAnimationFrame(step)
       if (!last) last = now
-      const elapsed = now - last
+      const elapsed = Math.min(now - last, 100) // no jump after a background tab
       last = now
       if (paused) return
-
-      const limit = el.scrollHeight - el.clientHeight
-      if (limit <= 1) return // nothing to scroll — the list fits
-
-      position += (SCROLL_SPEED * elapsed) / 1000
-      if (position >= limit) position = 0 // wrap back to the first entry
-      el.scrollTop = position
+      offset += (SCROLL_SPEED * elapsed) / 1000
+      render()
     }
 
     const pause = () => {
@@ -146,57 +155,125 @@ function useAutoScroll(enabled) {
       clearTimeout(resumeTimer)
     }
 
-    // After a manual scroll the visitor's position is the new starting point,
-    // otherwise the next frame would yank the panel back to where it was.
-    const scheduleResume = () => {
+    const release = () => {
       clearTimeout(resumeTimer)
+      if (reduced) return
       resumeTimer = setTimeout(() => {
-        position = el.scrollTop
         paused = false
       }, RESUME_DELAY)
     }
 
-    const release = () => {
-      scheduleResume()
-    }
-
-    const interrupt = () => {
+    const nudge = (delta) => {
       pause()
-      scheduleResume()
+      offset += delta
+      render()
+      release()
     }
 
-    el.addEventListener('mouseenter', pause)
-    el.addEventListener('mouseleave', release)
-    el.addEventListener('focusin', pause)
-    el.addEventListener('focusout', release)
-    el.addEventListener('wheel', interrupt, { passive: true })
-    el.addEventListener('touchstart', pause, { passive: true })
-    el.addEventListener('touchend', release, { passive: true })
-    el.addEventListener('keydown', interrupt)
+    const onWheel = (e) => {
+      e.preventDefault() // the ticker moves instead of the page behind it
+      nudge(e.deltaY)
+    }
+    const onTouchStart = (e) => {
+      pause()
+      touchY = e.touches[0].clientY
+    }
+    const onTouchMove = (e) => {
+      if (touchY === null) return
+      e.preventDefault()
+      const y = e.touches[0].clientY
+      offset += touchY - y
+      touchY = y
+      render()
+    }
+    const onTouchEnd = () => {
+      touchY = null
+      release()
+    }
+    const onKey = (e) => {
+      const delta = { ArrowDown: 40, ArrowUp: -40, PageDown: 200, PageUp: -200 }[e.key]
+      if (delta === undefined) return
+      e.preventDefault()
+      nudge(delta)
+    }
 
+    viewport.addEventListener('mouseenter', pause)
+    viewport.addEventListener('mouseleave', release)
+    viewport.addEventListener('focusin', pause)
+    viewport.addEventListener('focusout', release)
+    viewport.addEventListener('wheel', onWheel, { passive: false })
+    viewport.addEventListener('touchstart', onTouchStart, { passive: true })
+    viewport.addEventListener('touchmove', onTouchMove, { passive: false })
+    viewport.addEventListener('touchend', onTouchEnd, { passive: true })
+    viewport.addEventListener('touchcancel', onTouchEnd, { passive: true })
+    viewport.addEventListener('keydown', onKey)
+
+    render()
     frame = requestAnimationFrame(step)
 
     return () => {
       cancelAnimationFrame(frame)
       clearTimeout(resumeTimer)
-      el.removeEventListener('mouseenter', pause)
-      el.removeEventListener('mouseleave', release)
-      el.removeEventListener('focusin', pause)
-      el.removeEventListener('focusout', release)
-      el.removeEventListener('wheel', interrupt)
-      el.removeEventListener('touchstart', pause)
-      el.removeEventListener('touchend', release)
-      el.removeEventListener('keydown', interrupt)
+      viewport.removeEventListener('mouseenter', pause)
+      viewport.removeEventListener('mouseleave', release)
+      viewport.removeEventListener('focusin', pause)
+      viewport.removeEventListener('focusout', release)
+      viewport.removeEventListener('wheel', onWheel)
+      viewport.removeEventListener('touchstart', onTouchStart)
+      viewport.removeEventListener('touchmove', onTouchMove)
+      viewport.removeEventListener('touchend', onTouchEnd)
+      viewport.removeEventListener('touchcancel', onTouchEnd)
+      viewport.removeEventListener('keydown', onKey)
     }
   }, [enabled])
 
-  return ref
+  return { viewportRef, trackRef }
+}
+
+/* The panel's list. Rendered twice inside the ticker track. */
+function EventsList({ exams, notices }) {
+  return (
+    <div className="p-5">
+      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        Examination dates
+      </p>
+      {exams.length ? (
+        <ul className="space-y-3">
+          {exams.map((entry, i) => (
+            <ExamRow key={`${entry.programme}-${entry.date}-${i}`} entry={entry} />
+          ))}
+        </ul>
+      ) : (
+        <p className="text-sm text-slate-500">
+          No examination dates have been published yet.
+        </p>
+      )}
+
+      {notices.length > 0 && (
+        <>
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mt-6 mb-3">
+            Announcements
+          </p>
+          <ul className="space-y-3">
+            {notices.map((entry, i) => (
+              <NoticeRow key={`${entry.tag}-${entry.date}-${i}`} entry={entry} />
+            ))}
+          </ul>
+        </>
+      )}
+
+      <p className="text-[11px] text-slate-400 mt-5 leading-relaxed">
+        Dates are also published on the LMS. If a date here differs from the
+        LMS, the LMS is the one to follow.
+      </p>
+    </div>
+  )
 }
 
 export default function Notices() {
   const [open, setOpen] = useState(false)
   const count = upcomingCount()
-  const scrollRef = useAutoScroll(open)
+  const { viewportRef, trackRef } = useTicker(open)
 
   // Escape closes; the page behind the panel must not scroll while it is up.
   useEffect(() => {
@@ -281,41 +358,24 @@ export default function Notices() {
                 </button>
               </div>
 
-              {/* tabIndex: the panel scrolls itself, so it has to be reachable
-                  by keyboard for someone who cannot use a pointer. */}
-              <div ref={scrollRef} tabIndex={0} className="p-5 overflow-y-auto">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-                  Examination dates
-                </p>
-                {exams.length ? (
-                  <ul className="space-y-3">
-                    {exams.map((entry, i) => (
-                      <ExamRow key={`${entry.programme}-${entry.date}-${i}`} entry={entry} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-sm text-slate-500">
-                    No examination dates have been published yet.
-                  </p>
-                )}
-
-                {notices.length > 0 && (
-                  <>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mt-6 mb-3">
-                      Announcements
-                    </p>
-                    <ul className="space-y-3">
-                      {notices.map((entry, i) => (
-                        <NoticeRow key={`${entry.tag}-${entry.date}-${i}`} entry={entry} />
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                <p className="text-[11px] text-slate-400 mt-5 leading-relaxed">
-                  Dates are also published on the LMS. If a date here differs from the
-                  LMS, the LMS is the one to follow.
-                </p>
+              {/* The ticker window: a fixed share of the screen on every
+                  device, so the panel never runs off a short phone screen.
+                  tabIndex lets keyboard users focus it and use the arrow keys. */}
+              <div
+                ref={viewportRef}
+                tabIndex={0}
+                aria-label="Examination dates and announcements, scrolling"
+                className="relative overflow-hidden h-[min(28rem,calc(85dvh-5rem))] outline-none
+                           focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-navy-800/30"
+                style={{ touchAction: 'none' }}
+              >
+                <div ref={trackRef} className="will-change-transform">
+                  <EventsList exams={exams} notices={notices} />
+                  {/* Second copy for the seamless loop — hidden from screen readers. */}
+                  <div aria-hidden="true">
+                    <EventsList exams={exams} notices={notices} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>,
