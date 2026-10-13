@@ -1,14 +1,12 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, ArrowRight, GraduationCap } from 'lucide-react'
+import { CheckCircle2, ArrowRight } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
 import { institute } from '../data/institute.js'
 import ApplyNow from './ApplyNow.jsx'
 import heroCampus from '../assets/site/hero-campus.jpg'
 
 const badges = ['Live Interactive Classes', 'AICTE / UGC Approved', 'Placement Support']
-
-const perks = ['Industry Relevant Curriculum', 'Expert Faculty Support', 'Flexible & Accessible Learning']
 
 export default function Hero() {
   const glowRef = useRef(null)
@@ -75,22 +73,6 @@ export default function Hero() {
                 className="w-full h-72 sm:h-96 object-cover"
               />
             </div>
-          </div>
-
-          <div className="absolute -bottom-8 -left-6 sm:-left-10 glass-strong rounded-2xl p-5 w-72 max-w-[85%] animate-float">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full glass-btn-solid text-white">
-                <GraduationCap size={18} />
-              </div>
-              <p className="font-semibold text-navy-800">Learn Anytime, Anywhere</p>
-            </div>
-            <ul className="space-y-2">
-              {perks.map((p) => (
-                <li key={p} className="flex items-center gap-2 text-sm text-slate-600">
-                  <CheckCircle2 size={14} className="text-emerald-500 shrink-0" /> {p}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>

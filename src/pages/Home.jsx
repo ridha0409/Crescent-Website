@@ -1,5 +1,5 @@
 import Hero from '../components/Hero.jsx'
-import StatsBar from '../components/StatsBar.jsx'
+import LearnAnywhere from '../components/LearnAnywhere.jsx'
 import Programmes from '../components/Programmes.jsx'
 import About from '../components/About.jsx'
 import Testimonials from '../components/Testimonials.jsx'
@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <StatsBar />
+      <LearnAnywhere />
       <Programmes />
       <About />
       <Testimonials />

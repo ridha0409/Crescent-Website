@@ -1,5 +1,4 @@
 import Hero from "../components/Hero";
-import StatsBar from "../components/StatsBar";
 import Programmes from "../components/Programmes";
 import WhyChoose from "../components/WhyChoose";
 import About from "../components/About";
@@ -10,7 +9,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <StatsBar />
       <Programmes />
       <WhyChoose />
       <About />

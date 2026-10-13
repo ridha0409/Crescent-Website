@@ -234,7 +234,7 @@ function useTicker(enabled) {
 function EventsList({ exams, notices }) {
   return (
     <div className="p-5">
-      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+      <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-3">
         Examination dates
       </p>
       {exams.length ? (
@@ -251,7 +251,7 @@ function EventsList({ exams, notices }) {
 
       {notices.length > 0 && (
         <>
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mt-6 mb-3">
+          <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mt-6 mb-3">
             Announcements
           </p>
           <ul className="space-y-3">

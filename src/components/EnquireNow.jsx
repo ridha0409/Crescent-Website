@@ -5,9 +5,9 @@ import { createRipple } from '../utils/ripple.js'
 
 // Enquiries are handled by the Google Apps Script in apps-script/. For every
 // enquiry it emails CDOE support straight away AND saves a row in a Google
-// Sheet, then sends one end-of-day summary of all the day's enquiries as an
-// Excel file. Its web-app URL is set in .env as VITE_ENQUIRY_SCRIPT_URL — see
-// apps-script/README.md.
+// Sheet, then each night copies the day's enquiries into a dated tab of that
+// sheet and emails one summary linking to it. Its web-app URL is set in .env
+// as VITE_ENQUIRY_SCRIPT_URL — see apps-script/README.md.
 //
 // Until that URL is set, the form falls back to FormSubmit (formsubmit.co),
 // which emails each enquiry but only after a one-time "Activate Form" link,

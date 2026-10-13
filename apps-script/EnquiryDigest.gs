@@ -2,11 +2,12 @@
  * CDOE ENQUIRY DIGEST — Google Apps Script
  * ---------------------------------------------------------------------------
  * The website's "Enquire Now" form posts every enquiry here. For each one:
- *   1. an email goes to the support inbox straight away, and
+ *   1. an email with the enquiry as an Excel (.xlsx) attachment goes to the
+ *      support inbox straight away, and
  *   2. it is stored as a row in the Google Sheet this script is attached to.
- * A time trigger (every DIGEST_EVERY_MINUTES, or once a day) then sends ONE
- * email with every enquiry received since the previous digest — as a table in
- * the mail body and as an Excel (.xlsx) attachment.
+ * A time trigger (every DIGEST_EVERY_MINUTES, or once a day) then saves every
+ * enquiry received since the previous digest into a tab named after the day,
+ * and sends ONE email with them as a table and a link to that Google Sheets tab.
  *
  * Mail is sent from the Google account that owns this script, so there is no
  * third-party form service and nothing to "activate".
@@ -71,27 +72,24 @@ function doPost(e) {
   }
 }
 
-// One enquiry, mailed the moment it arrives. Replying goes to the enquirer.
+// One enquiry, mailed the moment it arrives as an Excel (.xlsx) attachment.
+// Replying goes to the enquirer.
 function sendInstantEmail_(row) {
   const tz = Session.getScriptTimeZone()
   const header = ['Received'].concat(FIELDS)
-  const display = [Utilities.formatDate(row[0], tz, 'dd MMM yyyy, hh:mm a')].concat(row.slice(1))
+  const received = Utilities.formatDate(row[0], tz, 'dd MMM yyyy, hh:mm a')
+  const display = [received].concat(row.slice(1))
   const name = row[1] || 'the website'
   const email = row[3]
-
-  const lines = header
-    .map((h, i) =>
-      `<tr><th style="text-align:left;padding:7px 12px;background:#f1f4f9;border:1px solid #d0d7e2">${escape_(h)}</th>` +
-      `<td style="padding:7px 12px;border:1px solid #d0d7e2">${escape_(display[i] || '—')}</td></tr>`
-    )
-    .join('')
 
   const options = {
     to: DIGEST_TO,
     subject: `New enquiry from ${name}`,
     htmlBody:
-      '<p style="font-family:Arial,sans-serif">A new enquiry was submitted on the CDOE website.</p>' +
-      `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px">${lines}</table>`,
+      `<p style="font-family:Arial,sans-serif">A new enquiry from <b>${escape_(name)}</b> ` +
+      `was submitted on the CDOE website on ${escape_(received)}. ` +
+      'The details are in the attached Excel file.</p>',
+    attachments: [buildXlsx_(header, [display], `${name} ${received}`)],
     name: 'CDOE Website',
   }
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) options.replyTo = email
@@ -131,7 +129,10 @@ function sendDailyDigest() {
     MailApp.sendEmail({
       to: DIGEST_TO,
       subject: `CDOE enquiries — ${today}: no new enquiries`,
-      htmlBody: '<p>No enquiries were received through the website since the last digest.</p>',
+      htmlBody:
+        '<p style="font-family:Arial,sans-serif">No enquiries were received through the website since the last digest. ' +
+        `All earlier enquiries are in the <a href="${SpreadsheetApp.getActiveSpreadsheet().getUrl()}">Google Sheet</a>.</p>`,
+      name: 'CDOE Website',
     })
     props.setProperty('lastDigestAt', String(now.getTime()))
     return
@@ -141,11 +142,15 @@ function sendDailyDigest() {
     [Utilities.formatDate(r[0], tz, 'dd MMM yyyy, hh:mm a')].concat(r.slice(1))
   )
 
+  // The digest lives in Google Sheets: the enquiries go into a tab named after
+  // the day, and the mail links straight to that tab.
+  const tabUrl = writeDigestTab_(header, displayRows, Utilities.formatDate(now, tz, 'dd MMM yyyy'))
+
   MailApp.sendEmail({
     to: DIGEST_TO,
     subject: `CDOE enquiries — ${today}: ${rows.length} new`,
-    htmlBody: buildTable_(header, displayRows, rows.length),
-    attachments: [buildXlsx_(header, displayRows, today)],
+    htmlBody: buildTable_(header, displayRows, rows.length, tabUrl),
+    name: 'CDOE Website',
   })
   // Only moved forward once the mail has gone. If building or sending it
   // fails, the next run picks up the same enquiries instead of dropping them.
@@ -166,6 +171,7 @@ function setupDailyTrigger() {
   }
 
   getSheet_() // creates the tab and header row if missing
+  shareSheetWithRecipients_()
 }
 
 // ---- Helpers ----------------------------------------------------------------
@@ -204,7 +210,41 @@ function escape_(v) {
     .replace(/>/g, '&gt;')
 }
 
-function buildTable_(header, rows, count) {
+// Puts one digest's enquiries in a tab named after the day ("14 Oct 2026")
+// and returns a link that opens the sheet on that tab. If the tab already
+// exists (a second digest on the same day), the rows are added below.
+function writeDigestTab_(header, rows, day) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet()
+  let tab = ss.getSheetByName(day)
+  if (!tab) {
+    tab = ss.insertSheet(day, 1) // just after the main Enquiries tab
+    tab.getRange(1, 1, 1, header.length).setValues([header]).setFontWeight('bold')
+    tab.setFrozenRows(1)
+  }
+  tab.getRange(tab.getLastRow() + 1, 1, rows.length, header.length).setValues(rows.map(asText_))
+  tab.autoResizeColumns(1, header.length)
+  SpreadsheetApp.flush()
+  return `${ss.getUrl()}#gid=${tab.getSheetId()}`
+}
+
+// Lets the people the digest goes to open the sheet it links to. Sharing is
+// best-effort: an address that already has access, or isn't a Google
+// account, is skipped.
+function shareSheetWithRecipients_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet()
+  DIGEST_TO.split(',')
+    .map((a) => a.trim())
+    .filter(Boolean)
+    .forEach((address) => {
+      try {
+        ss.addViewer(address)
+      } catch (err) {
+        console.warn(`Could not share the sheet with ${address}: ${err}`)
+      }
+    })
+}
+
+function buildTable_(header, rows, count, sheetUrl) {
   const th = header
     .map((h) => `<th style="background:#1b2f5c;color:#fff;padding:8px 10px;text-align:left;border:1px solid #d0d7e2">${escape_(h)}</th>`)
     .join('')
@@ -220,13 +260,16 @@ function buildTable_(header, rows, count) {
 
   return (
     `<p style="font-family:Arial,sans-serif">${count} enquir${count === 1 ? 'y was' : 'ies were'} received through the website since the last digest (about 24 hours). ` +
-    'The same list is attached as an Excel file.</p>' +
+    'The same list is saved in Google Sheets.</p>' +
+    `<p style="margin:16px 0"><a href="${sheetUrl}" style="background:#1b2f5c;color:#fff;padding:10px 18px;border-radius:6px;` +
+    'font-family:Arial,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;display:inline-block">Open in Google Sheets</a></p>' +
     `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px">` +
     `<thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table>`
   )
 }
 
-// Copies the day's rows into a temporary spreadsheet and exports it as .xlsx.
+// Copies rows into a temporary spreadsheet and exports it as .xlsx (used for
+// the per-enquiry email).
 function buildXlsx_(header, rows, today) {
   const temp = SpreadsheetApp.create(`CDOE enquiries ${today}`)
   try {

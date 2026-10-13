@@ -21,7 +21,7 @@ export default function AdmissionSidebar() {
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start w-full lg:w-64 shrink-0 relative z-10">
       <div className="glass-strong rounded-[22px] p-3 sm:p-4">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-2 mb-2">
+        <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-2 mb-2">
           Admission
         </p>
         <nav className="rail-nav">

@@ -1,4 +1,5 @@
-import { Phone, Mail } from 'lucide-react'
+import { Phone, Mail, ArrowRight } from 'lucide-react'
+import { createRipple } from '../utils/ripple.js'
 import { primaryAdmissionPhone, admissionEmails, applyNowUrl } from '../data/admission.js'
 import { studentLinks } from '../data/studentsCorner.js'
 
@@ -34,9 +35,10 @@ export default function TopBar() {
             href={applyNowUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="py-1.5 min-h-[32px] flex items-center font-semibold text-amber-300 hover:text-amber-200 transition-colors duration-350"
+            onMouseDown={createRipple}
+            className="btn-shine glass-btn-gold px-4 py-1 min-h-[30px] text-xs sm:text-sm font-bold"
           >
-            Apply Now
+            Apply Now <ArrowRight size={14} />
           </a>
           <span className="text-white/30">|</span>
           <a

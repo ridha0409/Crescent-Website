@@ -86,7 +86,7 @@ export default function CoursesTab() {
                       ? 'opacity-100 translate-x-0 scale-100 pointer-events-auto'
                       : 'opacity-0 -translate-x-3 scale-95 pointer-events-none'}`}
       >
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-2 mb-2">
+        <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-2 mb-2">
           Our Programmes
         </p>
         {levels.map(({ to, icon: Icon, title, count }) => (

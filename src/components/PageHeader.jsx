@@ -19,7 +19,7 @@ export default function PageHeader({ eyebrow, title, lede, align = 'left', class
   return (
     <header className={`${centered ? 'text-center' : ''} ${className}`}>
       {eyebrow && (
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
+        <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">
           {eyebrow}
         </p>
       )}
