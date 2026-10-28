@@ -15,7 +15,7 @@ export default function UGProgrammes() {
         <div className="flex-1 min-w-0">
           <PageHeader eyebrow="CDOE · Programmes" title="UG Programmes" lede="Undergraduate programmes offered at Crescent." className="mb-10" />
 
-          <ProgrammeGrid items={ugProgrammes} />
+          <ProgrammeGrid headingLevel={2} items={ugProgrammes} />
         </div>
       </div>
     </section>

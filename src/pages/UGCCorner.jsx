@@ -12,9 +12,8 @@ import { documentUrl } from '../data/documents.js'
  * stays put behind it. The file is served from this site, never an external
  * server.
  *
- * A document whose file is not in src/assets/PDF yet renders as a placeholder
- * "#" link — the same row, same styling, but it goes nowhere. The default jump
- * to the top of the page is suppressed so a click is simply inert.
+ * A document whose file is not in src/assets/PDF yet renders as the same row,
+ * greyed out and marked "Coming soon" — not a link — until the PDF is added.
  */
 function DocumentCard({ title, meta, doc }) {
   const url = documentUrl(doc)
@@ -29,16 +28,16 @@ function DocumentCard({ title, meta, doc }) {
         {meta && <p className="text-sm text-slate-500 mt-0.5">{meta}</p>}
       </div>
       <span className="flex items-center gap-1.5 text-xs font-medium text-slate-400 shrink-0 group-hover:text-navy-800 transition-colors duration-350">
-        PDF
+        {url ? 'PDF' : 'Coming soon'}
       </span>
     </>
   )
 
   if (!url) {
     return (
-      <a href="#" onClick={(e) => e.preventDefault()} className="glass-card p-5 flex items-center gap-4 group">
+      <div aria-disabled="true" className="glass-card p-5 flex items-center gap-4 opacity-60 cursor-not-allowed">
         {body}
-      </a>
+      </div>
     )
   }
 

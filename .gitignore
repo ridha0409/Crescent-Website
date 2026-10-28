@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Originals kept by scripts/flatten-pdfs.py before a PDF is flattened
+pdf-originals/

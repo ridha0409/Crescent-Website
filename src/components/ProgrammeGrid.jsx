@@ -2,7 +2,9 @@ import { ArrowRight, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { createRipple } from '../utils/ripple.js'
 
-export default function ProgrammeGrid({ items }) {
+export default function ProgrammeGrid({ items, headingLevel = 3 }) {
+  // Under a section H2 (home page) cards are H3; directly under a page H1 they are H2.
+  const Heading = `h${headingLevel}`
   if (!items.length) {
     return (
       <p className="text-center text-slate-500 py-10">
@@ -23,7 +25,7 @@ export default function ProgrammeGrid({ items }) {
           </div>
 
           <div className="p-6 flex flex-col flex-1">
-            <h3 className="text-lg font-bold text-navy-900 leading-snug">{p.title}</h3>
+            <Heading className="text-lg font-bold text-navy-900 leading-snug">{p.title}</Heading>
             <p className="text-gold font-bold text-base mt-1 mb-4">{p.short}</p>
 
             <ul className="text-[15px] font-semibold text-slate-800 space-y-2 mb-6">

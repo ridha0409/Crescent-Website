@@ -50,15 +50,10 @@ export default function AdmissionNotification() {
                 View PDF <Download size={15} />
               </a>
             ) : (
-              /* File not in src/assets/PDF yet — placeholder "#", click inert. */
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                onMouseDown={createRipple}
-                className="btn-shine glass-btn-solid px-5 py-2.5 text-sm shrink-0"
-              >
-                View PDF <Download size={15} />
-              </a>
+              /* File not in src/assets/PDF yet — disabled, not a dead link. */
+              <span aria-disabled="true" className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm shrink-0 glass text-slate-400 cursor-not-allowed select-none">
+                Coming soon <Download size={15} />
+              </span>
             )}
           </div>
 

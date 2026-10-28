@@ -258,11 +258,7 @@ programmeDetails['ba-public-policy'] = {
 
 programmeDetails['ba-english'] = {
   people: [
-    {
-      name: 'Dr. S. Vijayakumar',
-      role: 'Programme Coordinator, English',
-      photo: PHOTO.vijayakumar,
-    },
+    { name: 'Dr. S. Vijayakumar', role: 'Programme Coordinator, English', photo: PHOTO.vijayakumar },
     {
       name: 'Dr. Muththamizh Selvi S. I.',
       role: 'Faculty, English',

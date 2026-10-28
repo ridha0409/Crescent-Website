@@ -17,10 +17,9 @@ export default function SideTabs() {
   return createPortal(
     <div
       className="floating-rail fixed z-[65] pointer-events-auto flex gap-2
-                 safe-bottom left-4 flex-row items-end
-                 max-w-[calc(100vw-6.5rem)]
+                 bottom-5 left-4 flex-row items-end
                  sm:bottom-auto sm:left-auto sm:top-1/2 sm:right-0 sm:-translate-y-1/2
-                 sm:max-w-none sm:flex-col sm:items-end sm:gap-1.5"
+                 sm:flex-col sm:items-end sm:gap-1.5"
     >
       <Notices />
       <EnquireNow />

@@ -15,7 +15,7 @@ export default function PGProgrammes() {
         <div className="flex-1 min-w-0">
           <PageHeader eyebrow="CDOE · Programmes" title="PG Programmes" lede="Postgraduate programmes offered at Crescent." className="mb-10" />
 
-          <ProgrammeGrid items={pgProgrammes} />
+          <ProgrammeGrid headingLevel={2} items={pgProgrammes} />
         </div>
       </div>
     </section>

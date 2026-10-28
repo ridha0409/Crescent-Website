@@ -145,11 +145,10 @@ export default function ChatBot() {
   }
 
   return (
-    <div className="floating-rail fixed safe-bottom right-4 sm:right-5 z-[60] flex flex-col items-end gap-3">
-      {/* Chat panel — never taller than the viewport (landscape phones) and
-          never wider than it (320px phones), so it always fits on screen. */}
+    <div className="floating-rail fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+      {/* Chat panel */}
       {open && (
-        <div className="w-[min(22rem,calc(100vw-2rem))] sm:w-96 h-[min(28rem,calc(100dvh-7.5rem))] bg-white rounded-2xl shadow-2xl border border-navy-100 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4">
+        <div className="w-80 sm:w-96 h-[28rem] bg-white rounded-2xl shadow-2xl border border-navy-100 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4">
           {/* Header */}
           <div className="bg-navy-900 text-white px-4 py-3 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">

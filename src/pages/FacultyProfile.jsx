@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import usePageMeta from '../hooks/usePageMeta.js'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, UserRound, Mail, ExternalLink, ChevronRight } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
@@ -203,6 +204,14 @@ const TAB_ORDER = [
 export default function FacultyProfile() {
   const { slug } = useParams()
   const member = getFacultyBySlug(slug)
+  usePageMeta(
+    member
+      ? {
+          title: `${member.name} — ${member.designation}${member.programme ? `, ${member.programme}` : ''}`,
+          description: `${member.name}, ${member.designation}${member.programme ? ` (${member.programme})` : ''}, Centre for Distance and Online Education. ${member.qualification || ''}`,
+        }
+      : { title: 'Profile not found' }
+  )
 
   const grouped = useMemo(() => {
     const g = { overview: [], experience: [], publications: [], activities: [] }
@@ -245,11 +254,16 @@ export default function FacultyProfile() {
     )
   }
 
+  // Back to the tab this person is listed under (faculty open on Faculty;
+  // staff carry their own tab in `teamLink`).
+  const teamHref = member.programme ? '/about/cdoe-team' : `/about/cdoe-team${member.teamLink || '?tab=non-teaching'}`
+
   const details = [
     ['Designation', member.designation],
     member.role && ['Additional Role', member.role],
-    ['Programme', `${member.programme} (Online)`],
-    ['Nature of Employment', member.employment],
+    member.programme && ['Programme', `${member.programme} (Online)`],
+    member.group && ['Team', `CDOE ${member.group}`],
+    member.employment && ['Nature of Employment', member.employment],
     ['Qualification', member.qualification],
   ].filter(Boolean)
 
@@ -261,7 +275,7 @@ export default function FacultyProfile() {
           About Us
         </Link>
         <ChevronRight size={13} />
-        <Link to="/about/cdoe-team" className="hover:text-navy-800 transition-colors duration-350">
+        <Link to={teamHref} className="hover:text-navy-800 transition-colors duration-350">
           CDOE Team
         </Link>
         <ChevronRight size={13} />
@@ -273,7 +287,7 @@ export default function FacultyProfile() {
         <header className="grid gap-8 sm:grid-cols-[1fr_auto] sm:items-start">
           <div className="min-w-0 order-2 sm:order-1">
             <p className="text-[11px] font-semibold text-gold uppercase tracking-[0.2em]">
-              {member.programme} Programme · Faculty
+              {member.programme ? `${member.programme} Programme · Faculty` : `CDOE · ${member.group || 'Staff'}`}
             </p>
             <h1 className="text-[30px] sm:text-[40px] font-bold text-navy-900 tracking-tight leading-[1.1] mt-3">
               {member.name}
@@ -478,7 +492,7 @@ export default function FacultyProfile() {
             Rahman Crescent Institute of Science and Technology.
           </p>
           <Link
-            to="/about/cdoe-team"
+            to={teamHref}
             onMouseDown={createRipple}
             className="inline-flex items-center gap-1.5 text-[13px] font-medium text-navy-700 hover:text-navy-900 underline-offset-4 hover:underline transition-colors duration-350 shrink-0"
           >

@@ -2,6 +2,7 @@ import { Check, Compass, Target } from 'lucide-react'
 import ProgrammeSidebar from '../components/ProgrammeSidebar.jsx'
 import ProgrammeTabs from '../components/ProgrammeTabs.jsx'
 import useReveal from '../hooks/useReveal.js'
+import usePageMeta from '../hooks/usePageMeta.js'
 import ApplyNow from '../components/ApplyNow.jsx'
 import { getProgrammeDetails } from '../data/programmeDetails.js'
 import { institute } from '../data/institute.js'
@@ -22,6 +23,10 @@ export default function ProgrammeDetail({ programme }) {
     detailsKey,
   } = programme
   const { ref, className } = useReveal()
+  usePageMeta({
+    title: `${title} (${short}) — Online`,
+    description: `${title} online from CDOE, B.S. Abdur Rahman Crescent Institute of Science & Technology. ${duration}, ${approvals} approved. ${eligibility}`,
+  })
 
   // People / fees / documents / overview for this programme, mirrored from the
   // official per-programme pages. Absent for a programme not yet covered, in

@@ -142,6 +142,24 @@ export const documentRegistry = {
     file: 'MBA OL CY 2024.pdf',
     title: 'MBA OL — CY 2024',
   },
+  'admission-list-2025-26': {
+    // Not uploaded yet — drop the PDF in under exactly this name, then run
+    // `npm run pdf:flatten` so it is published as images like the rest.
+    file: 'Admission List 2025-2026.pdf',
+    title: 'Admission List 2025-2026',
+  },
+  'admission-list-mca-ay-2026': {
+    file: 'MCA ODL-OL AY 2026.pdf',
+    title: 'MCA ODL / OL — AY 2026',
+  },
+  'admission-list-mba-ay-2026': {
+    file: 'MBA ODL-OL AY 2026.pdf',
+    title: 'MBA ODL / OL — AY 2026',
+  },
+  'admission-list-bais-ay-2026': {
+    file: 'BA Islamic Studies OL AY 2026.pdf',
+    title: 'BA Islamic Studies OL — AY 2026',
+  },
   'admission-list-ay-2024-online': {
     file: 'Admission List AY 2024 Online.pdf',
     title: 'Admission List AY 2024 — Online',

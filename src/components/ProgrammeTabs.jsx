@@ -154,7 +154,12 @@ function DocumentPanel({ title, description, doc, href, cta, download = false })
         <p className="text-sm text-slate-600 mt-1 leading-relaxed">{description}</p>
 
         <p className="flex items-center gap-1.5 text-xs text-slate-400 mt-2">
-          {href && !localUrl ? (
+          {!localUrl && !href ? (
+            <>
+              <FileText size={13} className="shrink-0" />
+              Not published yet
+            </>
+          ) : href && !localUrl ? (
             <>
               <Globe size={13} className="shrink-0" />
               Opens on the Institute site in a new tab
@@ -195,15 +200,12 @@ function DocumentPanel({ title, description, doc, href, cta, download = false })
           {cta} <ExternalLink size={14} />
         </a>
       ) : (
-        /* File not in src/assets/PDF yet — a placeholder "#" that goes nowhere,
-           with the jump-to-top suppressed so the click is simply inert. */
-        <a
-          href="#"
-          onClick={(e) => e.preventDefault()}
-          className="btn-shine glass-btn-solid px-5 py-2.5 text-sm shrink-0"
-        >
-          {cta} <FileText size={14} />
-        </a>
+        /* Not published yet (no file in src/assets/PDF, no link) — a plainly
+           disabled label rather than a button that goes nowhere. It turns into
+           the real button by itself once the file is added. */
+        <span aria-disabled="true" className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm shrink-0 glass text-slate-400 cursor-not-allowed select-none">
+          Coming soon <FileText size={14} />
+        </span>
       )}
     </div>
   )

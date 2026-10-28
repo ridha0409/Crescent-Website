@@ -33,12 +33,12 @@ export default function Hero() {
       <div className="blob w-[380px] h-[380px] top-10 right-10 bg-gold/20 animate-float" aria-hidden="true" />
       <div ref={glowRef} className="mouse-glow" aria-hidden="true" />
 
-      <div className="container-xl relative grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center py-10 sm:py-14 lg:py-20">
+      <div className="container-xl relative grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center py-14 lg:py-20">
         <div className="relative z-10 text-white">
           <p className="text-crimson-300 font-semibold tracking-wide text-sm mb-3">
             Since {institute.established} · Centre for Distance and Online Education
           </p>
-          <h1 className="text-[clamp(2rem,7vw,3.25rem)] font-extrabold leading-[1.1] mb-4 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-extrabold leading-[1.1] mb-4 tracking-tight">
             UGC Entitled
             <br /> Online Programmes
           </h1>

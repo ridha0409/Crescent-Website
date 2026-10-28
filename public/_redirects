@@ -1,0 +1,3 @@
+# Netlify / Cloudflare Pages: serve the app for every address, so refreshing
+# or opening a deep link (e.g. /about/cdoe-team) works instead of a 404.
+/*    /index.html   200

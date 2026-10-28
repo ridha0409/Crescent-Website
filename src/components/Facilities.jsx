@@ -33,7 +33,7 @@ export default function Facilities() {
         <span className="block w-14 h-1 bg-gold mx-auto mt-3 rounded-full" />
       </h2>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
         {facilities.map((f) => (
           <div key={f.title} className="glass-card overflow-hidden">
             <img src={f.image} alt={f.title} className="w-full h-44 object-cover" />

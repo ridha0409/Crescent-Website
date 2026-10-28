@@ -9,21 +9,16 @@ import {
 import useReveal from '../hooks/useReveal.js'
 import { createRipple } from '../utils/ripple.js'
 import AboutLayout from '../components/AboutLayout.jsx'
-import { glanceStats, institute } from '../data/institute.js'
+import { institute } from '../data/institute.js'
 import campusPhoto from '../assets/site/academic-block.jpg'
 
 // Accreditation / character badges — qualitative only.
-// Anything numeric belongs in `highlights` below, so the two blocks
-// can never repeat each other.
 const facts = [
   { icon: GraduationCap, label: 'Deemed to be University' },
   { icon: ShieldCheck, label: 'UGC Entitled' },
   { icon: Award, label: 'AICTE Approved' },
   { icon: Users2, label: 'Expert Faculty' },
 ]
-
-// Numbers come from src/data/institute.js — the one place they are defined.
-const highlights = glanceStats
 
 const cards = [
   {
@@ -33,7 +28,7 @@ const cards = [
   },
   {
     title: 'Execution Team',
-    body: 'The Director, the CDOE team and the Planning & Monitoring Committee who run the Centre day to day.',
+    body: 'The Director and the CDOE team who run the Centre day to day.',
     to: '/about/execution-team',
   },
   {
@@ -91,23 +86,6 @@ export default function About() {
         create a place that you can call home now and throughout your life.
       </p>
 
-      {/* At a glance — the ONLY numbers block on this page */}
-      <div className="glass-strong rounded-[24px] p-5 sm:p-6 mb-6">
-        <p className="text-xs font-semibold text-crimson-600 uppercase tracking-wide mb-5">
-          At a glance
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-5 gap-x-4">
-          {highlights.map(({ value, label }) => (
-            <div key={label} className="text-center">
-              <p className="text-2xl font-bold text-navy-800 leading-none tabular-nums">
-                {value}
-              </p>
-              <p className="text-[11px] text-slate-500 mt-1.5 leading-tight">{label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Accreditations — qualitative badges, no numbers */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
         {facts.map(({ icon: Icon, label }) => (
@@ -122,7 +100,7 @@ export default function About() {
         ))}
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-3 gap-6">
         {cards.map(({ title, body, to }) => (
           <div key={to} className="glass-card p-6 flex flex-col">
             <h3 className="font-semibold text-navy-800 mb-2">{title}</h3>

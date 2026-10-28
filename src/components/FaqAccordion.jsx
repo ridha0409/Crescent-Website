@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
-import { Plus, Minus } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Plus, Minus, ExternalLink, ArrowRight } from 'lucide-react'
 
 /*
  * FAQ ACCORDION — shared by the home-page teaser and the full FAQ page.
@@ -15,14 +16,15 @@ import { Plus, Minus } from 'lucide-react'
  * browser's own find-in-page can still reach an answer that is collapsed.
  */
 
-function FaqItem({ item, isOpen, onToggle }) {
+function FaqItem({ item, isOpen, onToggle, headingLevel = 3 }) {
+  const Heading = `h${headingLevel}`
   const uid = useId()
   const panelId = `faq-panel-${uid}`
   const buttonId = `faq-button-${uid}`
 
   return (
     <div className="glass rounded-2xl overflow-hidden transition-all duration-350">
-      <h3>
+      <Heading>
         <button
           id={buttonId}
           type="button"
@@ -40,7 +42,7 @@ function FaqItem({ item, isOpen, onToggle }) {
             <Plus size={16} className="text-gold shrink-0 mt-0.5" />
           )}
         </button>
-      </h3>
+      </Heading>
 
       <div
         id={panelId}
@@ -54,6 +56,37 @@ function FaqItem({ item, isOpen, onToggle }) {
             {paragraph}
           </p>
         ))}
+
+        {item.steps && (
+          <ol className="list-decimal pl-5 space-y-1.5 text-sm text-slate-500 leading-relaxed marker:text-crimson-600 marker:font-semibold">
+            {item.steps.map((step, i) => (
+              <li key={i}>{step}</li>
+            ))}
+          </ol>
+        )}
+
+        {item.links && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {item.links.map(({ label, href }) =>
+              // A path on this site stays in the tab; an outside portal opens a new one.
+              href.startsWith('/') ? (
+                <Link key={href} to={href} className="btn-shine glass-btn-solid px-4 py-2 text-xs">
+                  {label} <ArrowRight size={13} />
+                </Link>
+              ) : (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-shine glass-btn-solid px-4 py-2 text-xs"
+                >
+                  {label} <ExternalLink size={13} />
+                </a>
+              )
+            )}
+          </div>
+        )}
 
         {item.table && (
           <div className="overflow-x-auto">
@@ -100,7 +133,7 @@ function FaqItem({ item, isOpen, onToggle }) {
  * @param {string}   className  grid classes — the caller decides 1 or 2 columns
  * @param {number}   defaultOpenIndex  -1 (default) opens nothing
  */
-export default function FaqAccordion({ items, className = '', defaultOpenIndex = -1 }) {
+export default function FaqAccordion({ items, className = '', defaultOpenIndex = -1, headingLevel = 3 }) {
   const [openId, setOpenId] = useState(items[defaultOpenIndex]?.id ?? null)
 
   if (!items.length) {
@@ -119,6 +152,7 @@ export default function FaqAccordion({ items, className = '', defaultOpenIndex =
           item={item}
           isOpen={openId === item.id}
           onToggle={() => setOpenId(openId === item.id ? null : item.id)}
+          headingLevel={headingLevel}
         />
       ))}
     </div>

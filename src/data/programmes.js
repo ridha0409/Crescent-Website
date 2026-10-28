@@ -1,13 +1,16 @@
-import { GraduationCap, Users, BookOpenText, Scale, Landmark, Languages } from 'lucide-react'
+import { GraduationCap, Users, BookOpenText } from 'lucide-react'
+// HIDDEN FOR NOW: icons for BA Public Policy, BA English, MA Islamic Studies
+// import { Scale, Landmark, Languages } from 'lucide-react'
 
 // Card illustrations: each one shows the course name with objects from that
 // subject. See src/assets/site/SOURCES.md.
 import mbaImage from '../assets/site/mba.svg'
 import mcaImage from '../assets/site/mca.svg'
 import islamicStudiesImage from '../assets/site/ba-islamic-studies.svg'
-import publicPolicyImage from '../assets/site/ba-public-policy.svg'
-import maIslamicImage from '../assets/site/ma-islamic-studies.svg'
-import englishImage from '../assets/site/ba-english.svg'
+// HIDDEN FOR NOW: card illustrations for the hidden programmes
+// import publicPolicyImage from '../assets/site/ba-public-policy.svg'
+// import maIslamicImage from '../assets/site/ma-islamic-studies.svg'
+// import englishImage from '../assets/site/ba-english.svg'
 
 // Single source of truth for every programme on the site.
 // `level` drives the UG / PG filtered listing pages + the navbar dropdown.
@@ -54,44 +57,50 @@ export const programmes = [
     approvals: 'UGC',
     fees: '₹ 15,000 / Year',
   },
-  {
-    icon: Scale,
-    title: 'Bachelor of Arts in Public Policy',
-    short: 'BA Public Policy',
-    path: '/programmes/ba-public-policy',
-    level: 'UG',
-    image:
-      publicPolicyImage,
-    duration: '3 Years',
-    approvals: 'UGC',
-    // Same undergraduate fee structure as BA Islamic Studies — charged per
-    // year, not per semester. See data/programmeDetails.js.
-    fees: '₹ 15,000 / Year',
-  },
-  {
-    icon: Languages,
-    title: 'Bachelor of Arts in English',
-    short: 'BA English',
-    path: '/programmes/ba-english',
-    level: 'UG',
-    image:
-      englishImage,
-    duration: '3 Years',
-    approvals: 'UGC',
-    fees: '₹ 15,000 / Year',
-  },
-  {
-    icon: Landmark,
-    title: 'Master of Arts in Islamic Studies',
-    short: 'MA Islamic Studies',
-    path: '/programmes/ma-islamic-studies',
-    level: 'PG',
-    image:
-      maIslamicImage,
-    duration: '2 Years',
-    approvals: 'UGC',
-    fees: 'As per notification',
-  },
+  /*
+   * HIDDEN FOR NOW — only BA Islamic Studies (UG) and MBA / MCA (PG) are offered at
+   * present. To bring a programme back, uncomment it here AND its matching
+   * "HIDDEN FOR NOW" lines in App.jsx, Navbar.jsx, cdoeTeam.js (facultyLevels) and the
+   * UG / PG banner SVGs.
+   */
+  // {
+    // icon: Scale,
+    // title: 'Bachelor of Arts in Public Policy',
+    // short: 'BA Public Policy',
+    // path: '/programmes/ba-public-policy',
+    // level: 'UG',
+    // image:
+      // publicPolicyImage,
+    // duration: '3 Years',
+    // approvals: 'UGC',
+    // // Same undergraduate fee structure as BA Islamic Studies — charged per
+    // // year, not per semester. See data/programmeDetails.js.
+    // fees: '₹ 15,000 / Year',
+  // },
+  // {
+    // icon: Languages,
+    // title: 'Bachelor of Arts in English',
+    // short: 'BA English',
+    // path: '/programmes/ba-english',
+    // level: 'UG',
+    // image:
+      // englishImage,
+    // duration: '3 Years',
+    // approvals: 'UGC',
+    // fees: '₹ 15,000 / Year',
+  // },
+  // {
+    // icon: Landmark,
+    // title: 'Master of Arts in Islamic Studies',
+    // short: 'MA Islamic Studies',
+    // path: '/programmes/ma-islamic-studies',
+    // level: 'PG',
+    // image:
+      // maIslamicImage,
+    // duration: '2 Years',
+    // approvals: 'UGC',
+    // fees: 'As per notification',
+  // },
 ]
 
 export const featuredProgrammes = programmes.filter((p) => p.featured)

@@ -107,8 +107,8 @@ function NoticeRow({ entry }) {
  *
  * The visitor can still take over: hover, focus or a touch pauses it, the
  * wheel, a finger drag and the arrow keys move it by hand, and it picks itself
- * back up a moment after they stop. With reduced motion it never drifts on its
- * own, but the manual controls still work.
+ * back up a moment after they stop. It runs on every device, including ones
+ * set to reduce motion — the visitor asked for it to move on every screen.
  */
 const SCROLL_SPEED = 22 // pixels per second — slow enough to read while it moves
 const RESUME_DELAY = 2500 // ms of stillness before it picks itself back up
@@ -122,11 +122,9 @@ function useTicker(enabled) {
     const track = trackRef.current
     if (!enabled || !viewport || !track) return
 
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
-
     let frame = 0
     let resumeTimer = 0
-    let paused = Boolean(reduced)
+    let paused = false
     let last = 0
     let offset = 0
     let touchY = null
@@ -140,8 +138,9 @@ function useTicker(enabled) {
       track.style.transform = `translate3d(0, ${-offset}px, 0)`
     }
 
-    const step = (now) => {
-      frame = requestAnimationFrame(step)
+    // Movement is worked out from the time since the previous tick, so it does
+    // not matter which of the two drivers below calls it, or how often.
+    const advance = (now) => {
       if (!last) last = now
       const elapsed = Math.min(now - last, 100) // no jump after a background tab
       last = now
@@ -150,6 +149,20 @@ function useTicker(enabled) {
       render()
     }
 
+    // Animation frames give the smoothest motion, but some phone browsers,
+    // in-app webviews and battery savers throttle or stop them. The watchdog
+    // keeps the ticker moving whenever frames have not arrived for a moment.
+    let lastFrame = 0
+    const step = (now) => {
+      frame = requestAnimationFrame(step)
+      lastFrame = now
+      advance(now)
+    }
+    const watchdog = setInterval(() => {
+      const now = performance.now()
+      if (now - lastFrame > 200) advance(now)
+    }, 40)
+
     const pause = () => {
       paused = true
       clearTimeout(resumeTimer)
@@ -157,7 +170,6 @@ function useTicker(enabled) {
 
     const release = () => {
       clearTimeout(resumeTimer)
-      if (reduced) return
       resumeTimer = setTimeout(() => {
         paused = false
       }, RESUME_DELAY)
@@ -197,9 +209,16 @@ function useTicker(enabled) {
       nudge(delta)
     }
 
-    viewport.addEventListener('mouseenter', pause)
-    viewport.addEventListener('mouseleave', release)
-    viewport.addEventListener('focusin', pause)
+    // Hover pauses only for a real mouse, and focus only for the keyboard.
+    // A tap on a phone fires both with no matching leave/blur, which used to
+    // freeze the ticker for good after the first touch.
+    const onPointerEnter = (e) => e.pointerType === 'mouse' && pause()
+    const onPointerLeave = (e) => e.pointerType === 'mouse' && release()
+    const onFocusIn = () => viewport.matches(':focus-visible') && pause()
+
+    viewport.addEventListener('pointerenter', onPointerEnter)
+    viewport.addEventListener('pointerleave', onPointerLeave)
+    viewport.addEventListener('focusin', onFocusIn)
     viewport.addEventListener('focusout', release)
     viewport.addEventListener('wheel', onWheel, { passive: false })
     viewport.addEventListener('touchstart', onTouchStart, { passive: true })
@@ -213,10 +232,11 @@ function useTicker(enabled) {
 
     return () => {
       cancelAnimationFrame(frame)
+      clearInterval(watchdog)
       clearTimeout(resumeTimer)
-      viewport.removeEventListener('mouseenter', pause)
-      viewport.removeEventListener('mouseleave', release)
-      viewport.removeEventListener('focusin', pause)
+      viewport.removeEventListener('pointerenter', onPointerEnter)
+      viewport.removeEventListener('pointerleave', onPointerLeave)
+      viewport.removeEventListener('focusin', onFocusIn)
       viewport.removeEventListener('focusout', release)
       viewport.removeEventListener('wheel', onWheel)
       viewport.removeEventListener('touchstart', onTouchStart)

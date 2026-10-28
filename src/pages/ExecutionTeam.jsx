@@ -7,14 +7,15 @@ import photoSharonPriya from '../assets/faculty/dr-s-sharon-priya.jpg'
 import photoSabinBegum from '../assets/faculty/dr-r-sabin-begum.jpg'
 
 // Photos served from public/img/. Prefixed with the site's base path so they
-// load under /Crescent-Website/ on GitHub Pages, not from the domain root.
+// load under a sub-path (e.g. /Crescent-Website/ on GitHub Pages) too.
 const SITE = import.meta.env.BASE_URL
 
 // Director — the only entry on this page that carries a message.
 const director = {
   name: 'Dr. A. Jaya',
   designation: 'Professor & Director',
-  photo: `${SITE}img/mca/people/jaya.jpg`,
+  // Upscaled and cleaned from the 150px original (img/mca/people/jaya.jpg).
+  photo: `${SITE}img/execution/dr-a-jaya-hd.jpg`,
   message: [],
 }
 
@@ -42,31 +43,6 @@ const groups = [
         name: 'Dr. S. Thowseaf',
         designation: 'Assistant Professor / Assistant Director, CDOE',
         photo: photoThowseaf,
-      },
-    ],
-  },
-  {
-    heading: 'Planning & Monitoring Committee',
-    people: [
-      {
-        name: 'Dr. Latha Tamilselvan',
-        designation: 'Professor & Director, MIS',
-        photo: `${SITE}img/execution/DR.LATHATAMILSELVAN.jpg`,
-      },
-      {
-        name: 'Dr. C. Tharini',
-        designation: 'Professor & Dean, SECS',
-        photo: `${SITE}img/execution/Dr.C.Tharini.jpg`,
-      },
-      {
-        name: 'Dr. Sharmila Sankar',
-        designation: 'Professor & Dean, SCIMS',
-        photo: `${SITE}img/execution/DR.SHARMILASANKAR.jpg`,
-      },
-      {
-        name: 'Dr. Aisha Banu',
-        designation: 'Professor & HOD, CSE',
-        photo: `${SITE}img/execution/DR.AISHABANU.jpg`,
       },
     ],
   },
@@ -202,7 +178,7 @@ export default function ExecutionTeam() {
   return (
     <AboutLayout
       title="Execution Team"
-      lede="The Centre for Distance and Online Education is committed to providing quality education through online and distance mode — steered by the Director's office, the CDOE team and the Planning & Monitoring Committee."
+      lede="The Centre for Distance and Online Education is committed to providing quality education through online and distance mode — steered by the Director's office and the CDOE team."
       contentRef={ref}
       contentClassName={className}
     >

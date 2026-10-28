@@ -40,10 +40,10 @@ export default function ProgrammeLevelSplit() {
           </div>
 
           <div className="p-6 sm:p-8 flex flex-col flex-1">
-            <h3 className="text-xl font-bold text-navy-800 mb-2">
+            <h2 className="text-xl font-bold text-navy-800 mb-2">
               {title}
               <span className="programme-card-bar" />
-            </h3>
+            </h2>
 
             <p className="text-sm text-slate-600 leading-relaxed mb-5">{desc}</p>
 

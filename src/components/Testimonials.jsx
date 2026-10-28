@@ -5,9 +5,9 @@ import { testimonials, gallery } from '../data/testimonials.js'
  * HOME — STUDENT TESTIMONIALS + GALLERY
  * ---------------------------------------------------------------------------
  * Two columns that stay aligned to the pixel: testimonials on the left, the
- * campus gallery on the right. The gallery shows one photograph at a time and
- * rotates itself every few seconds; arrows and dots are there for anyone who
- * wants to drive it. Photographs are display only — there is no full-screen
+ * campus gallery on the right. Both rotate by themselves — a new quote every
+ * 7 seconds, a new photograph every 4.5 — and arrows and dots are there for
+ * anyone who wants to drive them. Photographs are display only — there is no full-screen
  * single-image view. This replaces the "Why Learn With Crescent" and
  * "Approvals & Accreditations" pair that used to sit here — both of those facts
  * still appear elsewhere on the site (the accreditation badges in the footer
@@ -209,8 +209,8 @@ const styles = `
     white-space:nowrap;
     font-variant-numeric:tabular-nums;
   }
-  /* Someone who has asked for less motion gets a still first photo — the
-     auto-advance is switched off in JS to match. */
+  /* Someone who has asked for less motion still gets the slideshow, but the
+     photos swap instantly instead of crossfading. */
   @media(prefers-reduced-motion: reduce){
     .saa-slide{ transition:none; }
   }
@@ -239,6 +239,15 @@ const styles = `
   .saa-nav-left{ left:10px; }
   .saa-nav-right{ right:10px; }
 
+  .saa-card-in{ animation:saa-fade-in .6s ease both; }
+  @keyframes saa-fade-in{
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:none; }
+  }
+  @media(prefers-reduced-motion: reduce){
+    .saa-card-in{ animation:none; }
+  }
+
   .saa-dots{
     display:flex;
     align-items:center;
@@ -248,6 +257,7 @@ const styles = `
     justify-content:flex-start;
   }
   .saa-dot{
+    position:relative;
     width:8px;
     height:8px;
     border-radius:50%;
@@ -258,6 +268,13 @@ const styles = `
     padding:0;
     flex-shrink:0;
   }
+  /* The dot stays 8px, but the tappable area is a comfortable 24px. */
+  .saa-dot::after{
+    content:'';
+    position:absolute;
+    inset:-8px;
+  }
+
   .saa-dot.active{
     width:28px;
     border-radius:5px;
@@ -289,9 +306,9 @@ const styles = `
 
 /* ================= Testimonial card ================= */
 
-function TestimonialCard({ item, onPrev, onNext }) {
+function TestimonialCard({ item, onPrev, onNext, onPointerEnter, onPointerLeave }) {
   return (
-    <div className="saa-carousel">
+    <div className="saa-carousel" onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave}>
       <button className="saa-nav-btn saa-nav-left" onClick={onPrev} aria-label="Previous testimonial">
         &#8249;
       </button>
@@ -299,7 +316,8 @@ function TestimonialCard({ item, onPrev, onNext }) {
         &#8250;
       </button>
 
-      <figure className="saa-card">
+      {/* Keyed by the quote so each new one fades in rather than snapping. */}
+      <figure className="saa-card saa-card-in" key={item.name + item.quote}>
         <span className="saa-quote-mark" aria-hidden="true">&ldquo;</span>
 
         <p className="saa-eyebrow">Student voice</p>
@@ -337,11 +355,14 @@ function Dots({ count, index, onSelect, label }) {
 
 /** How long each photograph is held before the gallery moves on. */
 const SLIDE_MS = 4500
+/** Quotes are held longer than photos — they have to be read. */
+const QUOTE_MS = 7000
 
 export default function TestimonialsAndGallery() {
   const [quoteIndex, setQuoteIndex] = useState(0)
   const [slide, setSlide] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [quotePaused, setQuotePaused] = useState(false)
 
   const stepQuote = (dir) =>
     setQuoteIndex((i) => (i + dir + testimonials.length) % testimonials.length)
@@ -350,19 +371,35 @@ export default function TestimonialsAndGallery() {
   const selectSlide = (i) => setSlide(i)
 
   /*
-   * Auto-rotation. It stands down while the pointer or keyboard focus is on the
-   * gallery, so a photo never slides out from under someone looking at it.
-   * Honours prefers-reduced-motion by not running at all. `slide` is in the dependency list on purpose: stepping by hand
-   * tears the interval down and starts a fresh one, so a click is never
-   * followed by an automatic advance a moment later.
+   * Auto-rotation — runs on every screen and every device.
+   * It stands down only while a real mouse is over the gallery, so a photo
+   * never slides out from under someone looking at it. Touch is ignored on
+   * purpose: phones fire a synthetic hover/focus on tap with no matching
+   * "leave", which used to freeze the gallery after the first tap. It also
+   * keeps running when the OS asks for reduced motion (the crossfade is
+   * switched off in CSS instead), since many Windows laptops ship with that on.
+   * `slide` is in the dependency list on purpose: stepping by hand tears the
+   * interval down and starts a fresh one, so a click is never followed by an
+   * automatic advance a moment later.
    */
   useEffect(() => {
     if (paused || gallery.length < 2) return
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
-
     const id = setInterval(() => setSlide((i) => (i + 1) % gallery.length), SLIDE_MS)
     return () => clearInterval(id)
   }, [paused, slide])
+
+  const onPointerEnter = (e) => e.pointerType === 'mouse' && setPaused(true)
+  const onPointerLeave = () => setPaused(false)
+
+  // Testimonials rotate the same way, on their own slower timer.
+  useEffect(() => {
+    if (quotePaused || testimonials.length < 2) return
+    const id = setInterval(
+      () => setQuoteIndex((i) => (i + 1) % testimonials.length),
+      QUOTE_MS,
+    )
+    return () => clearInterval(id)
+  }, [quotePaused, quoteIndex])
 
   return (
     <div className="saa-wrapper">
@@ -378,6 +415,8 @@ export default function TestimonialsAndGallery() {
             item={testimonials[quoteIndex]}
             onPrev={() => stepQuote(-1)}
             onNext={() => stepQuote(1)}
+            onPointerEnter={(e) => e.pointerType === 'mouse' && setQuotePaused(true)}
+            onPointerLeave={() => setQuotePaused(false)}
           />
 
           <Dots
@@ -395,10 +434,8 @@ export default function TestimonialsAndGallery() {
 
           <div
             className="saa-carousel"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocus={() => setPaused(true)}
-            onBlur={() => setPaused(false)}
+            onPointerEnter={onPointerEnter}
+            onPointerLeave={onPointerLeave}
           >
             <button
               className="saa-nav-btn saa-nav-left"

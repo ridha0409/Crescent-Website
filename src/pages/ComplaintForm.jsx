@@ -13,6 +13,7 @@ import useReveal from '../hooks/useReveal.js'
 import { createRipple } from '../utils/ripple.js'
 import StudentsCornerSidebar from '../components/StudentsCornerSidebar.jsx'
 import PageHeader from '../components/PageHeader.jsx'
+import HoneypotField, { HONEYPOT_NAME, looksLikeBot } from '../components/HoneypotField.jsx'
 import { grievanceCell } from '../data/studentsCorner.js'
 import { programmes } from '../data/programmes.js'
 
@@ -23,7 +24,8 @@ import { programmes } from '../data/programmes.js'
  * a real form on this site, so a learner never leaves mid-grievance.
  *
  * HOW A SUBMISSION IS DELIVERED
- * Every complaint goes to CDOE support (COMPLAINT_INBOX). This is a static
+ * Every complaint goes to the Students Grievance Redressal Cell's inbox
+ * (COMPLAINT_INBOX — the address the Contact page lists for grievances). This is a static
  * front end with no server of its own, so the form posts the answers to
  * FormSubmit (formsubmit.co), which emails them to that inbox as a table with
  * the learner's address set as reply-to — the learner never leaves the page.
@@ -39,7 +41,7 @@ import { programmes } from '../data/programmes.js'
  */
 
 /** Where every complaint is sent. */
-const COMPLAINT_INBOX = grievanceCell.supportEmail
+const COMPLAINT_INBOX = grievanceCell.email
 const COMPLAINT_ENDPOINT = `https://formsubmit.co/ajax/${COMPLAINT_INBOX}`
 
 const CATEGORIES = [
@@ -176,6 +178,8 @@ export default function ComplaintForm() {
   const [copied, setCopied] = useState(false)
   const [sendError, setSendError] = useState(false)
   const errorSummaryRef = useRef(null)
+  const honeypotRef = useRef(null)
+  const openedAt = useRef(Date.now())
 
   const programmeOptions = useMemo(() => programmes.map((p) => p.short), [])
 
@@ -212,7 +216,10 @@ export default function ComplaintForm() {
           _subject: subject,
           _replyto: values.email.trim(),
           _template: 'table',
+          // FormSubmit's CAPTCHA cannot show on an AJAX send; the honeypot
+          // (blank for real learners) lets FormSubmit discard bot posts.
           _captcha: 'false',
+          [HONEYPOT_NAME]: honeypotRef.current?.value || '',
           Reference: reference,
           Name: values.name.trim(),
           'Register / Application No': values.registerNo.trim() || '—',
@@ -245,6 +252,13 @@ export default function ComplaintForm() {
 
     const reference = makeReference()
     const body = composeBody(values, reference)
+
+    // Spam: drop it quietly and show the usual confirmation, so a bot learns nothing.
+    if (looksLikeBot(honeypotRef.current?.value, openedAt.current)) {
+      setSubmitted({ reference, body, replyTo: values.email.trim() })
+      return
+    }
+
     setSending(true)
     setSendError(false)
     const sent = await deliver(reference)
@@ -349,7 +363,8 @@ export default function ComplaintForm() {
             </div>
           ) : (
             /* ---------------- Form ---------------- */
-            <form onSubmit={handleSubmit} noValidate className="glass-strong rounded-[24px] p-5 sm:p-7">
+            <form onSubmit={handleSubmit} noValidate className="relative glass-strong rounded-[24px] p-5 sm:p-7">
+              <HoneypotField inputRef={honeypotRef} />
               {/* Error summary — focused on a failed submit */}
               <div
                 ref={errorSummaryRef}

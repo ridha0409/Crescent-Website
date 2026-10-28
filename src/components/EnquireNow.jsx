@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { X, Send, Loader2 } from 'lucide-react'
 import { createRipple } from '../utils/ripple.js'
+import HoneypotField, { HONEYPOT_NAME, looksLikeBot } from './HoneypotField.jsx'
 
 // Enquiries are handled by the Google Apps Script in apps-script/. For every
 // enquiry it emails CDOE support straight away AND saves a row in a Google
@@ -28,6 +29,8 @@ async function sendToDigest(form) {
       Email: form.email,
       Message: form.message,
       Page: window.location.pathname,
+      // Blank for real visitors; the Apps Script drops any enquiry that fills it.
+      [HONEYPOT_NAME]: form[HONEYPOT_NAME],
     }),
   })
   const result = await res.json().catch(() => ({}))
@@ -47,7 +50,10 @@ async function sendByEmail(form) {
       _subject: `New enquiry from ${form.name.trim() || 'the website'}`,
       _replyto: form.email,
       _template: 'table',
+      // FormSubmit's CAPTCHA cannot show on an AJAX send; it discards any post
+      // whose honeypot is filled.
       _captcha: 'false',
+      [HONEYPOT_NAME]: form[HONEYPOT_NAME],
       Name: form.name,
       Phone: form.phone,
       Email: form.email,
@@ -68,6 +74,13 @@ export default function EnquireNow() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const honeypotRef = useRef(null)
+  const openedAt = useRef(0)
+
+  const openForm = () => {
+    openedAt.current = Date.now()
+    setOpen(true)
+  }
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -75,28 +88,40 @@ export default function EnquireNow() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitting(true)
     setError('')
 
-    try {
-      if (DIGEST_ENDPOINT) {
-        // The script sends the instant email itself. If it cannot be reached,
-        // FormSubmit is tried so the enquiry is not lost.
-        try {
-          await sendToDigest(form)
-        } catch {
-          await sendByEmail(form)
-        }
-      } else {
-        await sendByEmail(form)
-      }
-
+    const thankAndClose = () => {
       setSubmitted(true)
       setTimeout(() => {
         setSubmitted(false)
         setOpen(false)
         setForm({ name: '', phone: '', email: '', message: '' })
       }, 1800)
+    }
+
+    // Spam: drop it quietly and thank as usual, so a bot learns nothing.
+    const honeypot = honeypotRef.current?.value || ''
+    if (looksLikeBot(honeypot, openedAt.current)) {
+      thankAndClose()
+      return
+    }
+    const payload = { ...form, [HONEYPOT_NAME]: honeypot }
+
+    setSubmitting(true)
+    try {
+      if (DIGEST_ENDPOINT) {
+        // The script sends the instant email itself. If it cannot be reached,
+        // FormSubmit is tried so the enquiry is not lost.
+        try {
+          await sendToDigest(payload)
+        } catch {
+          await sendByEmail(payload)
+        }
+      } else {
+        await sendByEmail(payload)
+      }
+
+      thankAndClose()
     } catch (err) {
       setError(
         'We could not send that just now. Please call MBA +91 97909 53750, MCA +91 94444 37309 or BA Islamic Studies +91 86675 30226, or email cdoesupport@crescent.education.'
@@ -116,7 +141,7 @@ export default function EnquireNow() {
       */}
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={openForm}
         onMouseDown={createRipple}
         aria-label="Open enquiry form"
         className="btn-shine relative overflow-hidden text-white
@@ -143,13 +168,17 @@ export default function EnquireNow() {
           onClick={() => setOpen(false)}
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="enquiry-title"
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
             className="glass-strong w-full max-w-sm rounded-[26px] overflow-hidden animate-fade-in-up"
           >
             {/* Header */}
             <div className="glass-dark text-white px-5 py-4 flex items-center justify-between">
               <div>
-                <p className="font-semibold leading-none">Quick Enquiry</p>
+                <p id="enquiry-title" className="font-semibold leading-none">Quick Enquiry</p>
                 <p className="text-xs text-white/60 mt-1">We'll get back to you shortly</p>
               </div>
               <button
@@ -170,7 +199,8 @@ export default function EnquireNow() {
                   <p className="text-sm text-slate-500">Your enquiry has been received.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3">
+                <form onSubmit={handleSubmit} className="relative space-y-3">
+                  <HoneypotField inputRef={honeypotRef} />
                   <input
                     name="name"
                     value={form.name}
@@ -186,6 +216,13 @@ export default function EnquireNow() {
                     onChange={handleChange}
                     required
                     type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    // Same rule as the complaint form: an optional +, then 8–18
+                    // digits, spaces or dashes. The hyphen is escaped because
+                    // browsers compile pattern with the v flag.
+                    pattern="[+0-9][0-9 \-]{7,17}"
+                    title="Enter a phone number of 8–18 digits, e.g. +91 98765 43210"
                     placeholder="Phone Number"
                     className="w-full text-sm px-4 py-2.5 rounded-full glass outline-none
                                focus:ring-2 focus:ring-navy-800/20 transition-all duration-350 ease-in-out"

@@ -19,9 +19,8 @@ import { admissionEmails, admissionContacts } from '../data/admission.js'
  * A document row. The href is the bundled PDF itself, so a click opens it
  * straight away in a new tab and this page stays put.
  *
- * A file that is not in src/assets/PDF yet renders as a placeholder "#" link —
- * identical row, goes nowhere, and the click is swallowed so the page does not
- * jump to the top.
+ * A file that is not in src/assets/PDF yet renders as the same row, greyed out
+ * and marked "Coming soon" — not a link — until the PDF is dropped in.
  */
 function DocumentRow({ doc, title, meta, description }) {
   const url = documentUrl(doc)
@@ -39,16 +38,16 @@ function DocumentRow({ doc, title, meta, description }) {
         )}
       </div>
       <span className="text-xs font-medium text-slate-400 shrink-0 group-hover:text-navy-800 transition-colors duration-350">
-        PDF
+        {url ? 'PDF' : 'Coming soon'}
       </span>
     </>
   )
 
   if (!url) {
     return (
-      <a href="#" onClick={(e) => e.preventDefault()} className="glass-card p-5 flex items-start gap-4 group">
+      <div aria-disabled="true" className="glass-card p-5 flex items-start gap-4 opacity-60 cursor-not-allowed">
         {body}
-      </a>
+      </div>
     )
   }
 

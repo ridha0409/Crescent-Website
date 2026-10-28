@@ -26,7 +26,7 @@ export const grievanceCell = {
   abbreviation: 'SGRC',
   location: "Convention Centre, B.S. Abdur Rahman Crescent Institute of Science & Technology",
   nodalOfficer: {
-    name: 'Ms. P. Paul Merline',
+    name: 'Mrs. P. Paul Merline',
     designation: 'Technical Manager (LMS & Data Management) & Nodal Officer',
     // Same portrait the CDOE Team › Technical Team card uses.
     photo: `${import.meta.env.BASE_URL}img/technical/merline.jpg`,

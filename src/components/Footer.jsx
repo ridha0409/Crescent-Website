@@ -48,13 +48,9 @@ export default function Footer() {
     <footer
       id="footer"
       style={footerBg}
-      // pb-28 on phones is clearance for the floating Events / Enquire pills,
-      // which would otherwise sit on top of the last line of the footer.
-      className="text-white pt-10 pb-28 sm:pb-5 mt-8 rounded-t-[36px]"
+      className="text-white pt-10 pb-5 mt-8 rounded-t-[36px]"
     >
-      {/* Two columns on a tablet rather than three — three squeezed the
-          contact column until the email address broke mid-word. */}
-      <div className="container-xl grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="container-xl grid gap-8 md:grid-cols-3">
         {/* Who and where */}
         <div>
           <Link to="/" className="inline-block rounded-xl bg-white px-3 py-2">
@@ -110,7 +106,7 @@ export default function Footer() {
             <li>
               <a
                 href={`mailto:${admissionEmails.enquiry}`}
-                className={`${linkClass} break-words`}
+                className={`${linkClass} break-all`}
               >
                 <Mail size={13} className="shrink-0" />
                 {admissionEmails.enquiry}

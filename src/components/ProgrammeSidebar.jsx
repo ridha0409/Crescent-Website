@@ -35,7 +35,7 @@ export default function ProgrammeSidebar({ level }) {
 
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start w-full lg:w-64 shrink-0">
-      <div className="glass-strong rounded-[22px] p-3 sm:p-4">
+      <div className="glass-strong rounded-[22px] p-4">
         {levels.map((key, index) => {
           const { heading, listPath, items } = LEVEL_META[key]
 
@@ -48,7 +48,7 @@ export default function ProgrammeSidebar({ level }) {
                 {heading}
               </NavLink>
 
-              <nav className="rail-nav">
+              <nav className="space-y-1">
                 {items.map(({ path, short, icon: Icon }) => (
                   <NavLink key={path} to={path} className={linkClass}>
                     <Icon size={16} className="shrink-0" />

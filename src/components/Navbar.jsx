@@ -44,8 +44,9 @@ const links = [
         to: '/programmes/ug',
         submenu: [
           { label: 'BA Islamic Studies', to: '/programmes/ba-islamic-studies' },
-          { label: 'BA Public Policy', to: '/programmes/ba-public-policy' },
-          { label: 'BA English', to: '/programmes/ba-english' },
+          // HIDDEN FOR NOW
+          // { label: 'BA Public Policy', to: '/programmes/ba-public-policy' },
+          // { label: 'BA English', to: '/programmes/ba-english' },
         ],
       },
       {
@@ -54,7 +55,8 @@ const links = [
         submenu: [
           { label: 'MBA', to: '/programmes/mba' },
           { label: 'MCA', to: '/programmes/mca' },
-          { label: 'MA Islamic Studies', to: '/programmes/ma-islamic-studies' },
+          // HIDDEN FOR NOW
+          // { label: 'MA Islamic Studies', to: '/programmes/ma-islamic-studies' },
         ],
       },
     ],
@@ -113,16 +115,25 @@ export default function Navbar() {
   const [activeSub, setActiveSub] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  // While the mobile menu is open the floating rails (Events / Enquire pills
-  // and the chat bubble) would sit on top of the last menu entries, so the
-  // body carries a flag that hides them — see `body.nav-open` in index.css.
+  // While the phone menu is open, the floating Events / Enquire Now / chat /
+  // Apply Guide tabs are hidden (see .floating-rail in index.css) so they do not
+  // sit on top of the last menu items.
   useEffect(() => {
-    document.body.classList.toggle('nav-open', mobileOpen)
-    return () => document.body.classList.remove('nav-open')
+    document.body.toggleAttribute('data-menu-open', mobileOpen)
+    return () => document.body.removeAttribute('data-menu-open')
   }, [mobileOpen])
+  // Labels are navy at the top of the page and turn maroon once scrolled.
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-3 z-50 px-3 sm:px-5 lg:px-0">
+    <header className={`sticky top-3 z-50 px-3 sm:px-5 lg:px-0 ${scrolled ? 'nav-scrolled' : ''}`}>
       {/* Below lg the header supplies the gutter; from lg up the navbar lines
           up with the page content (and clears the side tabs). */}
       <div className="container-xl max-lg:!px-0">
@@ -177,7 +188,7 @@ export default function Navbar() {
                     to={link.to}
                     aria-haspopup={link.dropdown ? 'true' : undefined}
                     aria-expanded={link.dropdown ? open === link.label : undefined}
-                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
+                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-semibold py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
                   >
                     {link.label}
                     {link.dropdown && <ChevronDown size={14} />}
@@ -187,7 +198,7 @@ export default function Navbar() {
                     href={link.href}
                     aria-haspopup={link.dropdown ? 'true' : undefined}
                     aria-expanded={link.dropdown ? open === link.label : undefined}
-                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-medium text-slate-700 py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
+                    className={`nav-link flex items-center gap-1 text-[13px] xl:text-sm font-semibold py-2 whitespace-nowrap ${open === link.label ? 'is-open' : ''}`}
                   >
                     {link.label}
                     {link.dropdown && <ChevronDown size={14} />}
@@ -265,16 +276,18 @@ export default function Navbar() {
           </nav>
 
           <button
-            className="lg:hidden ml-auto -mr-1 grid h-11 w-11 place-items-center rounded-xl text-navy-800 transition-colors duration-350 hover:bg-white/60"
+            className={`lg:hidden ml-auto transition-colors duration-350 ${scrolled ? 'text-[var(--brand-maroon)]' : 'text-[var(--brand-navy)]'}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <X /> : <Menu />}
           </button>
         </div>
 
         {mobileOpen && (
-          <div className="lg:hidden mt-2 glass-strong rounded-2xl px-5 py-4 space-y-3 animate-fade-in-up max-h-[min(75vh,calc(100dvh-9rem))] overflow-y-auto overscroll-contain">
+          <div id="mobile-menu" className="lg:hidden mt-2 glass-strong rounded-2xl px-5 py-4 space-y-3 animate-fade-in-up max-h-[75vh] overflow-y-auto">
             {links.map((link) =>
               link.dropdown ? (
                 <div key={link.label}>

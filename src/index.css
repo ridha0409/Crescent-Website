@@ -18,7 +18,9 @@
   --brand-crimson-tab-to: #D80B1C;   /* EXACT — side-tab gradient end       */
   --brand-mist: #F5F5F5;        /* EXACT — page background                  */
   --brand-line: #C6C6C6;        /* EXACT — hairline / inactive dot          */
-  --brand-gold: #F5A623;         /* EXACT — brand gold (Tailwind `gold`)     */
+  --brand-maroon: #800020;      /* derived — navbar labels once scrolled    */
+  --brand-maroon-deep: #5C0017; /* derived — scrolled navbar hover          */
+  --brand-gold: #F5A623;        /* EXACT — brand gold (Tailwind `gold`)     */
   --brand-ink: #000000;         /* EXACT — active carousel dot              */
 
   /* RGB channel triplets, for rgba() composition */
@@ -155,96 +157,6 @@ body {
 .container-xl {
   @apply w-full mx-auto px-5 sm:px-8 lg:px-[4.5rem];
   max-width: 112rem;
-}
-
-/* ============================================================
-   RESPONSIVE FOUNDATIONS
-   Rules that keep every page usable from a 320px phone through
-   to a 4K desktop, and in landscape on a short phone.
-   ============================================================ */
-
-/*
- * Nothing may push the page sideways.
- *
- * This MUST be `clip`, never `hidden`. `overflow-x: hidden` on html or body
- * turns that element into a scroll container, which silently kills
- * `position: sticky` everywhere inside it — the navbar stops sticking to the
- * top of the screen the moment you scroll, and so do the page sidebars.
- * `overflow: clip` trims the same overflow without creating a scroll
- * container, so sticky keeps working.
- */
-body {
-  overflow-x: clip;
-}
-
-/* Media and embeds shrink with their column instead of forcing it wider. */
-img,
-svg,
-video,
-canvas,
-iframe {
-  max-width: 100%;
-}
-
-/*
- * FLOATING RAILS — the Events / Enquire pills, the side tabs and the chat
- * bubble. They sit above the page, so on phones they must not cover the
- * footer, and they must get out of the way when the mobile menu is open.
- */
-body.nav-open .floating-rail {
-  display: none;
-}
-
-/* Footer clearance for those pills is set on the component itself
-   (`pb-28 sm:pb-5` in Footer.jsx) — a utility class there outranks any
-   element rule written here. */
-
-/*
- * iOS zooms the whole page in when a focused field is smaller than 16px, and
- * never zooms back out — the form ends up half off-screen. Fields are bumped
- * to 16px on phones only. `!important` is needed because the size otherwise
- * comes from a Tailwind utility class, which outranks an element selector.
- */
-@media (max-width: 639px) {
-  input:not([type='checkbox']):not([type='radio']),
-  select,
-  textarea {
-    font-size: 16px !important;
-  }
-}
-
-/* Honour the phone's home-indicator inset. */
-.safe-bottom {
-  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-}
-
-/*
- * SECTION RAIL — the About / Programmes / Students sidebars.
- * A stacked list on desktop; on phones and small tablets the same links
- * become a single swipeable row of chips, so the page content starts near
- * the top of the screen instead of a screenful below it.
- */
-.rail-nav {
-  @apply flex gap-2 overflow-x-auto -mx-1 px-1 pb-0.5
-         lg:mx-0 lg:px-0 lg:pb-0 lg:flex-col lg:gap-1 lg:overflow-visible;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.rail-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.rail-nav > * {
-  @apply shrink-0 whitespace-nowrap lg:w-full;
-}
-
-/* Below lg the row scrolls, so its right edge fades out — a standing cue
-   that there are more links past the one on screen. */
-@media (max-width: 1023px) {
-  .rail-nav {
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
-    mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
-  }
 }
 
 /* Hides scrollbar visually while keeping the element fully scrollable */
@@ -595,9 +507,15 @@ body.nav-open .floating-rail {
 /*  enough contrast to read.                                            */
 /* ------------------------------------------------------------------ */
 @layer components {
+  /* Labels start brand navy (blue) and turn maroon once the page is
+     scrolled — Navbar.jsx toggles .nav-scrolled on the header. */
   .nav-link {
     position: relative;
+    color: var(--brand-navy);
     transition: color 0.35s cubic-bezier(0.58, 0.3, 0.005, 1);
+  }
+  .nav-scrolled .nav-link {
+    color: var(--brand-maroon);
   }
   .nav-link::after {
     content: '';
@@ -613,7 +531,12 @@ body.nav-open .floating-rail {
   .nav-link:hover,
   .nav-link:focus-visible,
   .nav-link.is-open {
-    color: var(--brand-navy);
+    color: var(--brand-navy-deep);
+  }
+  .nav-scrolled .nav-link:hover,
+  .nav-scrolled .nav-link:focus-visible,
+  .nav-scrolled .nav-link.is-open {
+    color: var(--brand-maroon-deep);
   }
   .nav-link:hover::after,
   .nav-link:focus-visible::after,
@@ -672,5 +595,13 @@ body.nav-open .floating-rail {
     background-color: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.28);
     color: #ffc861; /* gold.light */
+  }
+}
+
+/* While the phone menu is open (Navbar sets data-menu-open on <body>), hide the
+   floating Events / Enquire Now / chat / Apply Guide tabs so they do not cover it. */
+@media (max-width: 1023.98px) {
+  body[data-menu-open] .floating-rail {
+    display: none;
   }
 }

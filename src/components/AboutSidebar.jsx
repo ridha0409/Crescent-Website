@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { Landmark, Eye, Workflow, Users, Building2 } from 'lucide-react'
 
@@ -37,24 +38,38 @@ export default function AboutSidebar() {
   // highlighted there too — NavLink alone would drop the highlight.
   const onCdoe = pathname.startsWith('/about/cdoe-team')
 
+  // Phones show the links as one sideways-scrolling row; bring the current
+  // page's chip into view. Scrolls the row only (never the page), and does
+  // nothing on desktop where the list is not scrollable.
+  const navRef = useRef(null)
+  useEffect(() => {
+    const nav = navRef.current
+    const active = nav?.querySelector('[aria-current="page"]')
+    if (!nav || !active || nav.scrollWidth <= nav.clientWidth) return
+    nav.scrollTo({ left: active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2 })
+  }, [pathname])
+
   return (
     <aside
       className="w-full lg:w-[264px] lg:shrink-0 lg:grow-0 lg:basis-[264px]
                  lg:sticky lg:top-24 lg:self-start relative z-10"
     >
-      <div className="glass-strong rounded-[22px] p-3 sm:p-4 lg:min-h-[452px] flex flex-col">
+      <div className="glass-strong rounded-[22px] p-4 lg:min-h-[452px] flex flex-col">
         <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-2 mb-2">
           About Us
         </p>
 
-        <nav className="rail-nav relative z-10">
+        {/* Phones: one scrollable row of chips, so the menu no longer fills the
+            whole first screen. Desktop keeps the vertical list. */}
+        <nav ref={navRef} className="relative z-10 flex gap-1.5 overflow-x-auto [scrollbar-width:thin] -mx-1 px-1 pb-1
+                        lg:block lg:space-y-1 lg:overflow-visible lg:mx-0 lg:px-0 lg:pb-0">
           {links.map(({ to, label, icon: Icon, end, matchPrefix }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
               className={({ isActive }) =>
-                `${itemBase} ${(matchPrefix ? onCdoe : isActive) ? activeItem : idleItem}`
+                `${itemBase} shrink-0 whitespace-nowrap lg:whitespace-normal ${(matchPrefix ? onCdoe : isActive) ? activeItem : idleItem}`
               }
             >
               <Icon size={16} className="shrink-0" />

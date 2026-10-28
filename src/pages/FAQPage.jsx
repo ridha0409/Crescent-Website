@@ -34,7 +34,7 @@ export default function FAQPage() {
         <PageHeader
           eyebrow="CDOE"
           title="Frequently Asked Questions"
-          lede="Everything applicants most often ask about the online MBA and MCA programmes at the Centre for Distance and Online Education."
+          lede="Everything applicants most often ask about the online programmes at the Centre for Distance and Online Education."
           align="center"
           className="mb-8"
         />
@@ -77,7 +77,8 @@ export default function FAQPage() {
         {/* No defaultOpenIndex — every question starts collapsed, so the page
             opens as a scannable list of questions rather than with one answer
             already pushing the rest down. */}
-        <FaqAccordion items={visible} className="space-y-3" />
+        {/* Questions sit directly under the page H1, so they are H2 here. */}
+        <FaqAccordion items={visible} className="space-y-3" headingLevel={2} />
 
         {/* Still stuck — the two routes out of this page */}
         <div className="glass-strong rounded-[24px] p-6 mt-10">

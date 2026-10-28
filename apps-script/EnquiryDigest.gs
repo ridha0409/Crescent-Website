@@ -38,6 +38,13 @@ function doPost(e) {
   try {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}')
 
+    // Spam: the website's hidden honeypot field (_honey) is always blank for
+    // real visitors. Drop a filled one without saving or mailing anything, but
+    // still answer "success" so the bot learns nothing.
+    if (String(data._honey || '').trim()) {
+      return json_({ success: true })
+    }
+
     // Simple guard: a real enquiry always has a name and a phone number.
     if (!String(data.Name || '').trim() || !String(data.Phone || '').trim()) {
       return json_({ success: false, message: 'Name and phone are required.' })

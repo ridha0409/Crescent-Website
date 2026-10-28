@@ -10,11 +10,11 @@ const categories = [
 export default function ProgrammeCategorySidebar() {
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start w-full lg:w-64 shrink-0">
-      <div className="glass-strong rounded-[22px] p-3 sm:p-4">
+      <div className="glass-strong rounded-[22px] p-4">
         <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-2 mb-2">
           Browse Programmes
         </p>
-        <nav className="rail-nav">
+        <nav className="space-y-1">
           {categories.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}

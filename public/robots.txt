@@ -1,0 +1,5 @@
+# Crescent Online (CDOE) — https://online.crescent-institute.edu.in
+User-agent: *
+Allow: /
+
+Sitemap: https://online.crescent-institute.edu.in/sitemap.xml

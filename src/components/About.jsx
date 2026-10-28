@@ -56,7 +56,7 @@ export default function About() {
             Chennai near Tambaram.
           </p>
           <p className="text-slate-600 text-sm leading-relaxed mb-3">
-            Through our long history of 37 years of excellence, the Institution has
+            Through our long history of 41 years of excellence, the Institution has
             offered access to a wide range of academic opportunities. With 55
             programmes, grouped under 12 different Schools, 30 Undergraduate
             programmes, 25 Postgraduate programmes, and Ph.D.
@@ -68,7 +68,7 @@ export default function About() {
             themselves and each other.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div className="grid grid-cols-4 gap-3 mb-6">
             {facts.map(({ icon: Icon, label, value }) => (
               <div key={label} className="glass rounded-2xl py-3 text-center">
                 <div className="w-11 h-11 rounded-full glass-strong text-navy-800 flex items-center justify-center mx-auto mb-2">

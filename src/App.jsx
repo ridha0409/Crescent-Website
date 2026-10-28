@@ -30,10 +30,10 @@ const FacultyProfile = lazy(() => import("./pages/FacultyProfile.jsx"));
 const MBA = lazy(() => import("./pages/MBA"));
 const MCA = lazy(() => import("./pages/MCA"));
 const BAIslamicStudies = lazy(() => import("./pages/BAIslamicStudies"));
-const BAPublicPolicy = lazy(() => import("./pages/BAPublicPolicy"));
-const BAEnglish = lazy(() => import("./pages/BAEnglish"));
-const MAIslamicStudies = lazy(() => import("./pages/MAIslamicStudies"));
-const ProgrammeDetail = lazy(() => import("./pages/ProgrammeDetail"));
+// HIDDEN FOR NOW: BA Public Policy, BA English, MA Islamic Studies (see data/programmes.js)
+// const BAPublicPolicy = lazy(() => import("./pages/BAPublicPolicy"));
+// const BAEnglish = lazy(() => import("./pages/BAEnglish"));
+// const MAIslamicStudies = lazy(() => import("./pages/MAIslamicStudies"));
 const ProgrammesOffered = lazy(() => import("./pages/ProgrammesOffered"));
 const UGProgrammes = lazy(() => import("./pages/UGProgrammes"));
 const PGProgrammes = lazy(() => import("./pages/PGProgrammes"));
@@ -100,6 +100,7 @@ export default function App() {
             path="/programmes/ba-islamic-studies"
             element={<BAIslamicStudies />}
           />
+          {/* HIDDEN FOR NOW — these addresses now show the Not Found page.
           <Route
             path="/programmes/ba-public-policy"
             element={<BAPublicPolicy />}
@@ -112,10 +113,7 @@ export default function App() {
             path="/programmes/ma-islamic-studies"
             element={<MAIslamicStudies />}
           />
-          <Route
-            path="/programmes/:id"
-            element={<ProgrammeDetail />}
-          />
+          */}
           {/* Admission — mirrors the Admission dropdown. New Registration and
               Applicant Login are external portals, so they have no route. */}
           <Route path="/admission" element={<HowToApply />} />

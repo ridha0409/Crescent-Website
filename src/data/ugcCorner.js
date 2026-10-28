@@ -162,6 +162,32 @@ export const ugcSections = [
     grouped: true,
     documents: [
       {
+        group: '2026-2027',
+        title: 'MBA — ODL & OL AY 2026',
+        meta: 'Academic year cycle',
+        doc: 'admission-list-mba-ay-2026',
+      },
+      {
+        group: '2026-2027',
+        title: 'MCA — ODL & OL AY 2026',
+        meta: 'Academic year cycle',
+        doc: 'admission-list-mca-ay-2026',
+      },
+      {
+        group: '2026-2027',
+        title: 'BA Islamic Studies — OL AY 2026',
+        meta: 'Academic year cycle',
+        doc: 'admission-list-bais-ay-2026',
+      },
+      // File not uploaded yet — the row shows "Coming soon" until
+      // 'Admission List 2025-2026.pdf' is dropped into src/assets/PDF.
+      {
+        group: '2025-2026',
+        title: 'Admission List — 2025-2026',
+        meta: 'Academic year cycle',
+        doc: 'admission-list-2025-26',
+      },
+      {
         group: '2024-2025',
         title: 'Admission List — AY 2024 (Online)',
         meta: 'Academic year cycle',

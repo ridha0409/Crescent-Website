@@ -7,7 +7,8 @@ import {
   facultyLevels,
   facultyProgrammeById,
   getFacultyForProgramme,
-  technicalTeam,
+  technicalGroups,
+  getTechnicalGroup,
   nonTeaching,
 } from '../data/cdoeTeam.js'
 
@@ -26,6 +27,10 @@ import {
  * (?tab=faculty&level=pg&programme=mca), so a programme tab is just as linkable
  * as a top-level one — and an older ?programme= link with no ?level= still
  * resolves, because the programme id implies its level.
+ *
+ * Technical Team has two sub-tabs of its own — LMS Team and Editing Team
+ * (audio-video) — carried as ?tab=technical&team=lms / &team=editing. The
+ * sub-tab used to be called Technical Team (&team=technical); old links still work.
  */
 
 const TABS = [
@@ -60,7 +65,7 @@ function FacultyCard({ member }) {
   return (
     <div className="glass-strong rounded-[22px] p-5 h-full flex flex-col items-center text-center transition-transform duration-350 hover:-translate-y-1">
       <Avatar photo={member.photo} name={member.name} />
-      <h3 className="font-semibold text-navy-900 text-sm">{member.name}</h3>
+      <h2 className="font-semibold text-navy-900 text-sm">{member.name}</h2>
       <p className="text-xs text-red-700 font-medium mt-1 leading-snug">{member.designation}</p>
       {member.role && <p className="text-[11px] text-slate-500 mt-0.5">{member.role}</p>}
       {member.qualification && (
@@ -87,8 +92,30 @@ function StaffCard({ member }) {
   return (
     <div className="glass-strong rounded-[22px] p-5 flex flex-col items-center text-center transition-transform duration-350 hover:-translate-y-1">
       <Avatar photo={member.photo} name={member.name} />
-      <h3 className="font-semibold text-navy-900 text-sm">{member.name}</h3>
+      <h2 className="font-semibold text-navy-900 text-sm">{member.name}</h2>
       <p className="text-xs text-red-700 font-medium mt-1 leading-snug">{member.designation}</p>
+      {member.qualification && (
+        <p className="text-xs font-bold text-slate-700 mt-1.5 leading-snug">{member.qualification}</p>
+      )}
+      {member.slug && (
+        <Link
+          to={`/about/cdoe-team/${member.slug}`}
+          onMouseDown={createRipple}
+          className="mt-auto pt-3 inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-navy-800 transition-colors duration-350"
+        >
+          <FileText size={13} />
+          Read More
+        </Link>
+      )}
+      {member.email && (
+        <a
+          href={`mailto:${member.email}`}
+          className="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-navy-800 transition-colors duration-350 break-all"
+        >
+          <Mail size={13} className="shrink-0" />
+          {member.email}
+        </a>
+      )}
     </div>
   )
 }
@@ -118,6 +145,16 @@ export default function CDOETeam() {
     programmeFromUrl?.level === activeLevel.id ? programmeFromUrl : activeLevel.programmes[0]
 
   const facultyList = getFacultyForProgramme(activeProgramme)
+
+  // Technical Team's sub-tab: LMS Team (default) or Editing Team. `technical`
+  // is the Editing Team's old id, kept so saved links still land there.
+  const rawTeam = (searchParams.get('team') || '').toLowerCase()
+  const requestedTeam = rawTeam === 'technical' ? 'editing' : rawTeam
+  const activeTeam = technicalGroups.some((g) => g.id === requestedTeam)
+    ? requestedTeam
+    : technicalGroups[0].id
+  const technicalList = getTechnicalGroup(activeTeam)
+  const selectTeam = (team) => setSearchParams({ tab: 'technical', team })
 
   // Switching to Faculty keeps whichever programme was last open; every other
   // tab drops the parameters so they do not linger in the URL.
@@ -228,11 +265,37 @@ export default function CDOETeam() {
         </div>
       )}
 
+      {/* Technical Team — LMS Team / Editing Team, one at a time */}
       {activeTab === 'technical' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-          {technicalTeam.map((member) => (
-            <StaffCard key={member.name} member={member} />
-          ))}
+        <div>
+          <div
+            role="tablist"
+            aria-label="Technical Team"
+            className="inline-flex flex-wrap gap-1 glass rounded-full p-1 mb-6"
+          >
+            {technicalGroups.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={activeTeam === id}
+                onClick={() => selectTeam(id)}
+                className={`px-6 py-1.5 rounded-full text-sm font-semibold transition-colors duration-350 ${
+                  activeTeam === id
+                    ? 'bg-navy-800/90 text-white'
+                    : 'text-slate-600 hover:text-navy-800 hover:bg-white/50'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            {technicalList.map((member) => (
+              <StaffCard key={member.name} member={member} />
+            ))}
+          </div>
         </div>
       )}
 

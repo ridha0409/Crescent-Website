@@ -13,8 +13,12 @@
  *     align="left"                    // 'left' (default) | 'center'
  *   />
  */
+import usePageMeta from '../hooks/usePageMeta.js'
+
 export default function PageHeader({ eyebrow, title, lede, align = 'left', className = '' }) {
   const centered = align === 'center'
+  // The page's heading and lede double as its browser title and description.
+  usePageMeta({ title, description: lede })
 
   return (
     <header className={`${centered ? 'text-center' : ''} ${className}`}>
@@ -24,9 +28,7 @@ export default function PageHeader({ eyebrow, title, lede, align = 'left', class
         </p>
       )}
 
-      {/* Scales smoothly with the viewport instead of stepping at one
-          breakpoint, so a long title never crowds a small phone. */}
-      <h1 className="text-[clamp(1.6rem,5.5vw,1.95rem)] font-bold text-navy-800 text-balance leading-tight">
+      <h1 className="text-3xl font-bold text-navy-800 text-balance">
         {title}
         <span
           className={`block w-14 h-1 bg-crimson-600 mt-3 rounded-full ${

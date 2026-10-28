@@ -22,7 +22,7 @@ export default function FAQ() {
         <span className="block w-14 h-1 bg-gold mx-auto mt-3 rounded-full" />
       </h2>
 
-      <FaqAccordion items={featuredFaqs} className="grid lg:grid-cols-2 gap-4 items-start" />
+      <FaqAccordion items={featuredFaqs} className="grid md:grid-cols-2 gap-4 items-start" />
 
       <div className="text-center mt-8">
         <Link to="/faq" onMouseDown={createRipple} className="glass-btn text-navy-800 px-6 py-2.5">
