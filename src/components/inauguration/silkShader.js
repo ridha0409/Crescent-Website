@@ -26,6 +26,8 @@ uniform float uTime;      // seconds
 uniform float uOpen;      // 0 closed .. 1 drawn aside (eased, whole drape)
 uniform float uDraw;      // 0..1 raw progress of the draw, before easing
 uniform float uSettle;    // seconds since the drapes arrived (-1 before)
+uniform float uSwing;     // hem swing rate, radians per second
+uniform float uSwingDecay;
 uniform float uVel;       // 0..1, how fast the cloth is moving right now
 uniform float uSashY;     // sash centre, device px from the top
 uniform float uSashW;     // sash thickness, device px
@@ -62,8 +64,9 @@ float edgeFrac(float y){
   // edge sweeps across on a diagonal rather than as one straight line.
   float p = easeInOut(clamp(uDraw * 1.3 - y * 0.3, 0.0, 1.0));
   float e = mix(0.5015, 0.5 * drawnEdge(y), p);
-  // Once it arrives, the heavier hem swings out a little and settles back.
-  if (uSettle >= 0.0) e += 0.02 * y * y * exp(-2.6 * uSettle) * sin(8.0 * uSettle);
+  // Once it arrives, the heavier hem keeps swinging gently, smaller each time,
+  // until it comes to rest (the settling swishes in the sound follow it).
+  if (uSettle >= 0.0) e += 0.024 * y * y * exp(-uSwingDecay * uSettle) * sin(uSwing * uSettle);
   return e + sin(y * 9.0 - uTime * 6.0) * 0.005 * uVel;   // the edge ripples while it moves
 }
 

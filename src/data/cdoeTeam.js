@@ -1357,7 +1357,8 @@ export const nonTeaching = [
     name: 'Mr. Khaja Thameem Ahmed',
     designation: 'Academic Coordinator',
     group: 'Non-Teaching Staff',
-    teamLink: '?tab=non-teaching',
+    team: 'admission',
+    teamLink: '?tab=non-teaching&team=admission',
     photo: `${NT_IMG}khaja-thameem-ahmed.jpg`,
     qualification: 'B.Sc., MBA, Ph.D. (Pursuing)',
     stats: [
@@ -1512,24 +1513,41 @@ export const nonTeaching = [
   {
     name: 'Mrs. Shakira Banu',
     designation: 'Assistant',
+    team: 'office',
     //photo: `${NT_IMG}usha4%20copy.jpg`,
   },
   {
     name: 'Mr. Ujjal Sikdar',
     designation: 'Admission Counsellor',
+    team: 'admission',
     photo: `${NT_IMG}ujjal.jpeg`,
   },
   {
     name: 'Mr. N. Kumaresan',
     designation: 'Attender Gr II',
+    team: 'office',
     photo: `${NT_IMG}kumaresan.jpg`,
   },
   {
     name: 'Mr. N. Vijayakumar',
     designation: 'Attender Gr III',
+    team: 'office',
     photo: `${NT_IMG}vijay.jpg`,
   },
 ]
+
+// The Non-Teaching tab is split in two on the page: the Admission Team, who
+// look after enquiries and admissions, and the Office Team. Each person's
+// `team` above says which one they are in.
+export const nonTeachingGroups = [
+  { id: 'admission', label: 'Admission Team' },
+  { id: 'office', label: 'Office Team' },
+]
+
+export const getNonTeachingGroup = (id) => {
+  const group = nonTeachingGroups.find((g) => g.id === id) ?? nonTeachingGroups[0]
+  return nonTeaching.filter((m) => m.team === group.id)
+}
 
 // Profiles: faculty, plus technical and non-teaching staff who have one (an entry with a slug).
 export const getFacultyBySlug = (slug) =>

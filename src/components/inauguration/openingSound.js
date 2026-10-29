@@ -12,10 +12,15 @@
  * speakers). `playOpeningSound()` is the live version used by the page.
  *
  * Times are in seconds from the click and match the animation in
- * InaugurationCurtain.jsx: the drapes move from DRAW_FROM for DRAW_FOR.
+ * InaugurationCurtain.jsx: the drapes move from DRAW_FROM for DRAW_FOR, then
+ * their hems swing back and forth, smaller each time, for SETTLE_FOR seconds.
+ * The swing (SWING_RATE, SWING_DECAY) is the same one the shader draws.
  */
 export const DRAW_FROM = 0.45
 export const DRAW_FOR = 2.1
+export const SETTLE_FOR = 3.7
+export const SWING_RATE = 4.2 // radians per second: one swing every ~0.75 s
+export const SWING_DECAY = 0.5
 
 function noiseBuffer(ctx, seconds) {
   const len = Math.floor(ctx.sampleRate * seconds)
@@ -141,10 +146,32 @@ export function scheduleOpeningSound(ctx, destination, start) {
   swish(ctx, master, buffer, { start: s, dur, peak: 0.45, low: 180, high: 420, pan: 0, offset: 1.4 })
   silkTexture(ctx, master, buffer, s, dur, 26)
 
-  // 3. Settling: the drapes come to rest and the hems swing back once.
-  const end = s + dur - 0.2
-  swish(ctx, master, buffer, { start: end, dur: 0.7, peak: 0.28, low: 300, high: 900, pan: -0.4, offset: 0.4 })
-  swish(ctx, master, buffer, { start: end + 0.06, dur: 0.7, peak: 0.28, low: 320, high: 850, pan: 0.4, offset: 2.8 })
+  // 3. Settling: the hems swing back and forth, smaller each time, and each
+  //    swing brushes the air with a softer swish — alternating sides — over a
+  //    faint, fading rustle of the cloth coming to rest.
+  const settle = start + DRAW_FROM + DRAW_FOR
+  const swingGap = Math.PI / SWING_RATE
+  for (let i = 0; i * swingGap < SETTLE_FOR - 0.5; i++) {
+    const at = settle - 0.15 + i * swingGap
+    const fade = Math.exp(-SWING_DECAY * i * swingGap)
+    const pan = i % 2 ? 0.45 : -0.45
+    swish(ctx, master, buffer, { start: at, dur: 0.75, peak: 0.34 * fade, low: 320, high: 1000, pan, offset: 0.3 + i * 0.37 })
+    swish(ctx, master, buffer, { start: at + 0.05, dur: 0.7, peak: 0.3 * fade, low: 340, high: 900, pan: -pan, offset: 2.2 + i * 0.29 })
+  }
+  const bed = ctx.createBufferSource()
+  bed.buffer = buffer
+  const bedBand = ctx.createBiquadFilter()
+  bedBand.type = 'bandpass'
+  bedBand.Q.value = 0.5
+  bedBand.frequency.value = 700
+  const bedGain = ctx.createGain()
+  bedGain.gain.setValueAtTime(0.0001, settle - 0.2)
+  bedGain.gain.exponentialRampToValueAtTime(0.12, settle + 0.3)
+  bedGain.gain.setValueAtTime(0.12, settle + SETTLE_FOR - 1.4)
+  bedGain.gain.exponentialRampToValueAtTime(0.0001, settle + SETTLE_FOR)
+  bed.connect(bedBand).connect(bedGain).connect(master)
+  bed.start(settle - 0.2, 0.6)
+  bed.stop(settle + SETTLE_FOR + 0.05)
 }
 
 export function playOpeningSound() {
@@ -159,5 +186,5 @@ export function playOpeningSound() {
   // Some browsers create the context suspended; the click lets us resume it.
   ctx.resume?.().catch(() => {})
   scheduleOpeningSound(ctx, ctx.destination, ctx.currentTime + 0.03)
-  setTimeout(() => ctx.close().catch(() => {}), 5000)
+  setTimeout(() => ctx.close().catch(() => {}), (DRAW_FROM + DRAW_FOR + SETTLE_FOR + 0.8) * 1000)
 }

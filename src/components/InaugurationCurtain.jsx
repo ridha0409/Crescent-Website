@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import crescentMark from '../assets/logos/crescent-mark.png'
 import { VERTEX_SHADER, FRAGMENT_SHADER } from './inauguration/silkShader.js'
-import { DRAW_FROM, DRAW_FOR, playOpeningSound } from './inauguration/openingSound.js'
+import {
+  DRAW_FROM,
+  DRAW_FOR,
+  SETTLE_FOR,
+  SWING_RATE,
+  SWING_DECAY,
+  playOpeningSound,
+} from './inauguration/openingSound.js'
 import { startPoppers } from './inauguration/poppers.js'
 
 /**
@@ -37,9 +44,11 @@ const SEEN_KEY = 'cdoe-inaugurated'
 /* The sequence, in seconds from the click (the drapes' timing is shared with the sound). */
 const SASH_FROM = 0.12
 const TIE_FROM = 2.35
-const FADE_AT_MS = 3600 // the drapes fade away
-const END_AT_MS = 5700 // the last of the confetti fades
-const DONE_MS = 6400
+// The drapes stay up while their hems swing and the settling sound plays,
+// then fade; the last of the confetti fades with them.
+const FADE_AT_MS = (DRAW_FROM + DRAW_FOR + SETTLE_FOR) * 1000 - 300
+const END_AT_MS = FADE_AT_MS + 400
+const DONE_MS = END_AT_MS + 800
 
 function shouldShow() {
   if (!INAUGURATION_ENABLED) return false
@@ -81,7 +90,7 @@ function createRenderer(canvas) {
   gl.enableVertexAttribArray(loc)
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
 
-  const names = ['uRes', 'uScale', 'uTime', 'uOpen', 'uDraw', 'uSettle', 'uVel', 'uSashY', 'uSashW', 'uSashA', 'uSashAlpha', 'uTie', 'uFolds']
+  const names = ['uRes', 'uScale', 'uTime', 'uOpen', 'uDraw', 'uSettle', 'uSwing', 'uSwingDecay', 'uVel', 'uSashY', 'uSashW', 'uSashA', 'uSashAlpha', 'uTie', 'uFolds']
   const u = Object.fromEntries(names.map((n) => [n, gl.getUniformLocation(prog, n)]))
 
   return {
@@ -103,6 +112,8 @@ function createRenderer(canvas) {
       gl.uniform1f(u.uOpen, p.open)
       gl.uniform1f(u.uDraw, p.draw)
       gl.uniform1f(u.uSettle, p.settle)
+      gl.uniform1f(u.uSwing, SWING_RATE)
+      gl.uniform1f(u.uSwingDecay, SWING_DECAY)
       gl.uniform1f(u.uVel, p.vel)
       gl.uniform1f(u.uSashY, p.sashY * scale)
       gl.uniform1f(u.uSashW, p.sashW * scale)

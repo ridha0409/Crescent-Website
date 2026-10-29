@@ -9,7 +9,8 @@ import {
   getFacultyForProgramme,
   technicalGroups,
   getTechnicalGroup,
-  nonTeaching,
+  nonTeachingGroups,
+  getNonTeachingGroup,
 } from '../data/cdoeTeam.js'
 
 /*
@@ -31,6 +32,8 @@ import {
  * Technical Team has two sub-tabs of its own — LMS Team and Editing Team
  * (audio-video) — carried as ?tab=technical&team=lms / &team=editing. The
  * sub-tab used to be called Technical Team (&team=technical); old links still work.
+ * Non-Teaching likewise has Admission Team and Office Team
+ * (?tab=non-teaching&team=admission / &team=office).
  */
 
 const TABS = [
@@ -38,6 +41,28 @@ const TABS = [
   { id: 'technical', label: 'Technical Team' },
   { id: 'non-teaching', label: 'Non-Teaching' },
 ]
+
+/** The pill switch between a tab's sub-teams (Technical and Non-Teaching both use it). */
+function TeamTabs({ label, groups, active, onSelect }) {
+  return (
+    <div role="tablist" aria-label={label} className="inline-flex flex-wrap gap-1 glass rounded-full p-1 mb-6">
+      {groups.map(({ id, label: groupLabel }) => (
+        <button
+          key={id}
+          type="button"
+          role="tab"
+          aria-selected={active === id}
+          onClick={() => onSelect(id)}
+          className={`px-6 py-1.5 rounded-full text-sm font-semibold transition-colors duration-350 ${
+            active === id ? 'bg-navy-800/90 text-white' : 'text-slate-600 hover:text-navy-800 hover:bg-white/50'
+          }`}
+        >
+          {groupLabel}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 function Avatar({ photo, name }) {
   // A remote photo can fail (offline, moved file) — fall back to the icon
@@ -156,6 +181,11 @@ export default function CDOETeam() {
   const technicalList = getTechnicalGroup(activeTeam)
   const selectTeam = (team) => setSearchParams({ tab: 'technical', team })
 
+  // Non-Teaching's sub-tab: Admission Team (default) or Office Team.
+  const activeNtTeam = nonTeachingGroups.some((g) => g.id === rawTeam) ? rawTeam : nonTeachingGroups[0].id
+  const nonTeachingList = getNonTeachingGroup(activeNtTeam)
+  const selectNtTeam = (team) => setSearchParams({ tab: 'non-teaching', team })
+
   // Switching to Faculty keeps whichever programme was last open; every other
   // tab drops the parameters so they do not linger in the URL.
   const selectTab = (id) =>
@@ -268,28 +298,7 @@ export default function CDOETeam() {
       {/* Technical Team — LMS Team / Editing Team, one at a time */}
       {activeTab === 'technical' && (
         <div>
-          <div
-            role="tablist"
-            aria-label="Technical Team"
-            className="inline-flex flex-wrap gap-1 glass rounded-full p-1 mb-6"
-          >
-            {technicalGroups.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                role="tab"
-                aria-selected={activeTeam === id}
-                onClick={() => selectTeam(id)}
-                className={`px-6 py-1.5 rounded-full text-sm font-semibold transition-colors duration-350 ${
-                  activeTeam === id
-                    ? 'bg-navy-800/90 text-white'
-                    : 'text-slate-600 hover:text-navy-800 hover:bg-white/50'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          <TeamTabs label="Technical Team" groups={technicalGroups} active={activeTeam} onSelect={selectTeam} />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
             {technicalList.map((member) => (
@@ -299,11 +308,16 @@ export default function CDOETeam() {
         </div>
       )}
 
+      {/* Non-Teaching — Admission Team / Office Team, one at a time */}
       {activeTab === 'non-teaching' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-          {nonTeaching.map((member) => (
-            <StaffCard key={member.name} member={member} />
-          ))}
+        <div>
+          <TeamTabs label="Non-Teaching" groups={nonTeachingGroups} active={activeNtTeam} onSelect={selectNtTeam} />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            {nonTeachingList.map((member) => (
+              <StaffCard key={member.name} member={member} />
+            ))}
+          </div>
         </div>
       )}
 
