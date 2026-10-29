@@ -1,66 +1,27 @@
 /**
  * STUDENT TESTIMONIALS & HOME GALLERY
  * ---------------------------------------------------------------------------
- * READ THIS BEFORE THE SITE GOES LIVE.
+ * Real student quotes, as published on the institute's current site
+ * (online.crescent-institute.edu.in, "What Our Students Say"). Quotes are kept
+ * word for word; registration numbers are left off this page.
  *
- * Every testimonial below is a SAMPLE, marked `placeholder: true` (the
- * on-screen "Sample" badge was removed at the client's request, so this flag
- * is now the only record of which entries are not real student quotes).
- * Publishing invented quotes as real ones would mislead applicants — replace
- * them with real, consented quotes before the site is promoted publicly.
- *
- * TO PUBLISH A REAL TESTIMONIAL
- *   1. replace `name`, `programme`, `year` and `quote` with the real ones
- *   2. delete that entry's `placeholder: true` line
- * The carousel handles any number of entries.
- */
-/*
- * The entries below are SAMPLE voices, written to show how the section reads.
- * They describe the programmes accurately (live sessions, self-learning
- * material, online exams) but are not quotes from real students, so they carry
- * no personal names — only the programme and the kind of learner. Swap each
- * one for a real, consented quote before the site is promoted publicly.
+ * To add one: copy an entry and fill in `name`, `programme`, `year` and
+ * `quote`. The carousel handles any number of entries.
  */
 export const testimonials = [
   {
-    placeholder: true,
-    name: 'MBA learner',
-    programme: 'Working professional',
+    name: 'Nitish J',
+    programme: 'MCA (Online)',
     year: '',
     quote:
-      'I could keep my full-time job and still study properly. The evening live sessions fit after office hours, and the self-learning material meant I never had to buy extra books.',
+      'Hi I am Nitish Jaishankar completed a Master of Computer Application (MCA) online program at BSACIST (CDOE). This online course citing excellent academic environment, enjoying online live sessions, industry-relevant syllabus, approachable professors, and placement support. Overall, I felt wonderful experience @ BSACIST (CDOE).',
   },
   {
-    placeholder: true,
-    name: 'MCA learner',
-    programme: 'Software support role',
+    name: 'Ashiq Ahamed C',
+    programme: 'MBA (Online)',
     year: '',
     quote:
-      'Being able to clear my doubts with the faculty every working day made a big difference. Programming topics I had struggled with on my own finally made sense.',
-  },
-  {
-    placeholder: true,
-    name: 'BA Islamic Studies learner',
-    programme: 'Studying from home',
-    year: '',
-    quote:
-      'I always wanted to study Islamic thought and history in a structured way. The online format let me learn at my own pace from home, with recorded lectures I could revisit.',
-  },
-  {
-    placeholder: true,
-    name: 'MBA learner',
-    programme: 'Family business',
-    year: '',
-    quote:
-      'The finance and marketing courses were directly useful in our family business. Writing the exams online through the LMS saved me the travel.',
-  },
-  {
-    placeholder: true,
-    name: 'MCA learner',
-    programme: 'Career changer',
-    year: '',
-    quote:
-      'Moving into IT felt daunting, but the course structure was clear from the first semester. Knowing the degree is UGC entitled gave me confidence it would be recognised.',
+      'The MBA online course at BSACIST offers a comprehensive, flexible curriculum with industry-leading faculty. The course provides deep insights into business administration, practical guidance, and essential skills for success in the global business world. The institute dedication to excellence makes it a great choice for career advancement.',
   },
 ]
 
@@ -83,14 +44,21 @@ import editorRoom from '../assets/site/editor-room.jpg'
 import computerLab from '../assets/site/computer-lab.jpg'
 import programmeLaunch from '../assets/site/programme-launch.jpg'
 import studioFacility from '../assets/site/studio-facility.jpg'
+import ceremonyAward from '../assets/site/degree-ceremony-award.jpg'
+import ceremonyStage from '../assets/site/degree-ceremony-stage.jpg'
+import ceremonyFaculty from '../assets/site/degree-ceremony-faculty.jpg'
 
 /*
- * Five slides, not six: the photo library ships the campus panorama twice
+ * The campus panorama is listed once: the photo library ships it twice
  * (visionary/about-us-1.jpg and execution/ss_cleanup.jpg are the same file),
- * so a sixth entry showed the first picture again under a different caption.
+ * and a second entry showed the same picture under a different caption.
+ * The Degree Award Ceremony photos follow it so they come up early.
  */
 export const gallery = [
   { src: campusPanorama, caption: 'Crescent campus' },
+  { src: ceremonyAward, caption: 'Degree Award Ceremony, February 2025' },
+  { src: ceremonyStage, caption: 'Dignitaries at the Degree Award Ceremony' },
+  { src: ceremonyFaculty, caption: 'Faculty at the Degree Award Ceremony' },
   { src: studioFacility, caption: 'Recording studio' },
   { src: editorRoom, caption: 'Editing suite' },
   { src: computerLab, caption: 'Computer lab' },

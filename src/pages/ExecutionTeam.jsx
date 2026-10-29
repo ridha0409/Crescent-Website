@@ -14,8 +14,7 @@ const SITE = import.meta.env.BASE_URL
 const director = {
   name: 'Dr. A. Jaya',
   designation: 'Professor & Director',
-  // Upscaled and cleaned from the 150px original (img/mca/people/jaya.jpg).
-  photo: `${SITE}img/execution/dr-a-jaya-hd.jpg`,
+  photo: `${SITE}img/execution/dr-a-jaya.jpg`,
   message: [],
 }
 
@@ -31,12 +30,12 @@ const groups = [
       // Ordered by office: Deputy Director first, then the Assistant Directors.
       {
         name: 'Dr. S. Sharon Priya',
-        designation: 'Deputy Director, CDOE',
+        designation: 'Associate Professor, Deputy Director, CDOE',
         photo: photoSharonPriya,
       },
       {
         name: 'Dr. R. Sabin Begum',
-        designation: 'Assistant Director, CDOE',
+        designation: 'Assistant Professor, Assistant Director, CDOE',
         photo: photoSabinBegum,
       },
       {

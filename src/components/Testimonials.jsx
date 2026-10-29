@@ -15,9 +15,6 @@ import { testimonials, gallery } from '../data/testimonials.js'
  * Institute publishes was lost.
  *
  * The quotes and the photographs both come from src/data/testimonials.js.
- *
- * NOTE: every testimonial currently in that file is a placeholder and renders a
- * "SAMPLE" badge until the real quote replaces it. See the file for how.
  */
 
 const styles = `
@@ -75,18 +72,19 @@ const styles = `
     margin-bottom:26px;
   }
 
-  /* Shared shell — the carousel and the gallery grid fill this identically, so
-     the two columns end at the same height. */
+  /* Shared shell. The quote box grows to fit its longest quote; the gallery
+     takes whatever height is left in its column, so on a wide screen the two
+     columns still end level. */
   .saa-carousel{
     position:relative;
     width:100%;
-    height:300px;
-    flex-shrink:0;
+    min-height:300px;
   }
+  .saa-carousel-quote{ display:flex; flex-shrink:0; }
+  .saa-carousel-gallery{ flex:1 1 auto; }
 
   .saa-card{
     position:relative;
-    height:100%;
     width:100%;
     border-radius:22px;
     background:var(--card);
@@ -96,9 +94,16 @@ const styles = `
     justify-content:center;
     align-items:flex-start;
     text-align:left;
-    padding:36px clamp(24px, 4vw, 44px);
+    padding:34px 60px;
     overflow:hidden;
   }
+
+  /* Every quote is laid out in the same grid cell and only the current one is
+     shown, so the card is always as tall as the longest quote: nothing is cut
+     off, and the card does not jump in height as the quotes rotate. */
+  .saa-quote-stack{ display:grid; width:100%; }
+  .saa-quote-item{ grid-area:1 / 1; visibility:hidden; margin:0; }
+  .saa-quote-item.active{ visibility:visible; }
 
   /* The opening quotation mark, set as decoration behind the text. */
   .saa-quote-mark{
@@ -141,7 +146,6 @@ const styles = `
     font-size:1.06rem;
     color:var(--text);
     line-height:1.65;
-    max-width:44ch;
     margin:0 0 20px 0;
     font-style:italic;
   }
@@ -163,9 +167,8 @@ const styles = `
      crossfading on a timer. Every slide stays mounted and is faded with
      opacity — swapping a single <img> src would flash white between photos. */
   .saa-gallery{
-    position:relative;
-    height:100%;
-    width:100%;
+    position:absolute;
+    inset:0;
     border-radius:22px;
     overflow:hidden;
     background:#dfe3ee;
@@ -295,8 +298,8 @@ const styles = `
     .saa-grid{ gap:36px; }
     .saa-col-title{ font-size:1.6rem; }
     .saa-underline{ margin-bottom:22px; }
-    .saa-carousel{ height:340px; }
-    .saa-card{ padding:28px 22px; }
+    .saa-carousel-gallery{ min-height:340px; }
+    .saa-card{ padding:28px 48px; }
     .saa-quote{ font-size:.95rem; }
     .saa-nav-btn{ width:34px; height:34px; }
     .saa-nav-left{ left:6px; }
@@ -306,9 +309,9 @@ const styles = `
 
 /* ================= Testimonial card ================= */
 
-function TestimonialCard({ item, onPrev, onNext, onPointerEnter, onPointerLeave }) {
+function TestimonialCard({ items, index, onPrev, onNext, onPointerEnter, onPointerLeave }) {
   return (
-    <div className="saa-carousel" onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave}>
+    <div className="saa-carousel saa-carousel-quote" onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave}>
       <button className="saa-nav-btn saa-nav-left" onClick={onPrev} aria-label="Previous testimonial">
         &#8249;
       </button>
@@ -316,22 +319,32 @@ function TestimonialCard({ item, onPrev, onNext, onPointerEnter, onPointerLeave 
         &#8250;
       </button>
 
-      {/* Keyed by the quote so each new one fades in rather than snapping. */}
-      <figure className="saa-card saa-card-in" key={item.name + item.quote}>
+      <div className="saa-card">
         <span className="saa-quote-mark" aria-hidden="true">&ldquo;</span>
 
         <p className="saa-eyebrow">Student voice</p>
 
-        <blockquote className="saa-quote">&ldquo;{item.quote}&rdquo;</blockquote>
+        <div className="saa-quote-stack">
+          {items.map((item, i) => (
+            /* The current quote fades in (saa-card-in) rather than snapping. */
+            <figure
+              key={item.name + item.quote}
+              className={`saa-quote-item${i === index ? ' active saa-card-in' : ''}`}
+              aria-hidden={i !== index}
+            >
+              <blockquote className="saa-quote">&ldquo;{item.quote}&rdquo;</blockquote>
 
-        <figcaption>
-          <p className="saa-attrib">{item.name}</p>
-          <p className="saa-attrib-meta">
-            {item.programme}
-            {item.year ? ` · ${item.year}` : ''}
-          </p>
-        </figcaption>
-      </figure>
+              <figcaption>
+                <p className="saa-attrib">{item.name}</p>
+                <p className="saa-attrib-meta">
+                  {item.programme}
+                  {item.year ? ` · ${item.year}` : ''}
+                </p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -412,7 +425,8 @@ export default function TestimonialsAndGallery() {
           <div className="saa-underline" />
 
           <TestimonialCard
-            item={testimonials[quoteIndex]}
+            items={testimonials}
+            index={quoteIndex}
             onPrev={() => stepQuote(-1)}
             onNext={() => stepQuote(1)}
             onPointerEnter={(e) => e.pointerType === 'mouse' && setQuotePaused(true)}
@@ -433,7 +447,7 @@ export default function TestimonialsAndGallery() {
           <div className="saa-underline" />
 
           <div
-            className="saa-carousel"
+            className="saa-carousel saa-carousel-gallery"
             onPointerEnter={onPointerEnter}
             onPointerLeave={onPointerLeave}
           >
