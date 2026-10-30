@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Cresoline CDOE">
+  <!-- Cresoline CDOE logo, redrawn as a vector from the 80px original on
+       online.crescent-institute.edu.in so it stays sharp at any size.
+       Proportions measured from the original. -->
+  <circle cx="100" cy="100" r="98" fill="#004E9E"/>
+  <circle cx="100" cy="100" r="94" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="1.2"/>
+
+  <g fill="#FFFFFF" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <!-- CRES · O · LINE — the O is drawn so the signal can sit exactly above it -->
+    <text x="23.5" y="92" font-size="37" font-weight="700" textLength="68" lengthAdjust="spacingAndGlyphs">CRES</text>
+    <text x="123.2" y="92" font-size="37" font-weight="700" textLength="53.3" lengthAdjust="spacingAndGlyphs">LINE</text>
+    <text x="100" y="143" font-size="39" font-weight="400" stroke="#FFFFFF" stroke-width="0.9" text-anchor="middle" textLength="102" lengthAdjust="spacingAndGlyphs">CDOE</text>
+  </g>
+
+  <!-- The O, with the signal dot at its centre -->
+  <circle cx="107.35" cy="78.7" r="11.1" fill="none" stroke="#FFFFFF" stroke-width="5.4"/>
+  <circle cx="107.35" cy="78.7" r="2.4" fill="#FFFFFF"/>
+
+  <!-- Two signal arcs above the O -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round">
+    <path d="M 96.7 56.54 A 13 13 0 0 1 118 56.54"/>
+    <path d="M 89.75 51.67 A 21.5 21.5 0 0 1 124.95 51.67"/>
+  </g>
+</svg>

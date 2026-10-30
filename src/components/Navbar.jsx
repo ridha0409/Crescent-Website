@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight, ExternalLink, Menu, X } from 'lucide-react'
 import ApplyNow from './ApplyNow.jsx'
-import crescentLogo from '../assets/logos/crescent-online-logo.png'
+// The Cresoline CDOE logo, as on the official CDOE site (redrawn as a vector so it
+// stays sharp), followed by the institute's own Crescent logo, as the official site pairs them.
+import cresolineLogo from '../assets/logos/cresoline-cdoe-logo.svg'
+import crescentInstituteLogo from '../assets/logos/crescent-institute-logo.png'
 import { admissionLinks } from '../data/admission.js'
 import { studentLinks } from '../data/studentsCorner.js'
 
@@ -140,20 +143,29 @@ export default function Navbar() {
         <div className="glass-strong rounded-[24px] px-4 sm:px-6 lg:px-4 xl:px-6 flex items-center gap-4 py-2.5">
           <Link
             to="/"
-            className="flex items-center shrink-0"
-            aria-label="B.S. Abdur Rahman Crescent Institute of Science & Technology — home"
+            className="flex items-center gap-2.5 sm:gap-3.5 lg:gap-1.5 xl:gap-3.5 shrink-0"
+            aria-label="Cresoline CDOE, B.S. Abdur Rahman Crescent Institute of Science & Technology — home"
           >
             <img
-              src={crescentLogo}
-              alt="Crescent Online — Centre for Distance and Online Education"
-              width={1193}
-              height={428}
+              src={cresolineLogo}
+              alt="Cresoline CDOE — Centre for Distance and Online Education"
+              width={200}
+              height={200}
               decoding="async"
-              className="h-12 sm:h-14 lg:h-12 xl:h-16 w-auto object-contain object-left select-none"
+              className="h-11 sm:h-14 lg:h-11 xl:h-16 w-auto object-contain select-none"
+            />
+            <span aria-hidden="true" className="h-8 sm:h-10 lg:h-8 xl:h-11 w-px bg-navy-800/20" />
+            <img
+              src={crescentInstituteLogo}
+              alt="B.S. Abdur Rahman Crescent Institute of Science & Technology"
+              width={1200}
+              height={328}
+              decoding="async"
+              className="h-8 sm:h-11 lg:h-[26px] xl:h-12 w-auto object-contain select-none"
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center ml-auto gap-2.5 xl:gap-7">
+          <nav className="hidden lg:flex items-center ml-auto gap-1.5 xl:gap-5 2xl:gap-7">
             {links.map((link) => (
               <div
                 key={link.label}
